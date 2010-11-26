@@ -1,4 +1,7 @@
 var Builder = new (function () {
+  
+  var manifest = {};
+  
   this.start = function(e) {
     var url = document.getElementById("url");
     
@@ -6,7 +9,30 @@ var Builder = new (function () {
     fetch(url.value);
   };
   
-  var updateUI = function(inf) {
+  //Build a valid manifest
+  var parseInfo = function(inf) {
+    manifest.app = {};
+    manifest.icons = {};
+    
+    if(inf.name) {
+      manifest.name = inf.name;
+    }
+    
+    if(inf.description) {
+      manifest.description = inf.description;
+    }
+    
+    for(var icon in inf.icons) {
+      // Don't perform any validation just yet.
+      manifest[icon] = inf.icons[icon];
+    }
+  };
+  
+  var validateManifest = function() {
+    
+  };
+  
+  var updateUI = function() {
     var app = document.getElementById("app");
     var info = document.getElementById("info");
     var download = document.getElementById("download");
@@ -15,17 +41,23 @@ var Builder = new (function () {
     var version = document.getElementById("version");
     var launch = document.getElementById("launch");
     
-    if(inf.name)
-      name.value = inf.name;
+    var urls = document.getElementById("urls");
     
-    if(inf.description)
-      description.value = inf.description;
+    if(manifest.name)
+      name.value = manifest.name;
     
-    version.value = "1";
-    launch.value = "";
+    if(manifest.description)
+      description.value = manifest.description;
+    
+    version.value = manifest.version;
+    launch.value = manifest.app.web_url;
     
     // Show the class list
     app.classList.toggle("visible");
+  };
+  
+  // Renders the manifest from the information provided.
+  var renderManifest = function(inf) {
     
   };
  
@@ -35,7 +67,8 @@ var Builder = new (function () {
     request.onreadystatechange = function (e) {
       if(request.status == 200 && request.readyState == 4) {
         var object = JSON.parse(request.responseText);
-        updateUI(object);
+        parseInfo(object);
+        updateUI();
       }
     };
     request.send();
