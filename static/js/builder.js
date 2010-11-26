@@ -15,8 +15,12 @@ var Builder = new (function () {
     var version = document.getElementById("version");
     var launch = document.getElementById("launch");
     
-    name.value = inf.name;
-    description.value = inf.description;
+    if(inf.name)
+      name.value = inf.name;
+    
+    if(inf.description)
+      description.value = inf.description;
+    
     version.value = "1";
     launch.value = "";
     
