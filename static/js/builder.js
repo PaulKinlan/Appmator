@@ -25,6 +25,8 @@ var Builder = new (function () {
       manifest.description = inf.description;
     }
     
+    manifest.version = "0.0.0.1"
+    
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
       manifest[icon] = inf.icons[icon];
@@ -77,6 +79,9 @@ var Builder = new (function () {
     
     if(manifest.description)
       description.value = manifest.description;
+      
+    if(manifest.version)
+      version.value = manifest.description;
     
     version.value = manifest.version;
     launch.value = manifest.app.launch.web_url;
@@ -96,6 +101,8 @@ var Builder = new (function () {
     // Show the class list
     if(app.classList.contains("visible") == false)
       app.classList.toggle("visible");
+      
+    renderManifest();
   };
   
   // Renders the manifest from the information provided.
