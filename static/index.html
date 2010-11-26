@@ -115,13 +115,20 @@
             <div class="image">Drop  Image Here</div>
           </fieldset>
         <fieldset>
+          <legend>Permissions: </legend>
+           <label for="permissions"></label>
+            <label for="permissions">Notifications</label><input value="notifications" name="permissions" type="checkbox">
+            <label for="permissions">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox">
+            <label for="permissions">Geo-location</label><input value="geo" name="permissions" type="checkbox">
+        </fieldset>
+        <fieldset>
           <legend>Launch Information</legend>
           <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
           <label for="urls">Urls:</label><select id="urls"></select>
           <label for="launcher">Open as</label>
-          <label for="newtab">New Tab</label><input name="newtab" type="radio">
-          <label for="newwindow">New Window</label><input name="newwindow" type="radio">
-          <label for="newpanel">New Panel</label><input name="newpanel" type="radio">
+          <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
+          <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
+          <label for="newpanel">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
         </fieldset>
       </div>
       <div id="manifest" contenteditable>

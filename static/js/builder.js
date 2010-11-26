@@ -60,7 +60,17 @@ var Builder = new (function () {
     var version = document.getElementById("version");
     var launch = document.getElementById("launch");
     
+    // Launcher options
+    var options = {};
+    options["window"] = document.getElementById("newwindow");
+    options["tab"] = document.getElementById("newtab");
+    options["panel"] = document.getElementById("newpanel");
+    
+    // The urls selection
+    
     var urls = document.getElementById("urls");
+    
+    // Start updating the UI
     
     if(manifest.name)
       name.value = manifest.name;
@@ -79,14 +89,20 @@ var Builder = new (function () {
       urls.options.add(option);
     }
     
+    // Select the correct launch type
+    var container = manifest.app.launch.container;
+    options[container].checked = true;
+    
     // Show the class list
     if(app.classList.contains("visible") == false)
       app.classList.toggle("visible");
   };
   
   // Renders the manifest from the information provided.
-  var renderManifest = function(inf) {
+  var renderManifest = function() {
     // Should simply pretty print the JSON.
+    var manifestContainer = document.getElementById("manifest");
+    manifestContainer.innerText = JSON.stringify(manifest);
   };
  
   var fetch = function(url) {
