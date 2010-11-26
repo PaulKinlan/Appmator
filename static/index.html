@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web app builder</title>
+    <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: #1F2434;
+      color: white;
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      display:block;
+      position: absolute;
+    }
+    
+    #all {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-box-pack: start;
+      -webkit-box-align: justify;
+      height: 100%;
+      width: 100%;
+    }
+    
+    #header {
+      -webkit-box-flex: 1;
+      -webkit-box-orient: horizontal;
+      -webkit-box-pack: justify;
+      -webkit-box-align: center;
+      padding: 5px;
+      text-align: center;
+    }
+    
+    input[type=url] {
+      font-size: 2em;
+      padding: 5px;
+      width: 50%;
+      border-radius: 5px;
+    }
+    
+    #app {
+      display: none;
+      -webkit-box-flex: 1;
+    }
+    
+    #app.visible {
+      display: -webkit-box;
+    }
+    
+    #download {
+      -webkit-box-flex: 1;
+      display: none;
+    }
+    
+    #info {
+      -webkit-box-flex: 1;
+    }
+    
+    #info fieldset {
+      
+    }
+    
+    #app div {
+      -webkit-box-flex: 1;
+    }
+    
+    #manifest {
+      height: 100%;
+    }
+    
+    #manifest:hover {
+      border: dotted 1px #ddd;
+    }
+    
+    #images .image {
+      border: solid 3px #ddd;
+      border-radius: 5px;
+      margin: 5px;
+      width: 128px;
+      height: 128px;
+    }
+    </style>
+    <script src="/js/builder.js"></script>
+    <script>
+    (function() {
+      window.addEventListener("DOMContentLoaded", function() {
+        var start = document.getElementById("start");
+        start.addEventListener("click", Builder.start);
+      });
+    })();
+    </script>
+  </head>
+  <body>
+  <div id="all">
+    <div id="header">
+      <input type="url" id="url" value="" placeholder="Enter a url">
+      <input type="button" id="start" value="Start">
+    </div>
+    <div id="app">
+      <div id="info">
+        <fieldset>
+          <legend>Basic Information</legend>
+          <label for="name">Name:</label><input id="name" type="text">
+          <label for="description">Description:</label><input id="description" type="text">
+          <label for="version">Version:</label><input id="version" type="text">
+        </fieldset>
+         <fieldset id="images">
+            <legend>Images</legend>
+            <div class="image">Drop  Image Here</div>
+          </fieldset>
+        <fieldset>
+          <legend>Launch Information</legend>
+          <label for="launch">Launch Url:</label><input id="launch" type="text">
+          <label for="urls">Urls:</label><select id="urls"></select>
+          <label for="launcher">Open as</label>
+          <label for="newtab">New Tab</label><input name="newtab" type="radio">
+          <label for="newwindow">New Window</label><input name="newwindow" type="radio">
+          <label for="newpanel">New Panel</label><input name="newpanel" type="radio">
+        </fieldset>
+      </div>
+      <div id="manifest" contenteditable>
+        
+      </div>
+    </div>
+    <div id="download">
+      <h2>Output</h2>
+      <img src="">
+      <p>Drag this to your Desktop</p>
+    </div>
+    </div>
+  </body>
+</html>
