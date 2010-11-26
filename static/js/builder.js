@@ -14,6 +14,7 @@ var Builder = new (function () {
   var parseInfo = function(inf) {
     manifest.app = {};
     manifest.app.launch = {};
+    manifest.permissions = [];
     manifest.icons = {};
     
     if(inf.name) {
@@ -29,8 +30,8 @@ var Builder = new (function () {
       manifest[icon] = inf.icons[icon];
     }
     
-    manifest.app.launch.urls = [];
-    manifest.app.launch.web_url = inf.url
+    manifest.app.launch.urls = inf.urls;
+    manifest.app.launch.web_url = inf.web_url
     manifest.app.launch.container = "tab"; // set it to the default, but clearly
   };
   
@@ -68,14 +69,14 @@ var Builder = new (function () {
       description.value = manifest.description;
     
     version.value = manifest.version;
-    launch.value = manifest.app.web_url;
+    launch.value = manifest.app.launch.web_url;
     
     // Add in the urls that belong to the app.
     urls.options = [];
-    for(var url in manifest.app.urls) {
-      var option = document.createElement("option");
-      option.innerText = url;
-      urls.options.push(option);
+    for(var url in manifest.app.launch.urls) {
+      var urlString = manifest.app.launch.urls[url];
+      var option = new Option(urlString, urlString);
+      urls.options.add(option);
     }
     
     // Show the class list

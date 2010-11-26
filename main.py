@@ -48,7 +48,8 @@ class FetchInformationHandler(webapp.RequestHandler):
     meta = {}
     
     fetcheddata = urlfetch.fetch(url)
-    meta["url"] = fetcheddata.final_url
+    meta["web_url"] = fetcheddata.final_url or url
+    meta["urls"] = [meta["web_url"]]
     
     if fetcheddata.status_code == 200:
       # parse the data to get the basic information out.
