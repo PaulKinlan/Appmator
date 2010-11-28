@@ -47,7 +47,7 @@ class FetchInformationHandler(webapp.RequestHandler):
     url = self.request.get("url")
     meta = {}
     
-    fetcheddata = urlfetch.fetch(url)
+    fetcheddata = urlfetch.fetch(url, deadline = 10)
     meta["web_url"] = fetcheddata.final_url or url
     meta["urls"] = [meta["web_url"]]
     

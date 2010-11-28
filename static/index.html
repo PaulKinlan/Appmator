@@ -48,11 +48,7 @@
       display: none;
       -webkit-box-flex: 1;
     }
-    
-    .visible {
-      display: -webkit-box;
-    }
-    
+        
     #download {
       -webkit-box-flex: 1;
       display: none;
@@ -86,6 +82,14 @@
       width: 128px;
       height: 128px;
     }
+    
+    #app.visible {
+      display: -webkit-box;
+    }
+    
+    #download.visible {
+      display: -webkit-box;
+    }
     </style>
     <script src="/js/builder.js"></script>
     <script src="/js/thirdparty/jszip.js"></script>
@@ -96,6 +100,9 @@
         var icon16 = document.getElementById("icon16");
         var icon128 = document.getElementById("icon128");
         var output = document.getElementById("output");
+        var notifications = document.getElementById("notifications");
+        var unlimitedStorage = document.getElementById("unlimitedStorage");
+        var geo = document.getElementById("geo");
         
         start.addEventListener("click", Builder.start);
         
@@ -107,6 +114,9 @@
         
         output.addEventListener("dragstart", Builder.dragZip);
         
+        unlimitedStorage.addEventListener("click", Builder.togglePermission);
+        geo.addEventListener("click", Builder.togglePermission);
+        notifications.addEventListener("click", Builder.togglePermission);
       });
     })();
     </script>
@@ -133,9 +143,9 @@
         <fieldset>
           <legend>Permissions: </legend>
            <label for="permissions"></label>
-            <label for="permissions">Notifications</label><input value="notifications" name="permissions" type="checkbox">
-            <label for="permissions">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox">
-            <label for="permissions">Geo-location</label><input value="geo" name="permissions" type="checkbox">
+            <label for="permissions">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
+            <label for="permissions">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
+            <label for="permissions">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
         </fieldset>
         <fieldset>
           <legend>Launch Information</legend>

@@ -10,6 +10,20 @@ var Builder = new (function () {
     fetch(url.value);
   };
   
+  
+  this.togglePermission = function(e) {
+    
+    if(e.target.checked) {
+      manifest.permissions.push(e.target.id);
+    }
+    else {
+      var idx = manifest.permissions.indexOf(e.target.id);
+      manifest.permissions = manifest.permissions.splice(idx, 0);
+    }
+    
+    updateUI();
+  };
+  
   this.dropImage = function(e) {
     
   };
