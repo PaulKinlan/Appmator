@@ -85,6 +85,7 @@ var Builder = new (function () {
   // Updates the User Interface based on the manifest.
   var updateUI = function() {
     var app = document.getElementById("app");
+    var download = document.getElementById("download");
     var info = document.getElementById("info");
     var download = document.getElementById("download");
     var name = document.getElementById("name");
@@ -131,6 +132,9 @@ var Builder = new (function () {
     // Show the class list
     if(app.classList.contains("visible") == false)
       app.classList.toggle("visible");
+      
+    if(download.classList.contains("visible") == false)
+      download.classList.toggle("visible");
       
     renderManifest();
   };
