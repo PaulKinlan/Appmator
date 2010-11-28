@@ -88,13 +88,14 @@
     }
     </style>
     <script src="/js/builder.js"></script>
-    <script src="/js/jszip.js"></script>
+    <script src="/js/thirdparty/jszip.js"></script>
     <script>
     (function() {
       window.addEventListener("DOMContentLoaded", function() {
         var start = document.getElementById("start");
         var icon16 = document.getElementById("icon16");
         var icon128 = document.getElementById("icon128");
+        var output = document.getElementById("output");
         
         start.addEventListener("click", Builder.start);
         
@@ -103,6 +104,8 @@
         
         icon16.addEventListener("drop", Builder.dropImage);
         icon128.addEventListener("drop", Builder.dropImage);
+        
+        output.addEventListener("dragstart", Builder.dragZip);
         
       });
     })();
