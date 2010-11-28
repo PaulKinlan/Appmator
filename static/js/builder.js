@@ -10,6 +10,36 @@ var Builder = new (function () {
     fetch(url.value);
   };
   
+  this.dropImage = function(e) {
+    
+  };
+  
+  // Validate that the image is the correct dimension
+  this.validateImage = function(e) {
+    
+  };
+  
+  //
+  this.dragZip = function(e) {
+    e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:" + this.data);
+  };
+  
+  // Outputs the zip file
+  this.output = function(e) {
+    var outputImage = document.getElementById("output");
+    var zip = new JSZip();
+    zip.add("16.png", imageToBase64(manifest.icons["16"]), {base64: true});
+    zip.add("128.png", imageToBase64(manifest.icons["128"]), {base64: true});
+    zip.add("manifest.json", JSON.stringify(manifest));
+    
+    // Save
+    this.data = zip.generate();
+  };
+  
+  var imageToBase64 = function(image) {
+    
+  };
+  
   //Build a valid manifest
   var parseInfo = function(inf) {
     manifest.app = {};
@@ -111,7 +141,7 @@ var Builder = new (function () {
     var manifestContainer = document.getElementById("manifest");
     manifestContainer.innerText = JSON.stringify(manifest);
   };
- 
+  
   var fetch = function(url) {
     var request = new XMLHttpRequest();
     request.open("GET", "/api/fetch?url=" + url, true);

@@ -1,0 +1,3 @@
+[submodule "thirdparty/jszip"]
+	path = thirdparty/jszip
+	url = https://github.com/Stuk/jszip.git

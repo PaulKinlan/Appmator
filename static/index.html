@@ -92,7 +92,17 @@
     (function() {
       window.addEventListener("DOMContentLoaded", function() {
         var start = document.getElementById("start");
+        var icon16 = document.getElementById("icon16");
+        var icon128 = document.getElementById("icon128");
+        
         start.addEventListener("click", Builder.start);
+        
+        icon16.addEventListener("dragover", Builder.validateImage);
+        icon128.addEventListener("dragover", Builder.validateImage);
+        
+        icon16.addEventListener("drop", Builder.dropImage);
+        icon128.addEventListener("drop", Builder.dropImage);
+        
       });
     })();
     </script>
@@ -113,7 +123,8 @@
         </fieldset>
          <fieldset id="images">
             <legend>Images</legend>
-            <div class="image">Drop  Image Here</div>
+            <div class="image" id="icon128">Drop Image Here</div>
+            <div class="image" id="icon16">Drop Image Here</div>
           </fieldset>
         <fieldset>
           <legend>Permissions: </legend>
@@ -138,7 +149,7 @@
     </div>
     <div id="download">
       <h2>Output</h2>
-      <img src="">
+      <img id="output" src="/images/zip.png">
       <p>Drag this to your Desktop</p>
     </div>
     </div>
