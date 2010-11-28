@@ -29,7 +29,7 @@ var Builder = new (function () {
     
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
-      manifest[icon] = inf.icons[icon];
+      manifest.icons[icon] = inf.icons[icon];
     }
     
     manifest.app.launch.urls = inf.urls;
