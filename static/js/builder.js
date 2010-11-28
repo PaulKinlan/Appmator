@@ -18,7 +18,10 @@ var Builder = new (function () {
     }
     else {
       var idx = manifest.permissions.indexOf(e.target.id);
-      manifest.permissions = manifest.permissions.splice(idx, 0);
+      manifest.permissions = manifest.permissions.filter(function(i) {
+       if(i != e.target.id) return true;
+       else return false; 
+      });
     }
     
     updateUI();
