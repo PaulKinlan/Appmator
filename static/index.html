@@ -81,6 +81,7 @@
       margin: 5px;
       width: 128px;
       height: 128px;
+      float: left;
     }
     
     #app.visible {
@@ -139,15 +140,14 @@
         </fieldset>
          <fieldset id="images">
             <legend>Images</legend>
-            <div class="image" id="icon128">Drop Image Here</div>
-            <div class="image" id="icon16">Drop Image Here</div>
+            <div class="image" id="icon128">Drop 128px Image Here</div>
+            <div class="image" id="icon16">Drop 16px Image Here</div>
           </fieldset>
         <fieldset>
           <legend>Permissions: </legend>
-           <label for="permissions"></label>
-            <label for="permissions">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
-            <label for="permissions">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
-            <label for="permissions">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
+            <label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
+            <label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
+            <label for="geo">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
         </fieldset>
         <fieldset>
           <legend>Launch Information</legend>

@@ -20,7 +20,7 @@ var Builder = new (function () {
         }
       }
       
-    } catch(error){ 
+    } catch(error) { 
     
     }
   };
@@ -110,12 +110,15 @@ var Builder = new (function () {
       
     if(!!m.app.launch.web_url == false)
       return null;
-    
-    
+
     // Check that the icons are only 16 or 128.  No others allowed.
     
     // It is valid so return the document.
     return m;
+  };
+  
+  var formatManifest = function() {
+    
   };
   
   // Updates the User Interface based on the manifest.
