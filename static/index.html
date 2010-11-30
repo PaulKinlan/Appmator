@@ -103,6 +103,7 @@
         var notifications = document.getElementById("notifications");
         var unlimitedStorage = document.getElementById("unlimitedStorage");
         var geo = document.getElementById("geo");
+        var manifest = document.getElementById("manifest");
         
         start.addEventListener("click", Builder.start);
         
@@ -117,6 +118,7 @@
         unlimitedStorage.addEventListener("click", Builder.togglePermission);
         geo.addEventListener("click", Builder.togglePermission);
         notifications.addEventListener("click", Builder.togglePermission);
+        manifest.addEventListener("blur", Builder.parseManifest);
       });
     })();
     </script>

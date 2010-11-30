@@ -10,6 +10,21 @@ var Builder = new (function () {
     fetch(url.value);
   };
   
+  this.parseManifest = function(e) {
+    try {
+      var manifestData = JSON.parse(e.target.textContent);
+      if(manifestData) {
+        if(validateManifest(manifestData)) {
+          manifest = manifestData;
+          updateUI();
+        }
+      }
+      
+    } catch(error){ 
+    
+    }
+  };
+  
   
   this.togglePermission = function(e) {
     
@@ -85,18 +100,22 @@ var Builder = new (function () {
   };
   
   // Validates the manifest.  Making sure all the correct fields are present.
-  var validateManifest = function() {
+  var validateManifest = function(m) {
     // Required fields: name, version
-    if(!!manifest.name == false) 
-      return false;
+    if(!!m.name == false) 
+      return null;
       
-    if(!!manifest.version == false) 
-      return false;
+    if(!!m.version == false) 
+      return null;
       
-    if(!!manifest.app.launch.web_url == false)
-      return false;
-      
+    if(!!m.app.launch.web_url == false)
+      return null;
+    
+    
     // Check that the icons are only 16 or 128.  No others allowed.
+    
+    // It is valid so return the document.
+    return m;
   };
   
   // Updates the User Interface based on the manifest.
@@ -115,6 +134,12 @@ var Builder = new (function () {
     options["window"] = document.getElementById("newwindow");
     options["tab"] = document.getElementById("newtab");
     options["panel"] = document.getElementById("newpanel");
+    
+    // Permissions
+    var permissions = {};
+    permissions["geo"] = document.getElementById("geo");
+    permissions["notifications"] = document.getElementById("notifications");
+    permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
     
     // The urls selection
     
@@ -140,6 +165,12 @@ var Builder = new (function () {
       var urlString = manifest.app.launch.urls[url];
       var option = new Option(urlString, urlString);
       urls.options.add(option);
+    }
+    
+    // Toggle the permissions
+    for(var permission in manifest.permissions) {
+      var permName =  manifest.permissions[permission];
+      permissions[permName].checked = true;
     }
     
     // Select the correct launch type
