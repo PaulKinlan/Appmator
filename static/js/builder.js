@@ -161,6 +161,11 @@ var Builder = new (function () {
     
     // Add in the urls that belong to the app.
     urls.options = [];
+    
+    for (var i = urls.options.length-1; i>=0; i--) {
+        urls.removeChild(urls.options[i]);
+    }
+    
     for(var url in manifest.app.launch.urls) {
       var urlString = manifest.app.launch.urls[url];
       var option = new Option(urlString, urlString);
