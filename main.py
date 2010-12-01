@@ -20,6 +20,7 @@ from google.appengine.api import urlfetch
 
 import re
 import logging
+from urlparse import urlparse
 from django.utils import simplejson
 
 
@@ -27,7 +28,7 @@ title = "<title>(.+)</title>"
 description = "<meta name=(\"|\')description(\"|\') content=\"([^\"\']+)"
 favicon = "<link rel=\"(shortcut |apple-touch-){0,1}icon\"([^>]+)"
 
-def parseFavIcon(match):
+def parseFavIcon(baseUrl, match):
   linkTag = match.group(0)
   #find the href
   
@@ -43,6 +44,10 @@ def parseFavIcon(match):
     size = sizesMatch.group(2)
   
   href = hrefMatch.group(2)
+  
+  if href.find(baseUrl) == -1:
+    href = baseUrl + href
+    
   return (size, href)
 
 class FetchInformationHandler(webapp.RequestHandler):
@@ -53,6 +58,9 @@ class FetchInformationHandler(webapp.RequestHandler):
     fetcheddata = urlfetch.fetch(url, deadline = 10)
     meta["web_url"] = fetcheddata.final_url or url
     meta["urls"] = [meta["web_url"]]
+    
+    urlInfo = urlparse(meta["web_url"])
+    baseUrl = urlInfo.scheme + "://" + urlInfo.netloc + "/"
     
     if fetcheddata.status_code == 200:
       # parse the data to get the basic information out.
@@ -68,9 +76,14 @@ class FetchInformationHandler(webapp.RequestHandler):
         meta["description"] = descriptionMatch.group(3)
        
       # parse the fav icons 
-      meta["icons"] = dict([parseFavIcon(m) 
+      meta["icons"] = dict([parseFavIcon(baseUrl, m) 
         for m in re.finditer(favicon, html, flags=re.IGNORECASE)
           if m is not None])
+          
+        
+      if "16" not in meta["icons"]:
+        meta["icons"]["16"] = meta["web_url"] + "/favicon.ico"
+        
     else:
       self.response.status_code = fetcheddata.status_code
 

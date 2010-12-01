@@ -57,11 +57,11 @@ var Builder = new (function () {
   
   //
   this.dragZip = function(e) {
-    e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:image/png;base64," + Builder.output());
+    e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:image/png;base64," + Builder.output({"binary": false}));
   };
   
   // Outputs the zip file
-  this.output = function() {
+  this.output = function(options) {
     var outputImage = document.getElementById("output");
     var zip = new JSZip();
     zip.add("16.png", imageToBase64("16"), {base64: true});
@@ -69,8 +69,11 @@ var Builder = new (function () {
     zip.add("manifest.json", JSON.stringify(manifest));
     
     // output the data.
-    this.data = zip.generate();
-    return this.data;
+    
+    var data = "";
+    data = zip.generate(options.binary);
+    
+    return data;
   };
   
   var imageToBase64 = function(icon) {

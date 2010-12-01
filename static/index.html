@@ -124,7 +124,7 @@
           var savaeas = document.getElementById("saveas");
           var bb = new BlobBuilder();
           
-          var output = Builder.output();
+          var output = Builder.output({"binary": true});
           console.log(output);
           bb.append(output);
           var blob = bb.getBlob("application/octet-stream");
