@@ -70,13 +70,17 @@
       border: dotted 1px #ddd;
     }
     
+    #images > div {
+      
+      float: left;
+    }
+    
     #images .image {
       border: solid 3px #ddd;
       border-radius: 5px;
       margin: 5px;
       width: 128px;
       height: 128px;
-      float: left;
     }
     
     #app.visible {
@@ -99,6 +103,7 @@
         var unlimitedStorage = document.getElementById("unlimitedStorage");
         var geo = document.getElementById("geo");
         var manifest = document.getElementById("manifest");
+        var output = document.getElementById("output");
         
         start.addEventListener("click", Builder.start);
         
@@ -112,6 +117,21 @@
         geo.addEventListener("click", Builder.togglePermission);
         notifications.addEventListener("click", Builder.togglePermission);
         manifest.addEventListener("blur", Builder.parseManifest);
+        
+        output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
+        
+        output.addEventListener("click", function() {
+          var savaeas = document.getElementById("saveas");
+          var bb = new BlobBuilder();
+          
+          var output = Builder.output();
+          console.log(output);
+          bb.append(output);
+          var blob = bb.getBlob("application/octet-stream");
+          var saveas = document.createElement("iframe");
+          saveas.src = window.createObjectURL(blob); 
+          document.body.appendChild(saveas);
+        });
       });
     })();
     </script>
@@ -132,12 +152,19 @@
         </fieldset>
          <fieldset id="images">
             <legend>Images</legend>
-            <div class="image" id="icon128">
-              <canvas id="c128" width="128" height="128"></canvas>
-              <label>Load 128px Image</label><input type="file" value=""></div>
-            <div class="image" id="icon16">
-              <canvas id="c16" width="16" height="16"></canvas>
-              <label>Load 16px Image</label><input type="file"></div>
+            <div>
+              <div class="image" id="icon128">
+                <canvas id="c128" width="128" height="128"></canvas>
+              </div>
+            
+              <label>Load 128px</label><input type="file" value="">
+            </div>
+            <div>
+              <div class="image" id="icon16">
+                <canvas id="c16" width="16" height="16"></canvas>
+              </div>
+              <label>Load 16px</label><input type="file">
+            </div>
           </fieldset>
         <fieldset>
           <legend>Permissions: </legend>
@@ -163,8 +190,8 @@
     </div>
     <div id="download">
       <h2>Output</h2>
-      <input type="file" name="saveas" id="saveas">
-      <p>Drag this to your Desktop</p>
+      <input type="button" value="Save Package" id="output" draggable="true">
+      
     </div>
     </div>
   </body>

@@ -1,3 +1,7 @@
+function EventProxy(method, context) {
+  return function(e) { method.call(context, e) };
+}
+
 var Builder = new (function () {
   
   // The manifest that we are building.
@@ -53,23 +57,27 @@ var Builder = new (function () {
   
   //
   this.dragZip = function(e) {
-    e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:" + this.data);
+    e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:image/png;base64," + Builder.output());
   };
   
   // Outputs the zip file
-  this.output = function(e) {
+  this.output = function() {
     var outputImage = document.getElementById("output");
     var zip = new JSZip();
-    zip.add("16.png", imageToBase64(manifest.icons["16"]), {base64: true});
-    zip.add("128.png", imageToBase64(manifest.icons["128"]), {base64: true});
+    zip.add("16.png", imageToBase64("16"), {base64: true});
+    zip.add("128.png", imageToBase64("128"), {base64: true});
     zip.add("manifest.json", JSON.stringify(manifest));
     
-    // Save
+    // output the data.
     this.data = zip.generate();
+    return this.data;
   };
   
-  var imageToBase64 = function(image) {
+  var imageToBase64 = function(icon) {
+    var canvas = document.getElementById("c" + icon);
     
+    var data = canvas.toDataURL();
+    return data.replace("data:image/png;base64,","");
   };
   
   // Loads an image into the canvas
