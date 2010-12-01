@@ -22,19 +22,22 @@ import re
 import logging
 from django.utils import simplejson
 
+
 title = "<title>(.+)</title>"
 description = "<meta name=(\"|\')description(\"|\') content=\"([^\"\']+)"
-favicon = "<link rel=\"(shortcut ){0,1}icon\"([^>]+)"
+favicon = "<link rel=\"(shortcut |apple-touch-){0,1}icon\"([^>]+)"
 
 def parseFavIcon(match):
-  logging.info(match)
   linkTag = match.group(0)
   #find the href
   
   hrefMatch = re.search("href=(\'|\")([^\"\']+)", linkTag)
   sizesMatch = re.search("sizes=(\'|\")(\d{0,3})", linkTag)
   
-  size = "16"
+  if linkTag.find("apple-touch-icon") >= 0:
+    size = "128"
+  else:
+    size = "16"
   
   if sizesMatch:
     size = sizesMatch.group(2)
@@ -73,10 +76,21 @@ class FetchInformationHandler(webapp.RequestHandler):
 
     self.response.headers['Content-Type'] = "application/json"
     self.response.out.write(simplejson.dumps(meta))
+    
+class FetchImageHandler(webapp.RequestHandler):
+  def get(self):
+    url = self.request.get("url")
+
+    fetcheddata = urlfetch.fetch(url, deadline = 10)
+    
+    self.response.status_code = fetcheddata.status_code
+    self.response.headers['Content-Type'] = fetcheddata.headers['Content-Type']
+    self.response.out.write(fetcheddata.content)
 
 def main():
   application = webapp.WSGIApplication([
-  ('/api/fetch', FetchInformationHandler)
+    ('/api/fetch', FetchInformationHandler),
+    ('/api/image', FetchImageHandler)
   ], debug=True)
   util.run_wsgi_app(application)
 

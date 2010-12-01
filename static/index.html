@@ -4,11 +4,6 @@
     <title>Web app builder</title>
     <style>
     
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    
     body {
       background-color: #1F2434;
       color: white;
@@ -100,7 +95,6 @@
         var start = document.getElementById("start");
         var icon16 = document.getElementById("icon16");
         var icon128 = document.getElementById("icon128");
-        var output = document.getElementById("output");
         var notifications = document.getElementById("notifications");
         var unlimitedStorage = document.getElementById("unlimitedStorage");
         var geo = document.getElementById("geo");
@@ -113,8 +107,6 @@
         
         icon16.addEventListener("drop", Builder.dropImage);
         icon128.addEventListener("drop", Builder.dropImage);
-        
-        output.addEventListener("dragstart", Builder.dragZip);
         
         unlimitedStorage.addEventListener("click", Builder.togglePermission);
         geo.addEventListener("click", Builder.togglePermission);
@@ -140,8 +132,12 @@
         </fieldset>
          <fieldset id="images">
             <legend>Images</legend>
-            <div class="image" id="icon128">Drop 128px Image Here</div>
-            <div class="image" id="icon16">Drop 16px Image Here</div>
+            <div class="image" id="icon128">
+              <canvas id="c128" width="128" height="128"></canvas>
+              <label>Load 128px Image</label><input type="file" value=""></div>
+            <div class="image" id="icon16">
+              <canvas id="c16" width="16" height="16"></canvas>
+              <label>Load 16px Image</label><input type="file"></div>
           </fieldset>
         <fieldset>
           <legend>Permissions: </legend>
@@ -151,8 +147,10 @@
         </fieldset>
         <fieldset>
           <legend>Launch Information</legend>
-          <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
-          <label for="urls">Urls:</label><select id="urls"></select>
+          <div>
+            <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
+            <label for="urls">Urls:</label><select id="urls"></select>
+          </div>
           <label for="launcher">Open as</label>
           <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
           <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
@@ -165,7 +163,7 @@
     </div>
     <div id="download">
       <h2>Output</h2>
-      <img id="output" src="/images/zip.png">
+      <input type="file" name="saveas" id="saveas">
       <p>Drag this to your Desktop</p>
     </div>
     </div>

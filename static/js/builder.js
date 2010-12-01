@@ -72,12 +72,27 @@ var Builder = new (function () {
     
   };
   
+  // Loads an image into the canvas
+  var loadImage = function(icon,  url) {
+    var canvas = document.getElementById("c" + icon);
+    var context = canvas.getContext("2d");
+    var image = new Image();
+    image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
+        
+    image.addEventListener("load", function() {
+      context.drawImage(image, 0, 0, icon, icon); // rescale the image
+    });
+  };
+  
   //Build a valid manifest
   var parseInfo = function(inf) {
     manifest.app = {};
     manifest.app.launch = {};
     manifest.permissions = [];
-    manifest.icons = {};
+    manifest.icons = {
+      "16": "16.png",
+      "128": "128.png"
+    };
     
     if(inf.name) {
       manifest.name = inf.name;
@@ -91,7 +106,7 @@ var Builder = new (function () {
     
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
-      manifest.icons[icon] = inf.icons[icon];
+      loadImage(icon, inf.icons[icon]);
     }
     
     manifest.app.launch.urls = inf.urls;
