@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/images/16.png" type="image/png"></link>
     <link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png"></link>
+    
     <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css'></link>
     <style>
     
@@ -54,6 +55,16 @@
       font-family: "Geo";
       color: white;
       outline-style: none;
+      -webkit-transform: background-color 0.2s ease-in-out;
+      transform: background-color 0.2s ease-in-out;
+    }
+    
+    input[type=url].error {
+      background-color: rgba(255,0,0, 0.2);
+    }
+    
+    input[type=url].success {
+      background-color: rgba(0,255,0, 0.2);
     }
     
     #app {
@@ -133,9 +144,6 @@
       margin: 10px;
     }
     
-    #images > div {
-    }
-    
     #icon16 {
       width: 16px;
       height: 16px;
@@ -150,7 +158,6 @@
       border: solid 1px #bbb;
       -webkit-box-shadow: inset 0 0 5px #000;
       margin: 5px;
-      float: left;
     }
     
     #app.visible {
@@ -200,11 +207,20 @@
         
         url.addEventListener("keypress", function(e) {
           if(e.keyCode == 13) {
-            Builder.start(function() {
+            Builder.start(function(object) {
               // Make the UI visible
-              header.classList.add("started");
-              app.classList.add("visible");
+              if(object) {
+                url.classList.add("success");
+                header.classList.add("started");
+                app.classList.add("visible");
+              }
+              else {
+                url.classList.add("error");
+              }
             });
+          }
+          else {
+            url.classList.remove("error");
           }
         });
           
@@ -288,12 +304,14 @@
           <fieldset id="images">
               <legend>Images</legend>
               <div>
+                <h3>128px</h3>
                 <div class="image" id="icon128">
                   <canvas id="c128" width="128" height="128"></canvas>
                 </div>
                 <input type="file" value="">
               </div>
               <div>
+                <h3>16px</h3>
                 <div class="image" id="icon16">
                   <canvas id="c16" width="16" height="16"></canvas>
                 </div>

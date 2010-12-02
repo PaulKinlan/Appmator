@@ -265,6 +265,9 @@ var Builder = new (function () {
         updateUI();
         callback(object);
       }
+      else if(request.status != 200) {
+        callback(null);
+      }
     };
     request.send();
   };
