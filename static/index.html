@@ -224,14 +224,22 @@
         
         output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
         
-        output.addEventListener("click", function() {
+        output.addEventListener("dblclick", function() {
           var savaeas = document.getElementById("saveas");
           var bb = new BlobBuilder();
           
-          var output = Builder.output();
-          bb.append(window.btoa(output));
+          var output = Builder.output({"binary":true});
+          var ui8a = new Uint8Array(output.length);
+          
+          for(var i = 0; i< output.length; i++) {
+            ui8a[i] = output.charCodeAt(i);
+          }
+          
+          bb.append(ui8a.buffer);
+          
           var blob = bb.getBlob("application/octet-stream");
           var saveas = document.createElement("iframe");
+          saveas.style.display = "none";
           saveas.src = window.createObjectURL(blob); 
           document.body.appendChild(saveas);
         });
@@ -299,7 +307,7 @@
       </div>
       <div id="download">
         <h2>Your App</h2>
-        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/></div>
+        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/> or double click to download</div>
       </div>
     </div>
   </body>
