@@ -25,14 +25,12 @@ var Builder = new (function () {
           updateUI();
         }
       }
-      
     } catch(error) { 
     
     }
   };
   
   this.togglePermission = function(e) {
-    
     if(e.target.checked) {
       manifest.permissions.push(e.target.id);
     }
@@ -44,6 +42,14 @@ var Builder = new (function () {
       });
     }
     
+    updateUI();
+  };
+  
+  this.toggleLaunch = function(e) {
+    if(e.target.checked) {
+      manifest.app.launch.container = e.target.value;
+    }
+   
     updateUI();
   };
 
@@ -179,6 +185,12 @@ var Builder = new (function () {
     permissions["geo"] = document.getElementById("geo");
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
+    
+    // Container
+    var container = {};
+    container["tab"] = document.getElementById("newtab");
+    container["window"] = document.getElementById("newwindow");
+    container["panel"] = document.getElementById("newpanel");
     
     // The urls selection
     

@@ -21,8 +21,6 @@
       width: 100%;
     }
     
-    
-    
     #header {
       -webkit-box-flex: 1;
       -webkit-box-orient: horizontal;
@@ -70,7 +68,7 @@
     }
     
     #info fieldset {
-      
+      margin-top: 10px;
     }
     
     #app {
@@ -89,7 +87,11 @@
     #app div {
       -webkit-box-flex: 1;
       height: 100%;
-      margin: 5px;
+      margin: 10px;
+    }
+    
+    #download {
+      margin: 20px;
     }
     
     #basic {
@@ -120,7 +122,7 @@
     }
     
     fieldset {
-      margin: 10px;
+      margin: 0px;
     }
     
     #images {
@@ -141,9 +143,10 @@
     }
     
     #images .image {
-      border: solid 3px #ddd;
-      border-radius: 5px;
+      border: solid 1px #bbb;
+      -webkit-box-shadow: inset 0 0 5px #000;
       margin: 5px;
+      float: left;
     }
     
     #app.visible {
@@ -151,10 +154,13 @@
     }
     
     #download.visible {
-      display: -webkit-box;
+      display: block;
     }
     
-    
+    #output {
+      margin: 5px;
+      float: left;
+    }
     
     </style>
     <script src="/js/builder.js"></script>
@@ -184,6 +190,10 @@
         var descriptiopn = document.getElementById("description");
         var versions = document.getElementById("version");
         
+        var newtab = document.getElementById("newtab");
+        var newwindow = document.getElementById("newwindow");
+        var newpanel = document.getElementById("newpanel");
+        
         url.addEventListener("keypress", function(e) {
           if(e.keyCode == 13) {
             Builder.start(function() {
@@ -205,6 +215,11 @@
         unlimitedStorage.addEventListener("click", Builder.togglePermission);
         geo.addEventListener("click", Builder.togglePermission);
         notifications.addEventListener("click", Builder.togglePermission);
+        
+        newtab.addEventListener("click", Builder.toggleLaunch);
+        newwindow.addEventListener("click", Builder.toggleLaunch);
+        newpanel.addEventListener("click", Builder.toggleLaunch);
+        
         manifest.addEventListener("blur", Builder.parseManifest);
         
         output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
@@ -213,8 +228,8 @@
           var savaeas = document.getElementById("saveas");
           var bb = new BlobBuilder();
           
-          var output = Builder.output({"binary": true});
-          bb.append(output);
+          var output = Builder.output();
+          bb.append(window.btoa(output));
           var blob = bb.getBlob("application/octet-stream");
           var saveas = document.createElement("iframe");
           saveas.src = window.createObjectURL(blob); 
@@ -228,7 +243,7 @@
     <div id="all">
       <div id="header">
         <h1>Package your app</h1>
-        <input type="url" id="url" value="" placeholder="Enter a url">
+        <input type="url" id="url" value="" placeholder="http://google.com/ [press enter]">
       </div>
       <div id="app">
         <div id="info">
@@ -281,13 +296,10 @@
             </fieldset>
           </div>
         </div>
-      
       </div>
       <div id="download">
-        <h2>Output</h2>
-        <img id="packaged" src="" />
-        <input type="button" value="Save Package" id="output" draggable="true">
-
+        <h2>Your App</h2>
+        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/></div>
       </div>
     </div>
   </body>
