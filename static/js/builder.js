@@ -7,16 +7,18 @@ var Builder = new (function () {
   // The manifest that we are building.
   var manifest = {};
   
-  this.start = function(e) {
+  this.start = function(fn) {
+    var callback = fn || function() {};
+    
     var url = document.getElementById("url");
     
     // Fetch Site information
-    fetch(url.value);
+    fetch(url.value, callback);
   };
   
   this.parseManifest = function(e) {
     try {
-      var manifestData = JSON.parse(e.target.textContent);
+      var manifestData = JSON.parse(e.target.value);
       if(manifestData) {
         if(validateManifest(manifestData)) {
           manifest = manifestData;
@@ -28,7 +30,6 @@ var Builder = new (function () {
     
     }
   };
-  
   
   this.togglePermission = function(e) {
     
@@ -45,17 +46,7 @@ var Builder = new (function () {
     
     updateUI();
   };
-  
-  this.dropImage = function(e) {
-    
-  };
-  
-  // Validate that the image is the correct dimension
-  this.validateImage = function(e) {
-    
-  };
-  
-  //
+
   this.dragZip = function(e) {
     e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:image/png;base64," + Builder.output({"binary": false}));
   };
@@ -143,9 +134,28 @@ var Builder = new (function () {
     return m;
   };
   
-  var formatManifest = function() {
+  this.updateManifest = function() {
+    var name = document.getElementById("name");
+    var description = document.getElementById("description");
+    var version = document.getElementById("version");
     
-  };
+    if(name.value == "")
+      delete manifest.name;
+    else
+      manifest.name = name.value;
+    
+    if(description.value == "")
+      delete manifest.description;
+    else 
+      manifest.description = description.value;
+      
+    if(version.value == "")
+      delete manifest.version
+    else
+      manifest.version = version.value;
+    
+    renderManifest();
+  }
   
   // Updates the User Interface based on the manifest.
   var updateUI = function() {
@@ -202,6 +212,10 @@ var Builder = new (function () {
     }
     
     // Toggle the permissions
+    for (var p in permissions) {
+        permissions[p].checked = false;
+    }
+    
     for(var permission in manifest.permissions) {
       var permName =  manifest.permissions[permission];
       permissions[permName].checked = true;
@@ -225,10 +239,11 @@ var Builder = new (function () {
   var renderManifest = function() {
     // Should simply pretty print the JSON.
     var manifestContainer = document.getElementById("manifest");
-    manifestContainer.innerText = JSON.stringify(manifest);
+    var formatter = new goog.format.JsonPrettyPrinter();
+    manifestContainer.value = formatter.format(manifest);
   };
   
-  var fetch = function(url) {
+  var fetch = function(url, callback) {
     var request = new XMLHttpRequest();
     request.open("GET", "/api/fetch?url=" + url, true);
     request.onreadystatechange = function (e) {
@@ -236,6 +251,7 @@ var Builder = new (function () {
         var object = JSON.parse(request.responseText);
         parseInfo(object);
         updateUI();
+        callback(object);
       }
     };
     request.send();
