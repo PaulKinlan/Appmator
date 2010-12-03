@@ -10,6 +10,15 @@
     <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css'></link>
     <style>
     
+    input[type="file"] {
+      color: white;
+      margin: 0px;
+    }
+    
+    ::-webkit-file-upload-button {
+      -webkit-appearance: square-button;
+    }
+    
     body {
       background-color: #1F2434;
       color: white;
@@ -78,7 +87,7 @@
         
     #download {
       display: none;
-      margin-bottom: 50px;
+      margin-bottom: 40px;
       padding: 20px 0 20px 0;
       border-radius: 10px;
       background-color: rgba(255,255,255, 0.2);
@@ -129,7 +138,7 @@
       -webkit-box-align: stretch;
       -webkit-box-pack: justify;
       padding: 0;
-      min-width: 500px;
+      min-width: 400px;
     }
     
     #basic input[type=text] {
