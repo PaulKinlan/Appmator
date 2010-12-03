@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="no-js">
   <head>
     <title>Appmator</title>
     <meta charset="utf-16" />
@@ -192,12 +192,21 @@
       display: -webkit-box;
     }
     
+    #warning {
+      background-color: rgba(255,0,0, 0.2);
+      margin: 20px 20% 0 20%;
+      padding: 20px 0 20px 0;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
     section {
       margin: 20px 20% 0 20%;
     }
     
     </style>
     <script src="/js/builder.js"></script>
+    <script src="/js/thirdparty/modernizer-1.6.min.js"></script>
     <script src="/js/thirdparty/jszip.js"></script>
     <script src="/js/thirdparty/closure/closure/goog/base.js"></script>
     <script>
@@ -300,12 +309,19 @@
     <div id="all">
       <div id="header">
         <h1>Package your app:</h1>
-        <input type="url" id="url" value="" placeholder="http://google.com/ [press enter]">
+        <input type="url" id="url" value="" placeholder="http://appmator.appspot.com/ [press enter]">
+      </div>
+      <div id="warning" >
+        <h3>Sorry</h3>
+        <div>
+          Your browser doesn't support some of the features needed by this app.
+        </div>
       </div>
       <section>
       <div id="download">
         <h3>Your App is ready</h3>
-        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/> or double click to download</div>
+        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktopor double click to download</div>
+         <div>Then upload it to the <a href="http://chrome.goggle.com/extensions/developer/dashboard">Chrome Web Store</a></div>
       </div>
       <div id="app">
         <div id="info">
@@ -313,7 +329,7 @@
             <h3 style="margin-top: 0px">Basic Information</h3>
             <div class="inset">
             <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
-            <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?"><br>
+            <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132"><br>
             <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
             </div>
             <h3>How to launch</h3>
@@ -346,7 +362,7 @@
                 <div id="icon16">
                   <canvas id="c16" width="16" height="16"></canvas>
                 </div>
-                <input type="file" id="file126" value="">
+                <input type="file" id="file16" value="">
               </div>
             </div>
               <br style="clear: both;">

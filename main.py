@@ -73,7 +73,7 @@ class FetchInformationHandler(webapp.RequestHandler):
         
       descriptionMatch = re.search(description, html, flags=re.IGNORECASE)
       if descriptionMatch:
-        meta["description"] = descriptionMatch.group(3)
+        meta["description"] = descriptionMatch.group(3)[0:132]
        
       # parse the fav icons 
       meta["icons"] = dict([parseFavIcon(baseUrl, m) 
