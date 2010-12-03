@@ -88,7 +88,7 @@ class FetchInformationHandler(webapp.RequestHandler):
       self.response.status_code = fetcheddata.status_code
 
     self.response.headers['Content-Type'] = "application/json"
-    self.response.out.write(simplejson.dumps(meta))
+    self.response.out.write(simplejson.dumps(meta, ensure_ascii=False))
     
 class FetchImageHandler(webapp.RequestHandler):
   def get(self):
