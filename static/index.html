@@ -19,11 +19,14 @@
       display:block;
       position: absolute;
       font-family: "Cuprum";
-      overflow: hidden;
     }
     
     #all {
       width: 100%;
+    }
+    
+    fieldset {
+      padding: 0px;
     }
     
     #header {
@@ -48,7 +51,7 @@
     
     input[type=url] {
       font-size: 3em;
-      padding: 5px;
+      padding: 5px -10px 5px 5px;
       width: 100%;
       border-radius: 10px;
       margin-top: 5px;
@@ -56,6 +59,7 @@
       font-family: "Geo";
       color: white;
       outline-style: none;
+      border: none;
       -webkit-transform: background-color 0.2s ease-in-out;
       transform: background-color 0.2s ease-in-out;
     }
@@ -74,6 +78,20 @@
         
     #download {
       display: none;
+      margin-bottom: 50px;
+      padding: 20px 0 20px 0;
+      border-radius: 10px;
+      background-color: rgba(255,255,255, 0.2);
+      text-align: center;
+    }
+    
+    #download.visible {
+      display: block;
+    }
+    
+    #download h3 {
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
     
     #info {
@@ -81,10 +99,11 @@
       -webkit-box-orient: horizontal;
       -webkit-box-pack: justify;
       -webkit-box-align: start;
+      width: 100%;
     }
     
-    #info fieldset {
-      margin-top: 10px;
+    #info > div {
+      -webkit-box-flex: 1;
     }
     
     #app {
@@ -100,31 +119,28 @@
       display: -webkit-box;
     }
     
-    #app div {
+    #app fieldset {
       -webkit-box-flex: 1;
-      margin: 10px;
-    }
-    
-    #download {
-      margin: 20px;
     }
     
     #basic {
-      text-align: right;
-    }
-    
-    #basic label {
-      margin-right: 5px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-box-align: stretch;
+      -webkit-box-pack: justify;
+      padding: 0;
+      min-width: 500px;
     }
     
     #basic input[type=text] {
       width: 70%;
     }
     
-    legend {
-      font-size: 1.3em;
+    label {
+      width: 25%;
+      display: inline-block;
     }
-    
+     
     #manifest {
       height: 300px;
       width: 100%;
@@ -132,45 +148,38 @@
       padding: 0;
     }
     
-    #manifest:hover {
-      border: dotted 1px #ddd;
-    }
-    
-    fieldset {
-      margin: 0px;
-    }
-    
-    #images {
-      margin: 10px;
+    #manifest textarea {
+      border: none;
     }
     
     #icon16 {
       width: 16px;
       height: 16px;
+      border: solid 1px #bbb;
+      -webkit-box-shadow: inset 0 0 5px #000;
     }
     
     #icon128 {
       width: 128px;
       height: 128px;
-    }
-    
-    #images .image {
       border: solid 1px #bbb;
       -webkit-box-shadow: inset 0 0 5px #000;
-      margin: 5px;
+    }
+    
+    .images .image {
+      float: left;
+    }
+    
+    .images .image h3 {
+      margin-top: 0px;
     }
     
     #app.visible {
       display: -webkit-box;
     }
     
-    #download.visible {
-      display: block;
-    }
-    
-    #output {
-      margin: 5px;
-      float: left;
+    section {
+      margin: 20px 20% 0 20%;
     }
     
     </style>
@@ -276,68 +285,66 @@
   <body>
     <div id="all">
       <div id="header">
-        <h1>Package your app</h1>
+        <h1>Package your app:</h1>
         <input type="url" id="url" value="" placeholder="http://google.com/ [press enter]">
+      </div>
+      <section>
+      <div id="download">
+        <h3>Your App is ready</h3>
+        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/> or double click to download</div>
       </div>
       <div id="app">
         <div id="info">
           <div id="basic">
-            <fieldset>
-              <legend>Basic Information</legend>
-              <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
-              <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?"><br>
-              <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
-            </fieldset>
-            <fieldset>
-              <legend>Permissions</legend>
-                <label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
-                <label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
-                <label for="geo">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
-            </fieldset>
-            <fieldset>
-              <legend>Launch Information</legend>
-              <div>
-                <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
-                <label for="urls">Urls:</label><select id="urls"></select>
-              </div>
-              <label for="launcher">Open as:</label><br>
-              <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio"><br>
-              <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio"><br>
-              <label for="newpanel">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio"><br>
-            </fieldset>
-          </div>
-          <div>
-          <fieldset id="images">
-              <legend>Images</legend>
-              <div>
+            <h3 style="margin-top: 0px">Basic Information</h3>
+            <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
+            <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?"><br>
+            <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
+          
+            <h3>How to launch</h3>
+              <label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
+              <label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
+              <label for="geo">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
+          
+            <div>
+              <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
+              <label for="urls">Urls:</label><select id="urls"></select>
+            </div>
+            <h4>Open as</h4>
+            <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
+            <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
+            <label for="newpanel">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
+            
+            <h3>Images</h3>
+            <div class="images">
+              <div class="image">
                 <h3>128px</h3>
-                <div class="image" id="icon128">
+                <div id="icon128">
                   <canvas id="c128" width="128" height="128"></canvas>
                 </div>
                 <input type="file" id="file128" value="">
               </div>
-              <div>
+              <div class="image">
                 <h3>16px</h3>
-                <div class="image" id="icon16">
+                <div id="icon16">
                   <canvas id="c16" width="16" height="16"></canvas>
                 </div>
-                <br><input type="file" id="file16">
+                <input type="file" id="file126" value="">
               </div>
-          </fieldset>
+            </div>
+              <br style="clear: both;">
           </div>
+       
           <div>
-            <fieldset>
-              <legend>Manifest</legend>
+            <h3>Manifest</h3>
             <textarea id="manifest"></textarea>
-            </fieldset>
           </div>
+          
         </div>
       </div>
-      <div id="download">
-        <h2>Your App</h2>
-        <div draggable="true" id="output">Drag this to your Desktop <img src="/images/package.png" draggable="false"/> or double click to download</div>
-      </div>
+      
     </div>
+    </section>
   </body>
   <script type="text/javascript">
 

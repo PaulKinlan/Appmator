@@ -118,9 +118,6 @@ var Builder = new (function () {
       };
       reader.readAsDataURL(file)
     }
-    
-    
-    
   };
   
   //Build a valid manifest
