@@ -193,6 +193,7 @@
     }
     
     #warning {
+      display: none;
       background-color: rgba(255,0,0, 0.2);
       margin: 20px 20% 0 20%;
       padding: 20px 0 20px 0;
@@ -206,7 +207,7 @@
     
     </style>
     <script src="/js/builder.js"></script>
-    <script src="/js/thirdparty/modernizer-1.6.min.js"></script>
+    <script src="/js/thirdparty/modernizr-1.6.min.js"></script>
     <script src="/js/thirdparty/jszip.js"></script>
     <script src="/js/thirdparty/closure/closure/goog/base.js"></script>
     <script>
@@ -214,7 +215,33 @@
     </script>
     <script>
     (function() {
+      
+      Modernizr.addTest('classlist', function () {
+        var div = document.createElement("div");
+        var ret = (!!div.classList);
+        delete div;
+        return ret;
+      });
+      
+      Modernizr.addTest('typedarray', function () {
+        return (!!Uint8Array);
+      });
+      
+      Modernizr.addTest('blobbuilder', function () {
+        return (!!BlobBuilder);
+      });
+      
       window.addEventListener("DOMContentLoaded", function() {
+        
+        var warning = document.getElementById("warning");
+        
+        if(!( Modernizr.draganddrop && 
+              Modernizr.classlist &&
+              Modernizr.typedarray &&
+              Modernizr.blobbuilder &&
+              Modernizr.canvas)){
+          warning.style.display = "block";
+        }
         
         var start = document.getElementById("start");
         var icon16 = document.getElementById("icon16");
