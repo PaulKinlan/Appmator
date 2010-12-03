@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Web app builder</title>
+    <title>Appmator</title>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="/images/16.png" type="image/png"></link>
     <link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png"></link>
-    
+    <link rel="author" href="mailto://paulkinlan@google.com"></link>
     <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css'></link>
     <style>
     
@@ -64,7 +64,7 @@
     }
     
     input[type=url].success {
-      background-color: rgba(0,255,0, 0.2);
+      background-color: rgba(0,128,0, 0.2);
     }
     
     #app {
@@ -101,7 +101,6 @@
     
     #app div {
       -webkit-box-flex: 1;
-      height: 100%;
       margin: 10px;
     }
     
@@ -175,7 +174,6 @@
     
     </style>
     <script src="/js/builder.js"></script>
-    <script src="/js/jsonFormatter.js"></script>
     <script src="/js/thirdparty/jszip.js"></script>
     <script src="/js/thirdparty/closure/closure/goog/base.js"></script>
     <script>
@@ -204,6 +202,9 @@
         var newtab = document.getElementById("newtab");
         var newwindow = document.getElementById("newwindow");
         var newpanel = document.getElementById("newpanel");
+        
+        var file128 = document.getElementById("file128");
+        var file16 = document.getElementById("file16");
         
         url.addEventListener("keypress", function(e) {
           if(e.keyCode == 13) {
@@ -239,6 +240,9 @@
         newtab.addEventListener("click", Builder.toggleLaunch);
         newwindow.addEventListener("click", Builder.toggleLaunch);
         newpanel.addEventListener("click", Builder.toggleLaunch);
+        
+        file128.addEventListener("change", Builder.readImage);
+        file16.addEventListener("change", Builder.readImage);
         
         manifest.addEventListener("blur", Builder.parseManifest);
         
@@ -308,14 +312,14 @@
                 <div class="image" id="icon128">
                   <canvas id="c128" width="128" height="128"></canvas>
                 </div>
-                <input type="file" value="">
+                <input type="file" id="file128" value="">
               </div>
               <div>
                 <h3>16px</h3>
                 <div class="image" id="icon16">
                   <canvas id="c16" width="16" height="16"></canvas>
                 </div>
-                <br><input type="file">
+                <br><input type="file" id="file16">
               </div>
           </fieldset>
           </div>

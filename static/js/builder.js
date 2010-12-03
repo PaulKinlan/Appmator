@@ -92,6 +92,37 @@ var Builder = new (function () {
     });
   };
   
+  // Reads an image from the file system
+  this.readImage = function(e) {
+    var id = "c16";
+    var size = 16;
+    if(e.target.id == "file128") {
+      id = "c128";
+      size = 128;
+    }
+    
+    var canvas = document.getElementById(id);
+    var context = canvas.getContext("2d");
+    
+    for(var i = 0, file; file=e.target.files[i]; i++) {
+      var reader = new FileReader();
+      reader.onload = function(evt) {
+        var img = new Image();
+        
+        img.addEventListener("load", function() {
+          context.drawImage(img, 0, 0, size, size); // rescale the image
+        });
+        
+        img.src = evt.target.result;
+        
+      };
+      reader.readAsDataURL(file)
+    }
+    
+    
+    
+  };
+  
   //Build a valid manifest
   var parseInfo = function(inf) {
     manifest.app = {};
