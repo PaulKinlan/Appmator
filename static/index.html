@@ -146,7 +146,7 @@
     }
     
     label {
-      width: 25%;
+      width: 20%;
       display: inline-block;
     }
      
@@ -155,6 +155,7 @@
       width: 100%;
       margin: 0;
       padding: 0;
+      min-width: 200px;
     }
     
     #manifest textarea {
@@ -181,6 +182,10 @@
     
     .images .image h3 {
       margin-top: 0px;
+    }
+    
+    .inset {
+      padding-left: 10px;
     }
     
     #app.visible {
@@ -306,26 +311,29 @@
         <div id="info">
           <div id="basic">
             <h3 style="margin-top: 0px">Basic Information</h3>
+            <div class="inset">
             <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
             <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?"><br>
             <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
-          
+            </div>
             <h3>How to launch</h3>
+            <div class="inset">
               <label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
               <label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
               <label for="geo">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
-          
-            <div>
+            </div>
+            <div class="inset" >
               <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
               <label for="urls">Urls:</label><select id="urls"></select>
             </div>
             <h4>Open as</h4>
+            <div class="inset">
             <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
             <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
             <label for="newpanel">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
-            
+            </div>
             <h3>Images</h3>
-            <div class="images">
+            <div class="images inset">
               <div class="image">
                 <h3>128px</h3>
                 <div id="icon128">
