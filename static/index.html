@@ -224,11 +224,11 @@
       });
       
       Modernizr.addTest('typedarray', function () {
-        return (!!Uint8Array);
+        return ("Uint8Array" in window);
       });
       
       Modernizr.addTest('blobbuilder', function () {
-        return (!!BlobBuilder);
+        return ("BlobBuilder" in window);
       });
       
       window.addEventListener("DOMContentLoaded", function() {
