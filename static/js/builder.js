@@ -206,6 +206,11 @@ var Builder = new (function () {
       manifest.version = version.value;
     
     renderManifest();
+    
+    //Save the manifest 
+    var output = document.getElementById("output");
+    output.href = "data:image/png;base64," + 
+          Builder.output({"binary": false});
   }
   
   // Updates the User Interface based on the manifest.

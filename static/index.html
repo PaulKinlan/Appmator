@@ -150,6 +150,13 @@
       width: 20%;
       display: inline-block;
     }
+    
+    label[type=radio] {
+      width: auto;
+    }
+    label[type=checkbox] {
+      width: auto;
+    }
      
     #manifest {
       height: 300px;
@@ -204,6 +211,10 @@
     
     section {
       margin: 20px 20% 0 20%;
+    }
+    
+    #doubleclicksave {
+      display: none;
     }
     
     </style>
@@ -309,26 +320,30 @@
         manifest.addEventListener("blur", Builder.parseManifest);
         
         output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
-        
-        output.addEventListener("dblclick", function() {
-          var savaeas = document.getElementById("saveas");
-          var bb = new BlobBuilder();
+        if(Modernizr.typedarray) {
+          var dblclicksave = document.getElementById("doubleclicksave");
+          dblclicksave.style.display = "inline";
           
-          var output = Builder.output({"binary":true});
-          var ui8a = new Uint8Array(output.length);
+          output.addEventListener("dblclick", function() {
+            var savaeas = document.getElementById("saveas");
+            var bb = new BlobBuilder();
           
-          for(var i = 0; i< output.length; i++) {
-            ui8a[i] = output.charCodeAt(i);
-          }
+            var output = Builder.output({"binary":true});
+            var ui8a = new Uint8Array(output.length);
           
-          bb.append(ui8a.buffer);
+            for(var i = 0; i< output.length; i++) {
+              ui8a[i] = output.charCodeAt(i);
+            }
           
-          var blob = bb.getBlob("application/octet-stream");
-          var saveas = document.createElement("iframe");
-          saveas.style.display = "none";
-          saveas.src = window.createObjectURL(blob); 
-          document.body.appendChild(saveas);
-        });
+            bb.append(ui8a.buffer);
+          
+            var blob = bb.getBlob("application/octet-stream");
+            var saveas = document.createElement("iframe");
+            saveas.style.display = "none";
+            saveas.src = window.createObjectURL(blob); 
+            document.body.appendChild(saveas);
+          });
+        }
       });
     })();
     </script>
@@ -348,7 +363,7 @@
       <section>
       <div id="download">
         <h3>Your App is ready</h3>
-        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktopor double click to download</div>
+        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktop <span id="doubleclicksave">or double click to download</span></div>
          <div>Then upload it to the <a href="http://chrome.goggle.com/extensions/developer/dashboard">Chrome Web Store</a></div>
       </div>
       <div id="app">
@@ -362,9 +377,9 @@
             </div>
             <h3>How to launch</h3>
             <div class="inset">
-              <label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
-              <label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
-              <label for="geo">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
+              <label for="notifications" type="checkbox">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
+              <label for="unlimitedStorage" type="checkbox">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
+              <label for="geo" type="checkbox">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
             </div>
             <div class="inset" >
               <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
@@ -372,9 +387,9 @@
             </div>
             <h4>Open as</h4>
             <div class="inset">
-            <label for="newtab">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
-            <label for="newwindow">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
-            <label for="newpanel">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
+            <label for="newtab" type="radio">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
+            <label for="newwindow" type="radio">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
+            <label for="newpanel" type="radio">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
             </div>
             <h3>Images</h3>
             <div class="images inset">
