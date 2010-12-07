@@ -249,7 +249,6 @@
         
         if(!( Modernizr.draganddrop && 
               Modernizr.classlist &&
-              Modernizr.typedarray &&
               Modernizr.blobbuilder &&
               Modernizr.canvas)){
           warning.style.display = "block";
@@ -352,7 +351,7 @@
     <div id="all">
       <div id="header">
         <h1>Package your app:</h1>
-        <input type="url" id="url" value="" placeholder="http://appmator.appspot.com/ [press enter]">
+        <input type="url" id="url" value="" placeholder="http://appmator.appspot.com/ [enter]">
       </div>
       <div id="warning" >
         <h3>Sorry</h3>
@@ -364,7 +363,7 @@
       <div id="download">
         <h3>Your App is ready</h3>
         <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktop <span id="doubleclicksave">or double click to download</span></div>
-         <div>Then upload it to the <a href="http://chrome.goggle.com/extensions/developer/dashboard">Chrome Web Store</a></div>
+         <div>Then upload it to the <a href="http://chrome.goggle.com/extensions/developer/dashboard" target="_blank">Chrome Web Store</a></div>
       </div>
       <div id="app">
         <div id="info">
