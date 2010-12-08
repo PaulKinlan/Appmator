@@ -3,6 +3,8 @@
   <head>
     <title>Appmator</title>
     <meta charset="utf-16" />
+    <meta name="application-name" content="Appmator"/>
+    <meta name="description" content="Get your Web apps into the Chrome Webstore in under a minute"/>l	<meta name="application-url" content="http://appmator.appspot.com"/>
     <meta name="google-site-verification" content="giZg2GBz30YubQK1LdzRGlQBGHjMWhUeeSO8TR_uiwE" />
     <link rel="shortcut icon" href="/images/16.png" type="image/png"></link>
     <link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png"></link>
@@ -259,7 +261,7 @@
         var icon128 = document.getElementById("icon128");
         var notifications = document.getElementById("notifications");
         var unlimitedStorage = document.getElementById("unlimitedStorage");
-        var geo = document.getElementById("geo");
+        var geolocation = document.getElementById("geolocation");
         var manifest = document.getElementById("manifest");
         var output = document.getElementById("output");
         var packaged = document.getElementById("packaged");
@@ -306,7 +308,7 @@
         version.addEventListener("blur", Builder.updateManifest);
         
         unlimitedStorage.addEventListener("click", Builder.togglePermission);
-        geo.addEventListener("click", Builder.togglePermission);
+        geolocation.addEventListener("click", Builder.togglePermission);
         notifications.addEventListener("click", Builder.togglePermission);
         
         newtab.addEventListener("click", Builder.toggleLaunch);
@@ -363,7 +365,7 @@
       <div id="download">
         <h3>Your App is ready</h3>
         <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktop <span id="doubleclicksave">or double click to download</span></div>
-         <div>Then upload it to the <a href="http://chrome.goggle.com/extensions/developer/dashboard" target="_blank">Chrome Web Store</a></div>
+         <div>Then upload it to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a></div>
       </div>
       <div id="app">
         <div id="info">
@@ -378,7 +380,7 @@
             <div class="inset">
               <label for="notifications" type="checkbox">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
               <label for="unlimitedStorage" type="checkbox">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
-              <label for="geo" type="checkbox">Geo-location</label><input value="geo" name="permissions" type="checkbox" id="geo">
+              <label for="geolocation" type="checkbox">Geo-location</label><input value="geolocation" name="permissions" type="checkbox" id="geolocation">
             </div>
             <div class="inset" >
               <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>

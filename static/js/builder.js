@@ -232,7 +232,7 @@ var Builder = new (function () {
     
     // Permissions
     var permissions = {};
-    permissions["geo"] = document.getElementById("geo");
+    permissions["geolocation"] = document.getElementById("geolocation");
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
     
