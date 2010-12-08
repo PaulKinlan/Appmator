@@ -250,9 +250,13 @@ var Builder = new (function () {
     
     if(manifest.name)
       name.value = manifest.name;
+    else 
+      name.value = "";
     
     if(manifest.description)
       description.value = manifest.description;
+    else 
+      description.value = "";
       
     if(manifest.version)
       version.value = manifest.description;
