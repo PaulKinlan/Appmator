@@ -33,8 +33,8 @@ def parseFavIcon(baseUrl, match):
   linkTag = match.group(0)
   #find the href
   
-  hrefMatch = re.search("href=(\'|\")([^\"\']+)", linkTag)
-  sizesMatch = re.search("sizes=(\'|\")(\d{0,3})", linkTag)
+  hrefMatch = re.search("href=(\'|\")([^\"\']+)", linkTag, re.I)
+  sizesMatch = re.search("sizes=(\'|\")(\d{0,3})", linkTag, re.I)
   
   if linkTag.find("apple-touch-icon") >= 0:
     size = "128"
