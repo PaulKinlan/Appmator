@@ -47,7 +47,7 @@ def parseFavIcon(baseUrl, match):
   href = hrefMatch.group(2)
   
   if href.find("http") == -1:
-    href = baseUrl + href
+    href = baseUrl + href.lstrip("/")
     
   return (size, href)
 
