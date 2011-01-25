@@ -218,7 +218,6 @@ var Builder = new (function () {
     var app = document.getElementById("app");
     var download = document.getElementById("download");
     var info = document.getElementById("info");
-    var download = document.getElementById("download");
     var name = document.getElementById("name");
     var description = document.getElementById("description");
     var version = document.getElementById("version");
@@ -235,6 +234,7 @@ var Builder = new (function () {
     permissions["geolocation"] = document.getElementById("geolocation");
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
+    permissions["background"] = document.getElementById("background");
     
     // Container
     var container = {};

@@ -263,6 +263,7 @@
         var notifications = document.getElementById("notifications");
         var unlimitedStorage = document.getElementById("unlimitedStorage");
         var geolocation = document.getElementById("geolocation");
+        var background = document.getElementById("geolocation");
         var manifest = document.getElementById("manifest");
         var output = document.getElementById("output");
         var packaged = document.getElementById("packaged");
@@ -311,6 +312,7 @@
         unlimitedStorage.addEventListener("click", Builder.togglePermission);
         geolocation.addEventListener("click", Builder.togglePermission);
         notifications.addEventListener("click", Builder.togglePermission);
+        background.addEventListener("click", Builder.togglePermission);
         
         newtab.addEventListener("click", Builder.toggleLaunch);
         newwindow.addEventListener("click", Builder.toggleLaunch);
@@ -342,6 +344,11 @@
             var blob = bb.getBlob("application/octet-stream");
             var saveas = document.createElement("iframe");
             saveas.style.display = "none";
+            
+            if(!!window.createObjectURL) {
+              window.createObjectURL = window.webkitURL.createObjectURL;
+            }
+            
             saveas.src = window.createObjectURL(blob); 
             document.body.appendChild(saveas);
           });
@@ -382,6 +389,7 @@
               <label for="notifications" type="checkbox">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
               <label for="unlimitedStorage" type="checkbox">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
               <label for="geolocation" type="checkbox">Geo-location</label><input value="geolocation" name="permissions" type="checkbox" id="geolocation">
+              <label for="background" type="checkbox">Background</label><input value="background" name="permissions" type="checkbox" id="background">
             </div>
             <div class="inset" >
               <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
