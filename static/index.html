@@ -77,6 +77,22 @@
       transform: background-color 0.2s ease-in-out;
     }
     
+    input[type=url] + #messages > p {
+      display:none;
+    }
+    
+    input[type=url]:invalid {
+      background-color: rgba(255,0,0, 0.2);
+    }
+    
+    input[type=url]:valid + #messages > #okUrl {
+      display: block;
+    }
+    
+    input[type=url]:invalid + #messages > #enterUrl {
+      display: block;
+    }
+    
     input[type=url].error {
       background-color: rgba(255,0,0, 0.2);
     }
@@ -361,7 +377,12 @@
     <div id="all">
       <div id="header">
         <h1>Package your app:</h1>
-        <input type="url" id="url" value="" placeholder="http://appmator.appspot.com/ [enter]">
+        <input type="url" id="url" value=""
+        required placeholder="http://appmator.appspot.com/ [enter]">
+        <div id="messages">
+          <p id="enterUrl">Enter a URL beginning "http://" or "https://"</p>
+          <p id="okUrl">Looks like a URL</p>
+        </div>
       </div>
       <div id="warning" >
         <h3>Sorry</h3>
