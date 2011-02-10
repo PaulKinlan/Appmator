@@ -50,6 +50,8 @@
           warning.style.display = "block";
         }
         
+        var app = document.getElementById("app");
+        var language = document.getElementById("language");
         var start = document.getElementById("start");
         var icon16 = document.getElementById("icon16");
         var icon128 = document.getElementById("icon128");
@@ -82,6 +84,7 @@
                 url.classList.add("success");
                 header.classList.add("started");
                 app.classList.add("visible");
+                language.classList.add("visible");
               }
               else {
                 url.classList.add("error");
@@ -158,7 +161,7 @@
         required placeholder="http://appmator.appspot.com/ [enter]">
         <div id="messages">
           <p id="enterUrl">Enter a URL beginning "http://" or "https://"</p>
-          <p id="okUrl">Looks like a URL</p>
+          <p id="okUrl">Looks like a URL - press Enter when done.</p>
         </div>
       </div>
       <div id="warning" >
@@ -181,6 +184,63 @@
             <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
             <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132"><br>
             <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
+            <label for="default_language">Default Language</label><select id="default_languge" name="default_languge">
+              <option value="am">am</option>
+              <option value="ar">ar</option>
+              <option value="bg">bg</option>
+              <option value="bn">bn</option>
+              <option value="ca">ca</option>
+              <option value="cs">cs</option>
+              <option value="da">da</option>
+              <option value="de">de</option>
+              <option value="el">el</option>
+              <option value="en" selected>en</option>
+              <option value="en_GB">en_GB</option>
+              <option value="en_US">en_US</option>
+              <option value="es">es</option>
+              <option value="es_419">es_419</option>
+              <option value="et">et</option>
+              <option value="fi">fi</option>
+              <option value="fil">fil</option>
+              <option value="fr">fr</option>
+              <option value="gu">gu</option>
+              <option value="he">he</option>
+              <option value="hi">hi</option>
+              <option value="hr">hr</option>
+              <option value="hu">hu</option>
+              <option value="id">id</option>
+              <option value="it">it</option>
+              <option value="ja">ja</option>
+              <option value="kn">kn</option>
+              <option value="ko">ko</option>
+              <option value="lt">lt</option>
+              <option value="lv">lv</option>
+              <option value="ml">ml</option>
+              <option value="mr">mr</option>
+              <option value="nb">nb</option>
+              <option value="nl">nl</option>
+              <option value="or">or</option>
+              <option value="pl">pl</option>
+              <option value="pt">pt</option>
+              <option value="pt_BR">pt_BR</option>
+              <option value="pt_PT">pt_PT</option>
+              <option value="ro">ro</option>
+              <option value="ru">ru</option>
+              <option value="sk">sk</option>
+              <option value="sl">sl</option>
+              <option value="sr">sr</option>
+              <option value="sv">sv</option>
+              <option value="sw">sw</option>
+              <option value="ta">ta</option>
+              <option value="te">te</option>
+              <option value="th">th</option>
+              <option value="tr">tr</option>
+              <option value="uk">uk</option>
+              <option value="vi">vi</option>
+              <option value="zh">zh</option>
+              <option value="zh_CN">zh_CN</option>
+              <option value="zh_TW">zh_TW</option>
+            </select>
             </div>
             <h3>How to launch</h3>
             <div class="inset">
@@ -225,8 +285,73 @@
           </div>
           
         </div>
+        
       </div>
-      
+      <div id="language">
+        <h3 style="margin-top: 0px">Localization</h3>
+        <label for="languages">Add a Language:</label>
+        <select id="languages" name="languages">
+          <option value="am">am</option>
+          <option value="ar">ar</option>
+          <option value="bg">bg</option>
+          <option value="bn">bn</option>
+          <option value="ca">ca</option>
+          <option value="cs">cs</option>
+          <option value="da">da</option>
+          <option value="de">de</option>
+          <option value="el">el</option>
+          <option value="en">en</option>
+          <option value="en_GB">en_GB</option>
+          <option value="en_US">en_US</option>
+          <option value="es">es</option>
+          <option value="es_419">es_419</option>
+          <option value="et">et</option>
+          <option value="fi">fi</option>
+          <option value="fil">fil</option>
+          <option value="fr">fr</option>
+          <option value="gu">gu</option>
+          <option value="he">he</option>
+          <option value="hi">hi</option>
+          <option value="hr">hr</option>
+          <option value="hu">hu</option>
+          <option value="id">id</option>
+          <option value="it">it</option>
+          <option value="ja">ja</option>
+          <option value="kn">kn</option>
+          <option value="ko">ko</option>
+          <option value="lt">lt</option>
+          <option value="lv">lv</option>
+          <option value="ml">ml</option>
+          <option value="mr">mr</option>
+          <option value="nb">nb</option>
+          <option value="nl">nl</option>
+          <option value="or">or</option>
+          <option value="pl">pl</option>
+          <option value="pt">pt</option>
+          <option value="pt_BR">pt_BR</option>
+          <option value="pt_PT">pt_PT</option>
+          <option value="ro">ro</option>
+          <option value="ru">ru</option>
+          <option value="sk">sk</option>
+          <option value="sl">sl</option>
+          <option value="sr">sr</option>
+          <option value="sv">sv</option>
+          <option value="sw">sw</option>
+          <option value="ta">ta</option>
+          <option value="te">te</option>
+          <option value="th">th</option>
+          <option value="tr">tr</option>
+          <option value="uk">uk</option>
+          <option value="vi">vi</option>
+          <option value="zh">zh</option>
+          <option value="zh_CN">zh_CN</option>
+          <option value="zh_TW">zh_TW</option>
+        </select>
+        <input type="button" value="Add" id="">
+        <div>
+          
+        </div>
+      </div>
     </div>
     </section>
   </body>

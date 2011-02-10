@@ -132,6 +132,19 @@ input[type=url].success {
   display: -webkit-box;
 }
 
+#language {
+  display: none;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: justify;
+  -webkit-box-align: stretch;
+  padding: 0;
+  -webkit-transition: opacity 1s ease-in-out;
+}
+
+#language.visible {
+  display: -webkit-box;
+}
+
 #app fieldset {
   -webkit-box-flex: 1;
 }
