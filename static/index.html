@@ -148,6 +148,24 @@
             document.body.appendChild(saveas);
           });
         }
+        
+        // If there is a hash, lets just load it all now.
+        if(window.location.hash && window.location.hash !="") {
+          var newUrl = window.location.hash.substr(1);
+          url.value = newUrl;
+          
+          Builder.start(function(object) {
+            // Make the UI visible
+            if(object) {
+              url.classList.add("success");
+              header.classList.add("started");
+              app.classList.add("visible");
+            }
+            else {
+              url.classList.add("error");
+            }
+          });
+        }
       });
     })();
     </script>
@@ -240,8 +258,7 @@
               <option value="zh_CN">zh_CN</option>
               <option value="zh_TW">zh_TW</option>
             </select><br>
-            <label for="languages">Add a Language:</label>
-            <select id="languages" name="languages">
+            <label for="languages">Add a Language:</label><select id="languages" name="languages">
               <option value="am">am</option>
               <option value="ar">ar</option>
               <option value="bg">bg</option>

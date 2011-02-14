@@ -23,6 +23,8 @@ var Builder = new (function () {
   
   // The manifest that we are building.
   var manifest = {};
+  // A collection of langauges and local information.
+  var locales = {};
   
   this.start = function(fn) {
     var callback = fn || function() {};
@@ -74,6 +76,10 @@ var Builder = new (function () {
     e.dataTransfer.setData("DownloadURL", "application/zip:" + manifest.name  +":data:image/png;base64," + Builder.output({"binary": false}));
   };
   
+  this.updateLanguages = function() {
+    
+  };
+  
   // Outputs the zip file
   this.output = function(options) {
     var outputImage = document.getElementById("output");
@@ -82,6 +88,11 @@ var Builder = new (function () {
     zip.add("128.png", imageToBase64("128"), {base64: true});
     zip.add("manifest.json", JSON.stringify(manifest));
     
+    // Render all the files
+    for(var l in locales) {
+      zip.add("_locales/"+ l +"/messages.json", localeToText(l))
+    }
+    
     // output the data.
     
     var data = "";
@@ -89,6 +100,11 @@ var Builder = new (function () {
     
     return data;
   };
+  
+  // Converts the locale to string.  Could be a seperate local object but no need for now.
+  var localeToText = function(locale) {
+    return JSON.stringify(locales[locale]);
+  }
   
   var imageToBase64 = function(icon) {
     var canvas = document.getElementById("c" + icon);
