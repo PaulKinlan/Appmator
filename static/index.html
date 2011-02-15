@@ -140,7 +140,7 @@
             var saveas = document.createElement("iframe");
             saveas.style.display = "none";
             
-            if(!!window.createObjectURL) {
+            if(!!window.createObjectURL == false) {
               window.createObjectURL = window.webkitURL.createObjectURL;
             }
             
