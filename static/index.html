@@ -141,10 +141,13 @@
             saveas.style.display = "none";
             
             if(!!window.createObjectURL == false) {
-              window.createObjectURL = window.webkitURL.createObjectURL;
+              saveas.src = window.webkitURL.createObjectURL(blob); 
+            }
+            else {
+              saveas.src = window.createObjectURL(blob); 
             }
             
-            saveas.src = window.createObjectURL(blob); 
+            
             document.body.appendChild(saveas);
           });
         }
