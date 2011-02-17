@@ -22,7 +22,7 @@ from google.appengine.api import urlfetch
 import re
 import logging
 from urlparse import urlparse
-from django.utils import simplejson
+import simplejson2
 
 
 title = "<title>(.+)</title>"
@@ -89,7 +89,7 @@ class FetchInformationHandler(webapp.RequestHandler):
       self.response.status_code = fetcheddata.status_code
 
     self.response.headers['Content-Type'] = "application/json"
-    self.response.out.write(simplejson.dumps(meta, ensure_ascii=False))
+    self.response.out.write(simplejson2.dumps(meta, ensure_ascii=False))
     
 class FetchImageHandler(webapp.RequestHandler):
   def get(self):
