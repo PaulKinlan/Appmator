@@ -1,0 +1,16 @@
+{
+   "app": {
+      "launch": {
+         "urls": [ "http://appmator.appspot.com" ],
+         "web_url": "http://appmator.appspot.com"
+      }
+   },
+   "description": "__MSG_extDesc__",
+   "icons": {
+      "128": "128.png",
+      "16": "16.png"
+   },
+   "name": "__MSG_extName__",
+   "version": "0.0.0.4",
+   "default_locale": "en_GB"
+}

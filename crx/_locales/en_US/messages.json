@@ -1,0 +1,10 @@
+{
+  "extName" : {
+    "message" : "Appmator",
+    "description" : "Extension Name"
+  },
+  "extDesc" : {
+    "message" : "Quickly get your app ready for the Chrome Web Store.",
+    "description" : "Extension Description"
+  }
+}
