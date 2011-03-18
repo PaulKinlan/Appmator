@@ -13,7 +13,6 @@
     <link rel="author" href="mailto://paulkinlan@google.com"></link>
     <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css'></link>
     <link href='/css/main.css' rel='stylesheet' type='text/css'></link>
-    <script src="http://cws-badge.appspot.com/badge.js"></script> 
     <script src="/js/builder.js"></script>
     <script src="/js/thirdparty/modernizr-1.6.min.js"></script>
     <script src="/js/thirdparty/jszip.js"></script>
@@ -69,9 +68,7 @@
         var descriptiopn = document.getElementById("description");
         var versions = document.getElementById("version");
         
-        var newtab = document.getElementById("newtab");
-        var newwindow = document.getElementById("newwindow");
-        var newpanel = document.getElementById("newpanel");
+        var launcher = document.getElementById("launcher");
         
         var file128 = document.getElementById("file128");
         var file16 = document.getElementById("file16");
@@ -84,9 +81,11 @@
                 url.classList.add("success");
                 header.classList.add("started");
                 app.classList.add("visible");
+                trackEvent("Parse Success");
               }
               else {
                 url.classList.add("error");
+                trackEvent("Parse Error");
               }
             });
           }
@@ -109,9 +108,7 @@
         notifications.addEventListener("click", Builder.togglePermission);
         background.addEventListener("click", Builder.togglePermission);
         
-        newtab.addEventListener("click", Builder.toggleLaunch);
-        newwindow.addEventListener("click", Builder.toggleLaunch);
-        newpanel.addEventListener("click", Builder.toggleLaunch);
+        launcher.addEventListener("change", Builder.toggleLaunch);
         
         file128.addEventListener("change", Builder.readImage);
         file16.addEventListener("change", Builder.readImage);
@@ -147,7 +144,6 @@
               saveas.src = window.createObjectURL(blob); 
             }
             
-            
             document.body.appendChild(saveas);
           });
         }
@@ -156,27 +152,31 @@
         if(window.location.hash && window.location.hash !="") {
           var newUrl = window.location.hash.substr(1);
           url.value = newUrl;
-          
+          trackEvent("Load with Hash");
           Builder.start(function(object) {
             // Make the UI visible
             if(object) {
+              trackEvent("Parse Success");
               url.classList.add("success");
               header.classList.add("started");
               app.classList.add("visible");
             }
             else {
+              trackEvent("Parse Error");
               url.classList.add("error");
             }
           });
         }
       });
     })();
+    
+    
     </script>
   </head>
   <body>
     <div id="all">
       <div id="header">
-        <h1>Package your app:</h1>
+        <h1>Where is your app?</h1>
         <input type="url" id="url" value=""
         required placeholder="http://appmator.appspot.com/ [enter]">
         <div id="messages">
@@ -192,14 +192,14 @@
       </div>
       <section>
       <div id="download">
-        <h3>Your App is ready</h3>
-        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your Desktop <span id="doubleclicksave">or double click to download</span></div>
+        <h3>Your app is ready</h3>
+        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your desktop <span id="doubleclicksave">or double click to download</span></div>
          <div>Then upload it to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a></div>
       </div>
       <div id="app">
         <div id="info">
           <div id="basic">
-            <h3 style="margin-top: 0px">Basic Information</h3>
+            <h3 style="margin-top: 0px">Basic information</h3>
             <div class="inset">
             <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
             <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132"><br>
@@ -334,9 +334,11 @@
             </div>
             <h4>Open as</h4>
             <div class="inset">
-            <label for="newtab" type="radio">New Tab</label><input value="tab" id="newtab" name="launcher" type="radio">
-            <label for="newwindow" type="radio">New Window</label><input value="window" id="newwindow" name="launcher" type="radio">
-            <label for="newpanel" type="radio">New Panel</label><input value="panel" id="newpanel" name="launcher" type="radio">
+              <select name="launcher" id="launcher">
+                <option value="newtab">New tab</option>
+                <option value="window">New window</option>
+                <option value="panel">New panel</option>
+              </select>
             </div>
             <h3>Images</h3>
             <div class="images inset">
@@ -369,6 +371,7 @@
      </div>
     </section>
   </body>
+  <script src="/js/badge.js"></script>
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -380,6 +383,18 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
+    
+    function trackInstalled() {
+      debugger;
+      var isInstalled = !!(window.chrome && window.chrome.app && window.chrome.app.isInstalled);
+      _gaq.push(['_trackEvent', 'Installed', isInstalled.toString()]);
+    };
+    
+    function trackEvent(name) {
+      _gaq.push(['_trackEvent', 'Actions', name]);
+    };
+    
+    document.addEventListener("load", trackInstalled);
 
   </script>
 </html>

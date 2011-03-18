@@ -65,9 +65,7 @@ var Builder = new (function () {
   };
   
   this.toggleLaunch = function(e) {
-    if(e.target.checked) {
-      manifest.app.launch.container = e.target.value;
-    }
+    manifest.app.launch.container = e.target.value;
    
     updateUI();
   };
@@ -241,9 +239,6 @@ var Builder = new (function () {
     
     // Launcher options
     var options = {};
-    options["window"] = document.getElementById("newwindow");
-    options["tab"] = document.getElementById("newtab");
-    options["panel"] = document.getElementById("newpanel");
     
     // Permissions
     var permissions = {};
@@ -253,13 +248,9 @@ var Builder = new (function () {
     permissions["background"] = document.getElementById("background");
     
     // Container
-    var container = {};
-    container["tab"] = document.getElementById("newtab");
-    container["window"] = document.getElementById("newwindow");
-    container["panel"] = document.getElementById("newpanel");
+    var launcher = document.getElementById("launcher");
     
     // The urls selection
-    
     var urls = document.getElementById("urls");
     
     // Start updating the UI
@@ -304,8 +295,7 @@ var Builder = new (function () {
     }
     
     // Select the correct launch type
-    var container = manifest.app.launch.container;
-    options[container].checked = true;
+    launcher.value = manifest.app.launch.container;
     
     // Show the class list
     if(app.classList.contains("visible") == false)
