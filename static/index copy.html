@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+
+<title>Appmator</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+
+<meta name="application-name" content="Appmator"/>
+<meta name="description" content="Get your Web apps into the Chrome Webstore in under a minute"/>
+<!-- <meta name="application-url" content="http://appmator.appspot.com"/> -->
+<meta name="google-site-verification" content="giZg2GBz30YubQK1LdzRGlQBGHjMWhUeeSO8TR_uiwE" />
+
+<link rel="shortcut icon" href="/images/16.png" type="image/png" />
+<link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png" />
+<link rel="license" href="/LICENCE" />
+<link rel="author" href="http://paul.kinlan.me/" />
+<!-- <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css' /> -->
+
+<link href='/css/main.css' rel='stylesheet' type='text/css' />
+
+<script src="/js/builder.js"></script>
+<script src="/js/thirdparty/modernizr-1.6.min.js"></script>
+<script src="/js/thirdparty/jszip.js"></script>
+<script src="/js/thirdparty/closure/closure/goog/base.js"></script>
+
+<script>
+goog.require("goog.format.JsonPrettyPrinter");
+</script>
+
+<script src="js/main.js"></script>
+
+</head>
+
+<body>
+
+<div id="all">
+
+<div id="header">
+	<h1>Where is your app?</h1>
+	<input type="url" id="url" value="" required placeholder="http://www.example.com">
+	<div id="messages">
+		<div id="enterUrl">Enter a URL beginning "http://" or "https://"</div>
+		<div id="okUrl">Looks like a URL: press Enter when done.</div>
+	</div>
+</div>
+
+<div id="warning" ><strong>Sorry!</strong> Your browser doesn't support some of the features needed by this app.</div>
+
+
+
+<section>
+
+<div id="download">
+	<h3>Your app is ready</h3>
+	<div><img src="/images/package.png" alt="Package" draggable="true" id="output" style="cursor:pointer" /> Drag this to your desktop <span id="doubleclicksave">or double click to download</span></div>
+	<div>Then upload it to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a></div>
+</div>
+
+<div id="app">
+
+	<div id="info">
+	
+	<div id="basic">
+	
+	<h3 style="margin-top: 0px">Basic information</h3>
+	<div class="inset">
+		<label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
+		<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132"><br>
+		<label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br>
+	</div>
+	
+	<h3>How to launch</h3>
+	<div class="inset">
+		<label for="notifications">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
+		<label for="unlimitedStorage">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
+		<label for="geolocation">Geo-location</label><input value="geolocation" name="permissions" type="checkbox" id="geolocation">
+		<label for="background">Background</label><input value="background" name="permissions" type="checkbox" id="background">
+	</div>
+	
+	<div class="inset" >
+		<label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
+		<label for="urls">Urls:</label><select id="urls"></select>
+	</div> 
+	
+	<h4>Open as</h4>
+	<div class="inset">
+		<select name="launcher" id="launcher">
+			<option value="newtab">New tab</option>
+			<option value="window">New window</option>
+			<option value="panel">New panel</option>
+		</select>
+	</div>
+	
+	<h3>Images</h3>
+	<div class="images inset">
+		<div class="image">
+			<h3>128px</h3>
+			<div id="icon128"><canvas id="c128" width="128" height="128"></canvas></div>
+			<input type="file" id="file128">
+		</div>
+		<div class="image">
+			<h3>16px</h3>
+			<div id="icon16"><canvas id="c16" width="16" height="16"></canvas></div>
+			<input type="file" id="file16">
+		</div>
+	</div>
+	
+	</div> <!-- basic -->
+		
+		<div>
+			<h3>Manifest</h3>
+			<textarea id="manifest"></textarea>
+		</div>
+	
+	</div> <!-- info -->
+
+</div> <!-- app -->
+
+</section>
+
+</div> <!-- all -->
+
+<script src="/js/badge.js"></script>
+<script src="js/googleAnalytics.js"></script>
+
+</body>
+
+</html>
