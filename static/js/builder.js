@@ -83,7 +83,6 @@ var Builder = new (function () {
   this.output = function(options) {
     var outputImage = document.getElementById("output");
     var zip = new JSZip();
-    zip.add("16.png", imageToBase64("16"), {base64: true});
     zip.add("128.png", imageToBase64("128"), {base64: true});
     zip.add("manifest.json", JSON.stringify(manifest));
     
@@ -129,8 +128,6 @@ var Builder = new (function () {
   // Reads an image from the file system
   this.readImage = function(e) {
 //// what if other sizes?
-    var id = "c16";
-    var size = 16;
     if(e.target.id == "file128") {
       id = "c128";
       size = 128;
@@ -156,13 +153,12 @@ var Builder = new (function () {
   };
   
   //Build a valid manifest
-//// info instead of inf
+//// info instead of inf?
   var parseInfo = function(inf) {
     manifest.app = {};
     manifest.app.launch = {};
     manifest.permissions = [];
     manifest.icons = {
-      "16": "16.png",
       "128": "128.png"
     };
     
@@ -177,10 +173,13 @@ var Builder = new (function () {
     manifest.version = "1.0.0"
     
 ////??iconSize in inf.iconSizes
+/* 
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
       loadImage(icon, inf.icons[icon]);
     }
+
+ */
     
     manifest.app.launch.urls = inf.urls;
     manifest.app.launch.web_url = inf.web_url
@@ -198,8 +197,6 @@ var Builder = new (function () {
       
     if(!!m.app.launch.web_url == false)
       return null;
-
-    // Check that the icons are only 16 or 128.  No others allowed.
     
     // It is valid so return the document.
     return m;

@@ -30,7 +30,6 @@ Modernizr.addTest('blobbuilder', function() {
 	var app = document.getElementById("app");
 	var language = document.getElementById("language");
 	var start = document.getElementById("start");
-	var icon16 = document.getElementById("icon16");
 	var icon128 = document.getElementById("icon128");
 	var notifications = document.getElementById("notifications");
 	var unlimitedStorage = document.getElementById("unlimitedStorage");
@@ -49,7 +48,6 @@ Modernizr.addTest('blobbuilder', function() {
 	var launcher = document.getElementById("launcher");
 	
 	var file128 = document.getElementById("file128");
-	var file16 = document.getElementById("file16");
 	
 	url.addEventListener("keypress", function(e) {
 	  if(e.keyCode == 13) {
@@ -89,7 +87,6 @@ Modernizr.addTest('blobbuilder', function() {
 	launcher.addEventListener("change", Builder.toggleLaunch);
 	
 	file128.addEventListener("change", Builder.readImage);
-	file16.addEventListener("change", Builder.readImage);
 	
 	manifest.addEventListener("blur", Builder.parseManifest);
 	

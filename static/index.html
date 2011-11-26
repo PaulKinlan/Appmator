@@ -52,10 +52,9 @@ goog.require("goog.format.JsonPrettyPrinter");
 	<div id="yourApp">Your app is ready!</div>
 	<div id="package">
 		<img src="/images/zip.png" alt="Package" draggable="true" id="output" style="cursor:pointer" /> 
-		<div id="editInformation">Edit app details below.</div>
-		<div>1. Drag the zip file to your desktop or <span id="doubleclicksave">or double click to download it</span>.</div>
+		<div>1. Drag the zip file to your desktop, or <span id="doubleclicksave">double click to download it</span>.</div>
 		<div>2. Upload the zip file to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a>.</div>
-		<div id="thatsIt">That's it!</div>
+		<div id="editInformation">You can edit the details for your app below.</div>
 	</div>
 </div>
 
@@ -63,41 +62,51 @@ goog.require("goog.format.JsonPrettyPrinter");
 
 	<div id="info">
 	
-		<label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?">
+		<div class="infoItem" id="nameContainer">
+			<label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?">
+		</div>
 
-		<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132">
+		<div class="infoItem" id="descriptionContainer">
+			<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132">
+		</div>
 
+		<div class="infoItem" id="versionContainer">
 		<label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?">
-		<div id="permissions">
-			<div id="permissionsLabel">Permissions:<div>
+		</div>
+		
+		<div class="infoItem" id="permissionsContainer">
+			<div class="label">Permissions:</div>
 			<input value="notifications" name="permissions" type="checkbox" id="notifications"><label for="notifications">Notifications</label>
 			<input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage"><label for="unlimitedStorage">Unlimited Storage</label>
 			<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geo-location</label>
 			<input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label>
 		</div> <!-- permissions -->
 		
-		<label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
-		<label for="urls">Urls:</label><select id="urls"></select>
+		<div class="infoItem" id="launchContainer">
+			<label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
+		</div>
+		
+		<div class="infoItem" id="urlsContainer">
+			<label for="urls" id="urlsLabel">Urls:</label><select id="urls"></select>
+		</div>
 				
-		<select name="launcher" id="launcher">
-			<option value="newtab">New tab</option>
-			<option value="window">New window</option>
-			<option value="panel">New panel</option>
-		</select>
+		<div class="infoItem" id="launcherContainer">
+			<div class="label">Launch app in:</div>
+			<select name="launcher" id="launcher">
+				<option value="newtab">new tab</option>
+				<option value="window">new window</option>
+				<option value="panel">new panel</option>
+			</select>
+		</div>
 	
-		<div class="image">
-			<h3>128px</h3>
+		<div id="iconContainer">
+			<div class="label">App icon:</div>
 			<div id="icon128"><canvas id="c128" width="128" height="128"></canvas></div>
 			<input type="file" id="file128">
 		</div>
-		<div class="image">
-			<h3>16px</h3>
-			<div id="icon16"><canvas id="c16" width="16" height="16"></canvas></div>
-			<input type="file" id="file16">
-		</div>
 		
-		<div>
-			<h3>Manifest</h3>
+		<div id="manifestContainer">
+			<div class="label">Manifest:</div>
 			<textarea id="manifest"></textarea>
 		</div>
 	

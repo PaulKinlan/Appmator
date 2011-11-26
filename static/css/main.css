@@ -45,7 +45,7 @@ font-size: 2em;
 input[type=url] {
 border-radius: 2px;
 color: black;
-font-size: 1em;
+font-size: 1.5em;
 margin: 0 0 10px 0;
 padding: 10px 10px 10px 10px;
 width: 780px;
@@ -64,7 +64,7 @@ color: black;
 }
 
 input[type=url].success {
-color: #444;
+color: black;
 }
 
 #header #messages div {
@@ -103,6 +103,10 @@ display: block;
 border: 2px inset #eee;
 }
 
+#download div {
+line-height: 1.5em;
+}
+
 #download #yourApp {
 font-weight: bold;
 margin: 0 0 30px 0;
@@ -114,8 +118,21 @@ height: 100px;
 margin:  0 0 20px 0;
 }
 
+#editInformation {
+font-weight: bold;
+margin: 1em 0 0 0;
+}
+
+#doubleclicksave {
+display: none;
+}
+
 #app {
 display: none;
+}
+
+#app.visible {
+display: block;
 }
 
 #info {
@@ -123,36 +140,101 @@ width: 780px;
 line-height: 3em;
 }
 
-#download div {
-line-height: 1.5em;
-}
-
-#editInformation {
+#info label {
+display: block;
+float: left;
+width: 126px;
 font-weight: bold;
-margin: 0 0 1em 0;
 }
 
-#thatsIt {
+#info div.label {
+float: left;
 font-weight: bold;
-margin: 1em 0 0 0;
+width: 126px;
 }
 
-#language {
+#info input[type=text] {
+font-size: 1em;
+padding: 3px 3px 3px 5px;
+border-radius: 2px;
+}
+
+input#name {
+width: 510px;
+}
+
+input#description {
+width: 510px;
+}
+
+input#version {
+width: 70px;
+}
+
+div#permissionsLabel {
+float: left;
+font-weight: bold;
+}
+
+#permissionsContainer input {
+margin: 0 3px 0 0;
+position: relative;
+top: -1px;
+}
+
+div#permissionsContainer label {
+display: inline;
+float: none;
+font-weight: normal;
+margin: 0 10px 0 0;
+}
+
+input#launch {
+width: 510px
+}
+
+label#urlsLabel {
 display: none;
-}
-
-#language.visible {
 }
 
 select#urls {
 display: none;
 }
 
-label[type=radio] {
-width: auto;
+div#launcherLabel {
+float: left;
+font-weight: bold;
 }
-label[type=checkbox] {
-width: auto;
+
+#launcher {
+font-size: 1em;
+}
+
+#iconContainer {
+height: 188px;
+}
+
+div#icon128 {
+padding: 15px 0 0 0;
+}
+
+div#icon128 canvas {
+background:	#eee;
+border: 1px solid #666;
+}
+
+input#file128 {
+font-size: 1em;
+display: block;
+margin: 0 0 0 128px;
+clear: left;
+position: relative;
+left: -3px;
+cursor: pointer;
+}
+
+div#manifestContainer {
+display: none;
 }
 
 #manifest {
@@ -163,28 +245,3 @@ padding: 0;
 min-width: 200px;
 }
 
-#manifest textarea {
-border: none;
-}
-
-#icon16 {
-width: 16px;
-height: 16px;
-border: solid 1px #bbb;
--webkit-box-shadow: inset 0 0 5px #000;
-}
-
-#icon128 {
-width: 128px;
-height: 128px;
-border: solid 1px #bbb;
--webkit-box-shadow: inset 0 0 5px #000;
-}
-
-#app.visible {
-display: block;
-}
-
-#doubleclicksave {
-display: none;
-}
