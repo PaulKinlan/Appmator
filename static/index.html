@@ -1,400 +1,117 @@
 <!DOCTYPE html>
 <html class="no-js">
-  <head>
-    <title>Appmator</title>
-    <meta charset="utf-16" />
-    <meta name="application-name" content="Appmator"/>
-    <meta name="description" content="Get your Web apps into the Chrome Webstore in under a minute"/>
-    <meta name="application-url" content="http://appmator.appspot.com"/>
-    <meta name="google-site-verification" content="giZg2GBz30YubQK1LdzRGlQBGHjMWhUeeSO8TR_uiwE" />
-    <link rel="shortcut icon" href="/images/16.png" type="image/png"></link>
-    <link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png"></link>
-    <link rel="license" href="/LICENCE"></link>
-    <link rel="author" href="mailto://paulkinlan@google.com"></link>
-    <link href='http://fonts.googleapis.com/css?family=Cuprum|Geo&subset=latin' rel='stylesheet' type='text/css'></link>
-    <link href='/css/main.css' rel='stylesheet' type='text/css'></link>
-    <script src="/js/builder.js"></script>
-    <script src="/js/thirdparty/modernizr-1.6.min.js"></script>
-    <script src="/js/thirdparty/jszip.js"></script>
-    <script src="/js/thirdparty/closure/closure/goog/base.js"></script>
-    <script>
-      goog.require("goog.format.JsonPrettyPrinter");
-    </script>
-    <script>
-    (function() {
-      
-      Modernizr.addTest('classlist', function () {
-        var div = document.createElement("div");
-        var ret = (!!div.classList);
-        delete div;
-        return ret;
-      });
-      
-      Modernizr.addTest('typedarray', function () {
-        return ("Uint8Array" in window);
-      });
-      
-      Modernizr.addTest('blobbuilder', function () {
-        return ("BlobBuilder" in window);
-      });
-      
-      window.addEventListener("DOMContentLoaded", function() {
-        
-        var warning = document.getElementById("warning");
-        
-        if(!( Modernizr.draganddrop && 
-              Modernizr.classlist &&
-              Modernizr.blobbuilder &&
-              Modernizr.canvas)){
-          warning.style.display = "block";
-        }
-        
-        var app = document.getElementById("app");
-        var language = document.getElementById("language");
-        var start = document.getElementById("start");
-        var icon16 = document.getElementById("icon16");
-        var icon128 = document.getElementById("icon128");
-        var notifications = document.getElementById("notifications");
-        var unlimitedStorage = document.getElementById("unlimitedStorage");
-        var geolocation = document.getElementById("geolocation");
-        var background = document.getElementById("background");
-        var manifest = document.getElementById("manifest");
-        var output = document.getElementById("output");
-        var packaged = document.getElementById("packaged");
-        var url = document.getElementById("url");
-        var header = document.getElementById("header");
-        
-        var name = document.getElementById("name");
-        var descriptiopn = document.getElementById("description");
-        var versions = document.getElementById("version");
-        
-        var launcher = document.getElementById("launcher");
-        
-        var file128 = document.getElementById("file128");
-        var file16 = document.getElementById("file16");
-        
-        url.addEventListener("keypress", function(e) {
-          if(e.keyCode == 13) {
-            Builder.start(function(object) {
-              // Make the UI visible
-              if(object) {
-                url.classList.add("success");
-                header.classList.add("started");
-                app.classList.add("visible");
-                trackEvent("Parse Success");
-              }
-              else {
-                url.classList.add("error");
-                trackEvent("Parse Error");
-              }
-            });
-          }
-          else {
-            url.classList.remove("error");
-            url.classList.remove("success");
-          }
-        });
-          
-        name.addEventListener("change", Builder.updateManifest);
-        description.addEventListener("change", Builder.updateManifest);
-        version.addEventListener("change", Builder.updateManifest);
-        
-        name.addEventListener("blur", Builder.updateManifest);
-        description.addEventListener("blur", Builder.updateManifest);
-        version.addEventListener("blur", Builder.updateManifest);
-        
-        unlimitedStorage.addEventListener("click", Builder.togglePermission);
-        geolocation.addEventListener("click", Builder.togglePermission);
-        notifications.addEventListener("click", Builder.togglePermission);
-        background.addEventListener("click", Builder.togglePermission);
-        
-        launcher.addEventListener("change", Builder.toggleLaunch);
-        
-        file128.addEventListener("change", Builder.readImage);
-        file16.addEventListener("change", Builder.readImage);
-        
-        manifest.addEventListener("blur", Builder.parseManifest);
-        
-        output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
-        if(Modernizr.typedarray) {
-          var dblclicksave = document.getElementById("doubleclicksave");
-          dblclicksave.style.display = "inline";
-          
-          output.addEventListener("dblclick", function() {
-            var savaeas = document.getElementById("saveas");
-            var bb = new BlobBuilder();
-          
-            var output = Builder.output({"binary":true});
-            var ui8a = new Uint8Array(output.length);
-          
-            for(var i = 0; i< output.length; i++) {
-              ui8a[i] = output.charCodeAt(i);
-            }
-          
-            bb.append(ui8a.buffer);
-          
-            var blob = bb.getBlob("application/octet-stream");
-            var saveas = document.createElement("iframe");
-            saveas.style.display = "none";
-            
-            if(!!window.createObjectURL == false) {
-              saveas.src = window.webkitURL.createObjectURL(blob); 
-            }
-            else {
-              saveas.src = window.createObjectURL(blob); 
-            }
-            
-            document.body.appendChild(saveas);
-          });
-        }
-        
-        // If there is a hash, lets just load it all now.
-        if(window.location.hash && window.location.hash !="") {
-          var newUrl = window.location.hash.substr(1);
-          url.value = newUrl;
-          trackEvent("Load with Hash");
-          Builder.start(function(object) {
-            // Make the UI visible
-            if(object) {
-              trackEvent("Parse Success");
-              url.classList.add("success");
-              header.classList.add("started");
-              app.classList.add("visible");
-            }
-            else {
-              trackEvent("Parse Error");
-              url.classList.add("error");
-            }
-          });
-        }
-      });
-    })();
-    
-    
-    </script>
-  </head>
-  <body>
-    <div id="all">
-      <div id="header">
-        <h1>Where is your app?</h1>
-        <input type="url" id="url" value=""
-        required placeholder="http://appmator.appspot.com/ [enter]">
-        <div id="messages">
-          <p id="enterUrl">Enter a URL beginning "http://" or "https://"</p>
-          <p id="okUrl">Looks like a URL - press Enter when done.</p>
-        </div>
-      </div>
-      <div id="warning" >
-        <h3>Sorry</h3>
-        <div>
-          Your browser doesn't support some of the features needed by this app.
-        </div>
-      </div>
-      <section>
-      <div id="download">
-        <h3>Your app is ready</h3>
-        <div><img src="/images/package.png" draggable="true" draggable="true" id="output" style="cursor:pointer" /> Drag this to your desktop <span id="doubleclicksave">or double click to download</span></div>
-         <div>Then upload it to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a></div>
-      </div>
-      <div id="app">
-        <div id="info">
-          <div id="basic">
-            <h3 style="margin-top: 0px">Basic information</h3>
-            <div class="inset">
-            <label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?"><br>
-            <label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132"><br>
-            <label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?"><br><!--
-            <label for="default_language">Default Language:</label><select id="default_languge" name="default_languge">
-              <option value="am">am</option>
-              <option value="ar">ar</option>
-              <option value="bg">bg</option>
-              <option value="bn">bn</option>
-              <option value="ca">ca</option>
-              <option value="cs">cs</option>
-              <option value="da">da</option>
-              <option value="de">de</option>
-              <option value="el">el</option>
-              <option value="en" selected>en</option>
-              <option value="en_GB">en_GB</option>
-              <option value="en_US">en_US</option>
-              <option value="es">es</option>
-              <option value="es_419">es_419</option>
-              <option value="et">et</option>
-              <option value="fi">fi</option>
-              <option value="fil">fil</option>
-              <option value="fr">fr</option>
-              <option value="gu">gu</option>
-              <option value="he">he</option>
-              <option value="hi">hi</option>
-              <option value="hr">hr</option>
-              <option value="hu">hu</option>
-              <option value="id">id</option>
-              <option value="it">it</option>
-              <option value="ja">ja</option>
-              <option value="kn">kn</option>
-              <option value="ko">ko</option>
-              <option value="lt">lt</option>
-              <option value="lv">lv</option>
-              <option value="ml">ml</option>
-              <option value="mr">mr</option>
-              <option value="nb">nb</option>
-              <option value="nl">nl</option>
-              <option value="or">or</option>
-              <option value="pl">pl</option>
-              <option value="pt">pt</option>
-              <option value="pt_BR">pt_BR</option>
-              <option value="pt_PT">pt_PT</option>
-              <option value="ro">ro</option>
-              <option value="ru">ru</option>
-              <option value="sk">sk</option>
-              <option value="sl">sl</option>
-              <option value="sr">sr</option>
-              <option value="sv">sv</option>
-              <option value="sw">sw</option>
-              <option value="ta">ta</option>
-              <option value="te">te</option>
-              <option value="th">th</option>
-              <option value="tr">tr</option>
-              <option value="uk">uk</option>
-              <option value="vi">vi</option>
-              <option value="zh">zh</option>
-              <option value="zh_CN">zh_CN</option>
-              <option value="zh_TW">zh_TW</option>
-            </select><br>
-            <label for="languages">Add a Language:</label><select id="languages" name="languages">
-              <option value="am">am</option>
-              <option value="ar">ar</option>
-              <option value="bg">bg</option>
-              <option value="bn">bn</option>
-              <option value="ca">ca</option>
-              <option value="cs">cs</option>
-              <option value="da">da</option>
-              <option value="de">de</option>
-              <option value="el">el</option>
-              <option value="en">en</option>
-              <option value="en_GB">en_GB</option>
-              <option value="en_US">en_US</option>
-              <option value="es">es</option>
-              <option value="es_419">es_419</option>
-              <option value="et">et</option>
-              <option value="fi">fi</option>
-              <option value="fil">fil</option>
-              <option value="fr">fr</option>
-              <option value="gu">gu</option>
-              <option value="he">he</option>
-              <option value="hi">hi</option>
-              <option value="hr">hr</option>
-              <option value="hu">hu</option>
-              <option value="id">id</option>
-              <option value="it">it</option>
-              <option value="ja">ja</option>
-              <option value="kn">kn</option>
-              <option value="ko">ko</option>
-              <option value="lt">lt</option>
-              <option value="lv">lv</option>
-              <option value="ml">ml</option>
-              <option value="mr">mr</option>
-              <option value="nb">nb</option>
-              <option value="nl">nl</option>
-              <option value="or">or</option>
-              <option value="pl">pl</option>
-              <option value="pt">pt</option>
-              <option value="pt_BR">pt_BR</option>
-              <option value="pt_PT">pt_PT</option>
-              <option value="ro">ro</option>
-              <option value="ru">ru</option>
-              <option value="sk">sk</option>
-              <option value="sl">sl</option>
-              <option value="sr">sr</option>
-              <option value="sv">sv</option>
-              <option value="sw">sw</option>
-              <option value="ta">ta</option>
-              <option value="te">te</option>
-              <option value="th">th</option>
-              <option value="tr">tr</option>
-              <option value="uk">uk</option>
-              <option value="vi">vi</option>
-              <option value="zh">zh</option>
-              <option value="zh_CN">zh_CN</option>
-              <option value="zh_TW">zh_TW</option>
-            </select>
-            <input type="button" value="Add" id=""><br>
-            -->
-            </div>
-            <h3>How to launch</h3>
-            <div class="inset">
-              <label for="notifications" type="checkbox">Notifications</label><input value="notifications" name="permissions" type="checkbox" id="notifications">
-              <label for="unlimitedStorage" type="checkbox">Unlimited Storage</label><input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage">
-              <label for="geolocation" type="checkbox">Geo-location</label><input value="geolocation" name="permissions" type="checkbox" id="geolocation">
-              <label for="background" type="checkbox">Background</label><input value="background" name="permissions" type="checkbox" id="background">
-            </div>
-            <div class="inset" >
-              <label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?"><br>
-              <label for="urls">Urls:</label><select id="urls"></select>
-            </div>
-            <h4>Open as</h4>
-            <div class="inset">
-              <select name="launcher" id="launcher">
-                <option value="newtab">New tab</option>
-                <option value="window">New window</option>
-                <option value="panel">New panel</option>
-              </select>
-            </div>
-            <h3>Images</h3>
-            <div class="images inset">
-              <div class="image">
-                <h3>128px</h3>
-                <div id="icon128">
-                  <canvas id="c128" width="128" height="128"></canvas>
-                </div>
-                <input type="file" id="file128" value="">
-              </div>
-              <div class="image">
-                <h3>16px</h3>
-                <div id="icon16">
-                  <canvas id="c16" width="16" height="16"></canvas>
-                </div>
-                <input type="file" id="file16" value="">
-              </div>
-            </div>
-              <br style="clear: both;">
-          </div>
-       
-          <div>
-            <h3>Manifest</h3>
-            <textarea id="manifest"></textarea>
-          </div>
-          
-        </div>
-        
-      </div>
-     </div>
-    </section>
-  </body>
-  <script src="/js/badge.js"></script>
-  <script type="text/javascript">
+<head>
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-114468-21']);
-    _gaq.push(['_trackPageview']);
+<title>Appmator</title>
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-    
-    function trackInstalled() {
-      debugger;
-      var isInstalled = !!(window.chrome && window.chrome.app && window.chrome.app.isInstalled);
-      _gaq.push(['_trackEvent', 'Installed', isInstalled.toString()]);
-    };
-    
-    function trackEvent(name) {
-      _gaq.push(['_trackEvent', 'Actions', name]);
-    };
-    
-    document.addEventListener("load", trackInstalled);
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 
-  </script>
+<meta name="application-name" content="Appmator"/>
+<meta name="description" content="Get your Web apps into the Chrome Webstore in under a minute"/>
+<!-- <meta name="application-url" content="http://appmator.appspot.com"/> -->
+<meta name="google-site-verification" content="giZg2GBz30YubQK1LdzRGlQBGHjMWhUeeSO8TR_uiwE" />
+
+<link rel="shortcut icon" href="/images/16.png" type="image/png" />
+<link rel="shortcut icon" href="/images/128.png" sizes="128x128" type="image/png" />
+<link rel="license" href="/LICENCE" />
+<link rel="author" href="http://paul.kinlan.me/" />
+
+<link href='/css/main.css' rel='stylesheet' type='text/css' />
+
+<script src="js/builder.js"></script>
+<script src="js/thirdparty/modernizr-1.6.min.js"></script>
+<script src="js/thirdparty/jszip.js"></script>
+<script src="js/thirdparty/closure/closure/goog/base.js"></script>
+
+<script>
+goog.require("goog.format.JsonPrettyPrinter");
+</script>
+
+<script src="/js/main.js"></script>
+
+</head>
+
+<body>
+
+<div id="all">
+
+<div id="header">
+	<div id="whereIs">Where is your app?</div>
+	<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus>
+	<div id="messages">
+		<div id="enterUrl">Enter a URL beginning "http://" or "https://"</div>
+		<div id="okUrl">Looks like a URL... press Enter when done.</div>
+	</div>
+</div>
+
+<div id="warning" ><strong>Sorry!</strong> Your browser doesn't support some of the features needed by this app.</div>
+
+<section>
+
+<div id="download">
+	<div id="yourApp">Your app is ready!</div>
+	<div id="package">
+		<img src="/images/zip.png" alt="Package" draggable="true" id="output" style="cursor:pointer" /> 
+		<div id="editInformation">Edit app details below.</div>
+		<div>1. Drag the zip file to your desktop or <span id="doubleclicksave">or double click to download it</span>.</div>
+		<div>2. Upload the zip file to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a>.</div>
+		<div id="thatsIt">That's it!</div>
+	</div>
+</div>
+
+<div id="app">
+
+	<div id="info">
+	
+		<label for="name">Name:</label><input id="name" type="text" placeholder="What is your app called?">
+
+		<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132">
+
+		<label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?">
+		<div id="permissions">
+			<div id="permissionsLabel">Permissions:<div>
+			<input value="notifications" name="permissions" type="checkbox" id="notifications"><label for="notifications">Notifications</label>
+			<input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage"><label for="unlimitedStorage">Unlimited Storage</label>
+			<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geo-location</label>
+			<input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label>
+		</div> <!-- permissions -->
+		
+		<label for="launch">Launch Url:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
+		<label for="urls">Urls:</label><select id="urls"></select>
+				
+		<select name="launcher" id="launcher">
+			<option value="newtab">New tab</option>
+			<option value="window">New window</option>
+			<option value="panel">New panel</option>
+		</select>
+	
+		<div class="image">
+			<h3>128px</h3>
+			<div id="icon128"><canvas id="c128" width="128" height="128"></canvas></div>
+			<input type="file" id="file128">
+		</div>
+		<div class="image">
+			<h3>16px</h3>
+			<div id="icon16"><canvas id="c16" width="16" height="16"></canvas></div>
+			<input type="file" id="file16">
+		</div>
+		
+		<div>
+			<h3>Manifest</h3>
+			<textarea id="manifest"></textarea>
+		</div>
+	
+	</div> <!-- info -->
+
+</div> <!-- app -->
+
+</section>
+
+</div> <!-- all -->
+
+<!-- <script src="/js/badge.js"></script> -->
+<script src="js/googleAnalytics.js"></script>
+
+</body>
+
 </html>

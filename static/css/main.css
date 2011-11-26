@@ -1,234 +1,190 @@
 input[type="file"] {
-  color: white;
-  margin: 0px;
+color: white;
+margin: 0px;
 }
 
 ::-webkit-file-upload-button {
-  -webkit-appearance: square-button;
+-webkit-appearance: square-button;
 }
 
 body {
-  background-color: #1F2434;
-  color: white;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  display:block;
-  position: absolute;
-  font-family: "Cuprum";
+background-color: #ccc;
+font-family: 'Open Sans', helvetica, arial, sans-serif;
 }
 
 #all {
-  width: 100%;
+background-color: #bdbdbd;
+border-radius: 2px;
+box-shadow: 0 3px 15px rgba(0,0,0,0.25);
+margin: 24px auto;
+padding: 20px 20px 20px 20px;
+width: 800px;
+-webkit-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
+-moz-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 }
 
 fieldset {
-  padding: 0px;
+padding: 0px;
 }
 
 #header {
-  -webkit-box-flex: 1;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: justify;
-  -webkit-box-align: center;
-  margin: 20% 20% 0 20%;
-  text-align: left;
-  -webkit-transition: margin 0.2s ease-in-out;
+-webkit-transition: margin 0.2s ease-in-out;
+margin: 0 0 30px 0;
 }
 
 #header.started {
-  margin-top: 1%;
+margin-top: 1%;
 }
 
-#header h1 {
-  margin: 0;
-  padding: 0;
-  font-size: 4em;
+#header #whereIs {
+font-weight: bold;
+margin: 0 0 30px 0;
+font-size: 2em;
 }
 
 input[type=url] {
-  font-size: 3em;
-  padding: 5px -10px 5px 5px;
-  width: 100%;
-  border-radius: 10px;
-  margin-top: 5px;
-  background-color: rgba(255,255,255, 0.2);
-  font-family: "Geo";
-  color: white;
-  outline-style: none;
-  border: none;
-  -webkit-transform: background-color 0.2s ease-in-out;
-  transform: background-color 0.2s ease-in-out;
-}
-
-input[type=url] + #messages > p {
-  display:none;
+border-radius: 2px;
+color: black;
+font-size: 1em;
+margin: 0 0 10px 0;
+padding: 10px 10px 10px 10px;
+width: 780px;
+-webkit-transform: background-color 0.2s ease-in-out;
+transform: background-color 0.2s ease-in-out;
 }
 
 input[type=url]:invalid {
-  background-color: rgba(255,0,0, 0.2);
-}
-
-input[type=url]:valid + #messages > #okUrl {
-  display: block;
-}
-
-input[type=url]:invalid + #messages > #enterUrl {
-  display: block;
+background-color: white;
+color: #999;
 }
 
 input[type=url].error {
-  background-color: rgba(255,0,0, 0.2);
+background-color: rgba(255,0,0, 0.1);
+color: black;
 }
 
 input[type=url].success {
-  background-color: rgba(0,128,0, 0.2);
+color: #444;
 }
 
-#app {
-  display: none;
-}
-    
-#download {
-  display: none;
-  margin-bottom: 40px;
-  padding: 20px 0 20px 0;
-  border-radius: 10px;
-  background-color: rgba(255,255,255, 0.2);
-  text-align: center;
+#header #messages div {
+display:none;
 }
 
-#download.visible {
-  display: block;
+input[type=url]:valid + #messages > #okUrl {
+display: block;
 }
 
-#download h3 {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-#info {
- display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: justify;
-  -webkit-box-align: start;
-  width: 100%;
-}
-
-#info > div {
-  -webkit-box-flex: 1;
-}
-
-#app {
-  display: none;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: justify;
-  -webkit-box-align: stretch;
-  padding: 0;
-  -webkit-transition: opacity 1s ease-in-out;
-}
-
-#app.visible {
-  display: -webkit-box;
-}
-
-#language {
-  display: none;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: justify;
-  -webkit-box-align: stretch;
-  padding: 0;
-  -webkit-transition: opacity 1s ease-in-out;
-}
-
-#language.visible {
-  display: -webkit-box;
-}
-
-#app fieldset {
-  -webkit-box-flex: 1;
-}
-
-#basic {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-box-align: stretch;
-  -webkit-box-pack: justify;
-  padding: 0;
-  min-width: 400px;
-}
-
-#basic input[type=text] {
-  width: 70%;
-}
-
-label {
-  width: 20%;
-  display: inline-block;
-}
-
-label[type=radio] {
-  width: auto;
-}
-label[type=checkbox] {
-  width: auto;
-}
- 
-#manifest {
-  height: 300px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  min-width: 200px;
-}
-
-#manifest textarea {
-  border: none;
-}
-
-#icon16 {
-  width: 16px;
-  height: 16px;
-  border: solid 1px #bbb;
-  -webkit-box-shadow: inset 0 0 5px #000;
-}
-
-#icon128 {
-  width: 128px;
-  height: 128px;
-  border: solid 1px #bbb;
-  -webkit-box-shadow: inset 0 0 5px #000;
-}
-
-.images .image {
-  float: left;
-}
-
-.images .image h3 {
-  margin-top: 0px;
-}
-
-.inset {
-  padding-left: 10px;
-}
-
-#app.visible {
-  display: -webkit-box;
+input[type=url]:invalid + #messages > #enterUrl {
+color: #666;
+display: block;
 }
 
 #warning {
-  display: none;
-  background-color: rgba(255,0,0, 0.2);
-  margin: 20px 20% 0 20%;
-  padding: 20px 0 20px 0;
-  border-radius: 10px;
-  text-align: center;
+display: none;
+background-color: rgba(255,0,0, 0.2);
+margin: 0 0 20px 0;
+padding: 10px 10px 10px 10px;
+border-radius: 2px;
+width: 780px;
 }
 
-section {
-  margin: 20px 20% 0 20%;
+#download {
+background: white;
+border-radius: 2px;
+display: none;
+margin-bottom: 40px;
+padding: 10px 10px 10px 10px;
+text-align: center;
+}
+
+#download.visible {
+display: block;
+border: 2px inset #eee;
+}
+
+#download #yourApp {
+font-weight: bold;
+margin: 0 0 30px 0;
+font-size: 2em;
+}
+
+#package img {
+height: 100px;
+margin:  0 0 20px 0;
+}
+
+#app {
+display: none;
+}
+
+#info {
+width: 780px;
+line-height: 3em;
+}
+
+#download div {
+line-height: 1.5em;
+}
+
+#editInformation {
+font-weight: bold;
+margin: 0 0 1em 0;
+}
+
+#thatsIt {
+font-weight: bold;
+margin: 1em 0 0 0;
+}
+
+#language {
+display: none;
+}
+
+#language.visible {
+}
+
+select#urls {
+display: none;
+}
+
+label[type=radio] {
+width: auto;
+}
+label[type=checkbox] {
+width: auto;
+}
+
+#manifest {
+height: 300px;
+width: 100%;
+margin: 0;
+padding: 0;
+min-width: 200px;
+}
+
+#manifest textarea {
+border: none;
+}
+
+#icon16 {
+width: 16px;
+height: 16px;
+border: solid 1px #bbb;
+-webkit-box-shadow: inset 0 0 5px #000;
+}
+
+#icon128 {
+width: 128px;
+height: 128px;
+border: solid 1px #bbb;
+-webkit-box-shadow: inset 0 0 5px #000;
+}
+
+#app.visible {
+display: block;
 }
 
 #doubleclicksave {
-  display: none;
+display: none;
 }

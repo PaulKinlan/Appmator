@@ -23,15 +23,16 @@ var Builder = new (function () {
   
   // The manifest that we are building.
   var manifest = {};
-  // A collection of langauges and local information.
+  // A collection of languages and local information.
   var locales = {};
   
   this.start = function(fn) {
     var callback = fn || function() {};
     
+    //// pass to function instead?
     var url = document.getElementById("url");
     
-    // Fetch Site information
+    // Fetch site information
     fetch(url.value, callback);
   };
   
@@ -45,7 +46,7 @@ var Builder = new (function () {
         }
       }
     } catch(error) { 
-    
+//// handled error?    
     }
   };
   
@@ -104,6 +105,7 @@ var Builder = new (function () {
     return JSON.stringify(locales[locale]);
   }
   
+//// change variable name icon to iconSize?
   var imageToBase64 = function(icon) {
     var canvas = document.getElementById("c" + icon);
     
@@ -111,7 +113,8 @@ var Builder = new (function () {
     return data.replace("data:image/png;base64,","");
   };
   
-  // Loads an image into the canvas
+  // Loads an image into a canvas
+/// change icon to iconSize?
   var loadImage = function(icon,  url) {
     var canvas = document.getElementById("c" + icon);
     var context = canvas.getContext("2d");
@@ -125,6 +128,7 @@ var Builder = new (function () {
   
   // Reads an image from the file system
   this.readImage = function(e) {
+//// what if other sizes?
     var id = "c16";
     var size = 16;
     if(e.target.id == "file128") {
@@ -152,6 +156,7 @@ var Builder = new (function () {
   };
   
   //Build a valid manifest
+//// info instead of inf
   var parseInfo = function(inf) {
     manifest.app = {};
     manifest.app.launch = {};
@@ -169,8 +174,9 @@ var Builder = new (function () {
       manifest.description = inf.description;
     }
     
-    manifest.version = "0.0.0.1"
+    manifest.version = "1.0.0"
     
+////??iconSize in inf.iconSizes
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
       loadImage(icon, inf.icons[icon]);
@@ -178,7 +184,7 @@ var Builder = new (function () {
     
     manifest.app.launch.urls = inf.urls;
     manifest.app.launch.web_url = inf.web_url
-    manifest.app.launch.container = "tab"; // set it to the default, but clearly
+    manifest.app.launch.container = "tab"; // explicitly set to default
   };
   
   // Validates the manifest.  Making sure all the correct fields are present.
@@ -204,6 +210,19 @@ var Builder = new (function () {
     var description = document.getElementById("description");
     var version = document.getElementById("version");
     
+//// do in one loop?
+/*
+ var props = ["description", "name", "version"]
+ for prop in props {
+ 	var value = document.getElementById(prop).value;
+ 	if (value == "") {
+ 		delete manifest[prop];
+ 	} else {
+ 		manifest[prop] = value; 
+ 	}
+}
+*/
+    
     if(name.value == "")
       delete manifest.name;
     else
@@ -227,8 +246,9 @@ var Builder = new (function () {
           Builder.output({"binary": false});
   }
   
-  // Updates the User Interface based on the manifest.
+  // Update the UI based on the manifest.
   var updateUI = function() {
+  	//// add Element to variable names?
     var app = document.getElementById("app");
     var download = document.getElementById("download");
     var info = document.getElementById("info");
@@ -247,14 +267,14 @@ var Builder = new (function () {
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
     permissions["background"] = document.getElementById("background");
     
-    // Container
+    // Container type: tab, window or panel
     var launcher = document.getElementById("launcher");
     
-    // The urls selection
+    // The url selector
     var urls = document.getElementById("urls");
     
     // Start updating the UI
-    
+	//// put these all in one loop (and move definitions from above)?    
     if(manifest.name)
       name.value = manifest.name;
     else 
@@ -266,9 +286,9 @@ var Builder = new (function () {
       description.value = "";
       
     if(manifest.version)
-      version.value = manifest.description;
-    
-    version.value = manifest.version;
+      version.value = manifest.description;	//// ???
+   
+    version.value = manifest.version; 		//// ???
     launch.value = manifest.app.launch.web_url;
     
     // Add in the urls that belong to the app.
