@@ -142,6 +142,11 @@ var Builder = new (function () {
         var img = new Image();
         
         img.addEventListener("load", function() {
+		if (this.width !== size || this.height !== size) {
+			alert("\nThe icon image must be " + size + "x" + size + 
+				"px. \n\nThe image you selected is " + this.width + "x" + this.height + "px.\n\nPlease try again.");
+			return;
+		}
           context.drawImage(img, 0, 0, size, size); // rescale the image
         });
         
@@ -173,6 +178,7 @@ var Builder = new (function () {
     manifest.version = "1.0.0"
     
 ////??iconSize in inf.iconSizes
+//// don't load icons (16x16px) from callback
 /* 
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
