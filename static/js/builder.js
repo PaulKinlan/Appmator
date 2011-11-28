@@ -84,7 +84,8 @@ var Builder = new (function () {
     var outputImage = document.getElementById("output");
     var zip = new JSZip();
     zip.add("128.png", imageToBase64("128"), {base64: true});
-    zip.add("manifest.json", JSON.stringify(manifest));
+    var formatter = new goog.format.JsonPrettyPrinter();
+    zip.add("manifest.json",  formatter.format(JSON.stringify(manifest)));
     
     // Render all the files
     for(var l in locales) {
