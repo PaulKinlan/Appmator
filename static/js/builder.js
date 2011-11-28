@@ -175,7 +175,7 @@ var Builder = new (function () {
       manifest.description = inf.description;
     }
     
-    manifest.version = "1.0.0"
+    manifest.version = "1.0.0.0"
     
 ////??iconSize in inf.iconSizes
 //// don't load icons (16x16px) from callback

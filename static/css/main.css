@@ -168,7 +168,7 @@ width: 510px;
 }
 
 input#version {
-width: 70px;
+width: 120px;
 }
 
 div#permissionsLabel {
@@ -208,6 +208,7 @@ font-weight: bold;
 
 #launcher {
 font-size: 1em;
+width: 130px;
 }
 
 #iconContainer {
@@ -220,17 +221,16 @@ padding: 15px 0 0 0;
 
 div#icon128 canvas {
 background:	#eee;
-border: 1px solid #666;
+border: 1px dashed #666;
 }
 
 input#file128 {
 font-size: 1em;
 display: block;
-margin: 0 0 0 128px;
+margin: 0 0 0 125px;
 clear: left;
-position: relative;
-left: -3px;
 cursor: pointer;
+padding : 0 0 0 25px;
 }
 
 div#manifestContainer {
