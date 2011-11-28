@@ -168,7 +168,12 @@ var Builder = new (function () {
     };
     
     if(inf.name) {
-      manifest.name = inf.name;
+if (inf.name.length > 45) {
+	manifest.name = inf.name.substring(0,45);
+	alert("\nYour app name must be no more than 45 characters in length. \n\nThe name has been trimmed to fit.");
+} else {
+	manifest.name = inf.name;
+}
     }
     
     if(inf.description) {
