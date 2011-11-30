@@ -8,9 +8,6 @@ color: #666;
 margin: 0px;
 }
 
-::-webkit-file-upload-button {
--webkit-appearance: square-button;
-}
 
 body {
 background-color: white;
@@ -246,38 +243,59 @@ height: 210px;
 
 div#icon128 {
 padding: 6px 0 0 0;
+margin: 0 0 5px 0;
+height: 130px;
 }
 
 div#icon128 canvas {
 background:	#eee;
 cursor: pointer;
 border: 1px dashed #666;
+margin: 0 50px 0 0;
+float: left;
 }
+
+div#iconWarning {
+width: 390px;
+float: left;
+padding: 15px 10px 15px 10px;
+}
+
+#iconWarning p {
+color: rgba(255, 0, 0, 0.6);
+line-height: 0.5em;
+}
+
+.warningPulse {
+border-radius: 10px;
+border: 5px solid rgba(0, 0, 0, 0);
+}
+
+.warningPulse {
+-webkit-animation: warningPulse 1s ease-out;
+-webkit-animation-iteration-count: 2;
+}
+
+@-webkit-keyframes warningPulse {
+0% { -webkit-transform: scale(1, 1); opacity: 1; border-color: red;}
+50% { -webkit-transform: scale(1.2, 1.2); border-color: rgba(255,0,0,0.2); border-radius: 15px; }
+100% { -webkit-transform: scale(1, 1); border-color: rgba(0,0,0,0); opacity: 1; }
+}
+
 
 input#file128 {
-clear: left;
-cursor: pointer;
-display: block;
 font-size: 1em;
-position: relative;
-top: 12px;
-left: 150px;
+margin: 0 0 0 126px;
 }
 
-button#chooseIconImage {
-cursor: pointer;
-font-size: 1em;
-left: 125px;
-padding: 5px;
-position: relative;
-top: -25px;
-width: 132px;
+::-webkit-file-upload-button {
+-webkit-appearance: square-button;
+padding: 8px 18px;
 }
 
 input#c128 {
 cursor: pointer;
 }
-
 
 div#manifestContainer {
 display: none;

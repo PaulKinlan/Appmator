@@ -105,6 +105,17 @@ var Builder = new (function () {
     return JSON.stringify(locales[locale]);
   }
   
+  var iconWarning = function(message) {
+	var el = document.getElementById("iconWarning");
+	el.innerHTML = message;
+  	if (message === "") {
+  		el.classList.remove("warningPulse");      
+  	} else {
+		el.classList.remove("warningPulse"); // so animation occurs every time      
+		setTimeout(function(){el.classList.add("warningPulse");}, 1);      
+	}
+  }
+  
 //// change variable name icon to iconSize?
   var imageToBase64 = function(icon) {
     var canvas = document.getElementById("c" + icon);
@@ -115,14 +126,20 @@ var Builder = new (function () {
   
   // Loads an image into a canvas
 /// change icon to iconSize?
-  var loadImage = function(icon,  url) {
-    var canvas = document.getElementById("c" + icon);
+  var loadImage = function(iconSize,  url) {
+    var canvas = document.getElementById("c" + iconSize);
     var context = canvas.getContext("2d");
     var image = new Image();
     image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
         
     image.addEventListener("load", function() {
-      context.drawImage(image, 0, 0, icon, icon); // rescale the image
+    	document.getElementById("file128").value = ""; // so it doesn't say 'No file chosen'
+    	if (this.width != iconSize || this.width !== iconSize) {
+    		iconWarning("<p>The icon size should be " + iconSize + "x" + iconSize + 
+				"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px.</p><p>You may want to select a different image.<p>");
+			//// warning message
+    	}
+      context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
     });
   };
   
@@ -143,7 +160,7 @@ var Builder = new (function () {
 		var fileType = evt.target.result.substring(5,14);
 		if (fileType !== "image/png" && fileType !== "image/jpg" && fileType !== "image/jpe") {
 			e.target.value = null;	
-			alert("\nThe icon image must be a PNG or JPEG file.\n\nPlease try again");
+			iconWarning("<p>The icon image must be a PNG or JPEG file.</p><p>Please try again.</p>");
 			canvas.style.borderStyle = "dashed"; //
 			return;
 		}
@@ -152,11 +169,12 @@ var Builder = new (function () {
 		context.clearRect(0, 0, size, size);
 		if (this.width !== size || this.height !== size) {
 			e.target.value = null;	
-			alert("\nThe icon image must be " + size + "x" + size + 
-				"px. \n\nThe image you selected is " + this.width + "x" + this.height + "px.\n\nPlease try again.");
+			iconWarning("<p>The icon image must be " + size + "x" + size + 
+				"px. </p><p>The image you selected is " + this.width + "x" + this.height + "px.</p><p>Please try again.</p>");
 			canvas.style.borderStyle = "dashed"; //
 			return;
 		}
+		  iconWarning("");
           context.drawImage(img, 0, 0, size, size); // rescale the image
           canvas.style.borderStyle = "solid"; //
         });
@@ -181,6 +199,7 @@ var Builder = new (function () {
     if(inf.name) {
 if (inf.name.length > 45) {
 	manifest.name = inf.name.substring(0,45);
+	//// warning message
 } else {
 	manifest.name = inf.name;
 }
@@ -192,11 +211,9 @@ if (inf.name.length > 45) {
     
     manifest.version = "1.0.0.0"
     
-////??iconSize in inf.iconSizes
-//// don't load icons (16x16px) from callback
-    for(var icon in inf.icons) {
+    for(var iconSize in inf.icons) {
       // Don't perform any validation just yet.
-      loadImage(icon, inf.icons[icon]);
+      loadImage(iconSize, inf.icons[iconSize]);
     }
     
     manifest.app.launch.urls = inf.urls;

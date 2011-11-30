@@ -103,9 +103,11 @@ goog.require("goog.format.JsonPrettyPrinter");
 	
 		<div id="iconContainer">
 			<div class="label"><div>App icon:</div></div>
-			<div id="icon128"><canvas id="c128" width="128" height="128"></canvas></div>
+			<div id="icon128">
+				<canvas id="c128" width="128" height="128"></canvas>
+				<div id="iconWarning"></div>
+			</div>
 			<input type="file" id="file128">
-			<button  id="chooseIconImage" >Choose icon image</button>
 		</div>
 		
 		<div id="manifestContainer">

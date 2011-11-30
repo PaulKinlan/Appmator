@@ -58,7 +58,6 @@ Modernizr.addTest('blobbuilder', function() {
 			header.classList.add("started");
 			app.classList.add("visible");
 			trackEvent("Parse Success");
-			output.classList.add("success");
 		  }
 		  else {
 			url.classList.add("error");
@@ -95,7 +94,6 @@ Modernizr.addTest('blobbuilder', function() {
 		file128.click();
 //		e.stopPropagation();
 	}
-	document.getElementById("chooseIconImage").addEventListener("click", clickFile128Input);
 	document.getElementById("c128").addEventListener("click", clickFile128Input);
 
 	
