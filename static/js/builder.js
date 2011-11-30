@@ -140,15 +140,25 @@ var Builder = new (function () {
     for(var i = 0, file; file=e.target.files[i]; i++) {
       var reader = new FileReader();
       reader.onload = function(evt) {
-        var img = new Image();
-        
+		var fileType = evt.target.result.substring(5,14);
+		if (fileType !== "image/png" && fileType !== "image/jpg" && fileType !== "image/jpe") {
+			e.target.value = null;	
+			alert("\nThe icon image must be a PNG or JPEG file.\n\nPlease try again");
+			canvas.style.borderStyle = "dashed"; //
+			return;
+		}
+        var img = new Image();        
         img.addEventListener("load", function() {
+		context.clearRect(0, 0, size, size);
 		if (this.width !== size || this.height !== size) {
+			e.target.value = null;	
 			alert("\nThe icon image must be " + size + "x" + size + 
 				"px. \n\nThe image you selected is " + this.width + "x" + this.height + "px.\n\nPlease try again.");
+			canvas.style.borderStyle = "dashed"; //
 			return;
 		}
           context.drawImage(img, 0, 0, size, size); // rescale the image
+          canvas.style.borderStyle = "solid"; //
         });
         
         img.src = evt.target.result;
@@ -171,7 +181,6 @@ var Builder = new (function () {
     if(inf.name) {
 if (inf.name.length > 45) {
 	manifest.name = inf.name.substring(0,45);
-	alert("\nYour app name must be no more than 45 characters in length. \n\nThe name has been trimmed to fit.");
 } else {
 	manifest.name = inf.name;
 }
@@ -185,13 +194,10 @@ if (inf.name.length > 45) {
     
 ////??iconSize in inf.iconSizes
 //// don't load icons (16x16px) from callback
-/* 
     for(var icon in inf.icons) {
       // Don't perform any validation just yet.
       loadImage(icon, inf.icons[icon]);
     }
-
- */
     
     manifest.app.launch.urls = inf.urls;
     manifest.app.launch.web_url = inf.web_url
@@ -251,8 +257,9 @@ if (inf.name.length > 45) {
     
     //Save the manifest 
     var output = document.getElementById("output");
-    output.href = "data:image/png;base64," + 
-          Builder.output({"binary": false});
+    output.href = "data:image/png;base64," + Builder.output({"binary": false});
+	output.classList.remove("pulse");
+	setTimeout(function(){output.classList.add("pulse")}, 1);
   }
   
   // Update the UI based on the manifest.
@@ -274,7 +281,7 @@ if (inf.name.length > 45) {
     permissions["geolocation"] = document.getElementById("geolocation");
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
-    permissions["background"] = document.getElementById("background");
+//    permissions["background"] = document.getElementById("background");
     
     // Container type: tab, window or panel
     var launcher = document.getElementById("launcher");

@@ -34,7 +34,7 @@ Modernizr.addTest('blobbuilder', function() {
 	var notifications = document.getElementById("notifications");
 	var unlimitedStorage = document.getElementById("unlimitedStorage");
 	var geolocation = document.getElementById("geolocation");
-	var background = document.getElementById("background");
+//	var background = document.getElementById("background");
 	var manifest = document.getElementById("manifest");
 	var output = document.getElementById("output");
 	var packaged = document.getElementById("packaged");
@@ -58,6 +58,7 @@ Modernizr.addTest('blobbuilder', function() {
 			header.classList.add("started");
 			app.classList.add("visible");
 			trackEvent("Parse Success");
+			output.classList.add("success");
 		  }
 		  else {
 			url.classList.add("error");
@@ -82,11 +83,21 @@ Modernizr.addTest('blobbuilder', function() {
 	unlimitedStorage.addEventListener("click", Builder.togglePermission);
 	geolocation.addEventListener("click", Builder.togglePermission);
 	notifications.addEventListener("click", Builder.togglePermission);
-	background.addEventListener("click", Builder.togglePermission);
+//	background.addEventListener("click", Builder.togglePermission);
 	
 	launcher.addEventListener("change", Builder.toggleLaunch);
 	
 	file128.addEventListener("change", Builder.readImage);
+//	file128.addEventListener("click", Builder.readImage);
+//	icon128.addEventListener("click", Builder.readImage);
+	
+	function clickFile128Input(e) {
+		file128.click();
+//		e.stopPropagation();
+	}
+	document.getElementById("chooseIconImage").addEventListener("click", clickFile128Input);
+	document.getElementById("c128").addEventListener("click", clickFile128Input);
+
 	
 	manifest.addEventListener("blur", Builder.parseManifest);
 	

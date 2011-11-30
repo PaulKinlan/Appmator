@@ -16,6 +16,7 @@
 <link rel="license" href="/LICENCE" />
 <link rel="author" href="http://paul.kinlan.me/" />
 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 <link href='/css/main.css' rel='stylesheet' type='text/css' />
 
 <script src="js/builder.js"></script>
@@ -36,8 +37,9 @@ goog.require("goog.format.JsonPrettyPrinter");
 <div id="all">
 
 <div id="header">
+	<h1>Package your app for the <a href="https://chrome.google.com/webstore" title="Google Chrome Web Store">Chrome Web Store</a></h1>
 	<div id="whereIs">Where is your app?</div>
-	<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus>
+	<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus autocomplete>
 	<div id="messages">
 		<div id="enterUrl">Enter a URL beginning "http://" or "https://"</div>
 		<div id="okUrl">Looks like a URL... press Enter when done.</div>
@@ -51,10 +53,10 @@ goog.require("goog.format.JsonPrettyPrinter");
 <div id="download">
 	<div id="yourApp">Your app is ready!</div>
 	<div id="package">
-		<img src="/images/zip.png" alt="Package" draggable="true" id="output" style="cursor:pointer" /> 
+		<a download="app.zip" href="." onclick="return false;"><img src="/images/zip.png" alt="Package" draggable="true" class="pulse" id="output" style="cursor:pointer" /></a>
 		<div>1. Drag the ZIP file to your desktop, or <span id="doubleclicksave">double click to download it</span>.</div>
 		<div>2. Upload the ZIP file to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a>.</div>
-		<div id="editInformation">You can edit the details for your app below.</div>
+		<div id="editInformation">Edit details below. The ZIP file will be updated automatically.</div>
 	</div>
 </div>
 
@@ -78,8 +80,8 @@ goog.require("goog.format.JsonPrettyPrinter");
 			<div class="label">Permissions:</div>
 			<input value="notifications" name="permissions" type="checkbox" id="notifications"><label for="notifications">Notifications</label>
 			<input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage"><label for="unlimitedStorage">Unlimited Storage</label>
-			<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geo-location</label>
-			<input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label>
+			<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geolocation</label>
+			<!-- <input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label> -->
 		</div> <!-- permissions -->
 		
 		<div class="infoItem" id="launchContainer">
@@ -100,9 +102,10 @@ goog.require("goog.format.JsonPrettyPrinter");
 		</div>
 	
 		<div id="iconContainer">
-			<div class="label">App icon:</div>
+			<div class="label"><div>App icon:</div></div>
 			<div id="icon128"><canvas id="c128" width="128" height="128"></canvas></div>
 			<input type="file" id="file128">
+			<button  id="chooseIconImage" >Choose icon image</button>
 		</div>
 		
 		<div id="manifestContainer">

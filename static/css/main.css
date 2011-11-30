@@ -1,5 +1,10 @@
+a {
+text-decoration: none;
+color: #1C5AC4;
+}
+
 input[type="file"] {
-color: white;
+color: #666;
 margin: 0px;
 }
 
@@ -8,12 +13,13 @@ margin: 0px;
 }
 
 body {
-background-color: #ccc;
-font-family: 'Open Sans', helvetica, arial, sans-serif;
+background-color: white;
+color: #262626;
+font-family: 'Open Sans', Arial, sans-serif;
 }
 
 #all {
-background-color: #bdbdbd;
+background-color: #e5e5e5;
 border-radius: 2px;
 box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 margin: 24px auto;
@@ -21,10 +27,6 @@ padding: 20px 20px 20px 20px;
 width: 800px;
 -webkit-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 -moz-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
-}
-
-fieldset {
-padding: 0px;
 }
 
 #header {
@@ -36,21 +38,31 @@ margin: 0 0 30px 0;
 margin-top: 1%;
 }
 
+#header h1 {
+font-size: 1.5em;
+margin: 0 0 1em 0;
+border-bottom: 1px solid #C6C6C6;
+padding: 0 0 1em 0;
+box-shadow: 0px 1px 0px 0px #fefefe;
+color: #666;
+}
+
 #header #whereIs {
 font-weight: bold;
-margin: 0 0 30px 0;
+margin: 0 0 .8em 0;
 font-size: 2em;
 }
 
 input[type=url] {
 border-radius: 2px;
-color: black;
+color: #262626;
 font-size: 1.5em;
 margin: 0 0 10px 0;
 padding: 10px 10px 10px 10px;
 width: 780px;
 -webkit-transform: background-color 0.2s ease-in-out;
 transform: background-color 0.2s ease-in-out;
+font-weight: bold;
 }
 
 input[type=url]:invalid {
@@ -93,7 +105,7 @@ width: 780px;
 background: white;
 border-radius: 2px;
 display: none;
-margin-bottom: 40px;
+margin: 0 0 40px 0;
 padding: 10px 10px 10px 10px;
 text-align: center;
 }
@@ -113,9 +125,21 @@ margin: 0 0 30px 0;
 font-size: 2em;
 }
 
+
 #package img {
 height: 100px;
 margin:  0 0 20px 0;
+}
+
+.pulse {
+-webkit-animation: pulse 1s ease-in-out;
+-webkit-animation-iteration-count: 2;
+}
+
+@-webkit-keyframes pulse {
+0% { -webkit-transform: scale(1, 1);}
+50% { -webkit-transform: scale(1.2, 1.2);opacity: 0.5}
+100% { -webkit-transform: scale(1, 1);}
 }
 
 #editInformation {
@@ -137,7 +161,6 @@ display: block;
 
 #info {
 width: 780px;
-line-height: 3em;
 }
 
 #info label {
@@ -153,10 +176,16 @@ font-weight: bold;
 width: 126px;
 }
 
+#info .infoItem {
+margin: 0 0 1em 0;
+}
+
 #info input[type=text] {
 font-size: 1em;
 padding: 3px 3px 3px 5px;
 border-radius: 2px;
+position: relative;
+top: -0.4em;
 }
 
 input#name {
@@ -212,26 +241,43 @@ width: 130px;
 }
 
 #iconContainer {
-height: 188px;
+height: 210px;
 }
 
 div#icon128 {
-padding: 15px 0 0 0;
+padding: 6px 0 0 0;
 }
 
 div#icon128 canvas {
 background:	#eee;
+cursor: pointer;
 border: 1px dashed #666;
 }
 
 input#file128 {
-font-size: 1em;
-display: block;
-margin: 0 0 0 125px;
 clear: left;
 cursor: pointer;
-padding : 0 0 0 25px;
+display: block;
+font-size: 1em;
+position: relative;
+top: 12px;
+left: 150px;
 }
+
+button#chooseIconImage {
+cursor: pointer;
+font-size: 1em;
+left: 125px;
+padding: 5px;
+position: relative;
+top: -25px;
+width: 132px;
+}
+
+input#c128 {
+cursor: pointer;
+}
+
 
 div#manifestContainer {
 display: none;
@@ -239,9 +285,11 @@ display: none;
 
 #manifest {
 height: 300px;
-width: 100%;
-margin: 0;
-padding: 0;
-min-width: 200px;
+width: 631px;
+padding: 10px 10px 0 10px;
+font-size: 1em;
+font-family: monospace;
+position: relative;
+top: 3px;
 }
 
