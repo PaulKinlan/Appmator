@@ -27,7 +27,8 @@ import simplejson2
 
 title = "<title>(.+)</title>"
 description = "<meta name=(\"|\')description(\"|\') content=\"([^\"\']+)"
-favicon = "<link rel=\"(shortcut |apple-touch-){0,1}icon\"([^>]+)"
+#favicon = "<link rel=\"(shortcut |apple-touch-){0,1}icon\"([^>]+)"
+favicon = "<link rel=\"apple-touch-icon\"([^>]+)"
 
 def parseFavIcon(baseUrl, match):
   linkTag = match.group(0)
@@ -82,11 +83,11 @@ class FetchInformationHandler(webapp.RequestHandler):
           if m is not None])
           
         
-      if "16" not in meta["icons"]:
-        meta["icons"]["16"] = meta["web_url"] + "/favicon.ico"
-        
-    else:
-      self.response.status_code = fetcheddata.status_code
+#       if "16" not in meta["icons"]:
+#         meta["icons"]["16"] = meta["web_url"] + "/favicon.ico"
+#         
+#     else:
+    self.response.status_code = fetcheddata.status_code
 
     self.response.headers['Content-Type'] = "application/json"
     self.response.out.write(simplejson2.dumps(meta, ensure_ascii=False))
