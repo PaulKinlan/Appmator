@@ -263,12 +263,11 @@ div#icon128 canvas {
 background:	#eee;
 cursor: pointer;
 border: 1px dashed #666;
-margin: 0 50px 0 0;
+margin: 0 20px 0 0;
 float: left;
 }
 
 div#iconWarning {
-width: 410px;
 float: left;
 padding: 12px 10px 12px 11px;
 }
@@ -290,7 +289,7 @@ color: rgba(255, 0, 0, 0.5);
 
 @-webkit-keyframes warningPulse {
 0% {-webkit-transform: scale(1, 1);}
-50% {-webkit-transform: scale(1.0.5, 1.05); border-color: red; border-radius: 15px;}
+50% {-webkit-transform: scale(1.0.5, 1.05); border-color: red; border-radius: 15px;color: rgba(255, 0, 0, 1)}
 100% {-webkit-transform: scale(1, 1);}
 }
 

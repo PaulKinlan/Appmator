@@ -87,7 +87,10 @@ Modernizr.addTest('blobbuilder', function() {
 	name.addEventListener("blur", Builder.updateManifest);
 	description.addEventListener("blur", Builder.updateManifest);
 	version.addEventListener("blur", Builder.updateManifest);
-	backgroundPage.addEventListener("blur", Builder.updateManifest);
+	backgroundPage.addEventListener("blur", function() {
+		background.checked = this.value === "" ? false : true;
+		Builder.updateManifest();
+	});
 	
 	offlineEnabledTrue.addEventListener("click", Builder.updateManifest);
 	offlineEnabledFalse.addEventListener("click", Builder.updateManifest);
