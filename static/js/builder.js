@@ -50,7 +50,12 @@ var Builder = new (function () {
     }
   };
   
-  this.togglePermission = function(e) {
+  this.toggleOfflineEnabled = function(e) {
+    manifest.offline_enabled = offlineEnabledTrue.checked === true;   
+    updateUI();
+  };
+  
+   this.togglePermission = function(e) {
     if(e.target.checked) {
       manifest.permissions.push(e.target.id);
     }
@@ -60,6 +65,10 @@ var Builder = new (function () {
        if(i != e.target.id) return true;
        else return false; 
       });
+    }
+    
+    if (e.target.id === "background" && e.target.checked === false) {
+    	delete manifest.background_page;
     }
     
     updateUI();
@@ -135,8 +144,8 @@ var Builder = new (function () {
     image.addEventListener("load", function() {
     	document.getElementById("file128").value = ""; // so it doesn't say 'No file chosen'
     	if (this.width != iconSize || this.width !== iconSize) {
-    		iconWarning("<p>The icon size should be " + iconSize + "x" + iconSize + 
-				"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px.</p><p>You may want to select a different image.<p>");
+    		iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
+				"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>You may want to select a different image.<p>");
 			//// warning message
     	}
       context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
@@ -190,8 +199,10 @@ var Builder = new (function () {
 //// info instead of inf?
   var parseInfo = function(inf) {
     manifest.app = {};
-    manifest.app.launch = {};
+    manifest.offline_enabled = false;
     manifest.permissions = [];
+//    manifest.app.background_page = "";
+    manifest.app.launch = {};
     manifest.icons = {
       "128": "128.png"
     };
@@ -241,10 +252,13 @@ if (inf.name.length > 45) {
     var name = document.getElementById("name");
     var description = document.getElementById("description");
     var version = document.getElementById("version");
+    var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
+    var backgroundPage = document.getElementById("backgroundPage");
+    
     
 //// do in one loop?
 /*
- var props = ["description", "name", "version"]
+ var props = ["description", "name", "version", "background_page"]
  for prop in props {
  	var value = document.getElementById(prop).value;
  	if (value == "") {
@@ -269,6 +283,20 @@ if (inf.name.length > 45) {
       delete manifest.version
     else
       manifest.version = version.value;
+ 
+	if (backgroundPage.value == "") {
+		delete manifest.background_page;	
+		manifest.permissions.splice(manifest.permissions.indexOf('background'), 1);
+    } else {
+		manifest.background_page = backgroundPage.value;
+		if (manifest.permissions.indexOf("background") == -1) {
+			manifest.permissions.push("background");
+		}
+	}
+	
+	
+      
+	manifest.offline_enabled = offlineEnabledTrue.checked;
     
     renderManifest();
     
@@ -290,15 +318,18 @@ if (inf.name.length > 45) {
     var version = document.getElementById("version");
     var launch = document.getElementById("launch");
     
-    // Launcher options
-    var options = {};
+    // Offline Enabled options
+    var offlineEnabledFalse = document.getElementById("offlineEnabledFalse");
+    var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
     
     // Permissions
     var permissions = {};
     permissions["geolocation"] = document.getElementById("geolocation");
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
-//    permissions["background"] = document.getElementById("background");
+    permissions["background"] = document.getElementById("background");
+
+    var backgroundPage = document.getElementById("backgroundPage");
     
     // Container type: tab, window or panel
     var launcher = document.getElementById("launcher");
@@ -341,6 +372,25 @@ if (inf.name.length > 45) {
     for (var p in permissions) {
         permissions[p].checked = false;
     }
+    
+	if (backgroundPage.value === "") {
+		background.checked = false;
+	} else {
+		background.checked = true;		
+	};
+
+    if (manifest.permissions.indexOf("background") == -1) {
+		backgroundPage.value = "";
+    }
+    
+    // Select the correct launch type
+    if (manifest.offline_enabled === true) {
+    	offlineEnabledTrue.checked = true;
+    	offlineEnabledFalse.checked = false;
+    } else {
+    	offlineEnabledTrue.checked = false;
+    	offlineEnabledFalse.checked = true;
+    };
     
     for(var permission in manifest.permissions) {
       var permName =  manifest.permissions[permission];

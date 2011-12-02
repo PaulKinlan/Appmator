@@ -31,18 +31,23 @@ Modernizr.addTest('blobbuilder', function() {
 	var language = document.getElementById("language");
 	var start = document.getElementById("start");
 	var icon128 = document.getElementById("icon128");
+	var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
+	var offlineEnabledFalse = document.getElementById("offlineEnabledFalse");
 	var notifications = document.getElementById("notifications");
 	var unlimitedStorage = document.getElementById("unlimitedStorage");
 	var geolocation = document.getElementById("geolocation");
-//	var background = document.getElementById("background");
+	var background = document.getElementById("background");
+	var backgroundPageContainer = document.getElementById("backgroundPageContainer");
 	var manifest = document.getElementById("manifest");
 	var output = document.getElementById("output");
 	var packaged = document.getElementById("packaged");
 	var url = document.getElementById("url");
 	var header = document.getElementById("header");
 	
+	var downloadLink = document.getElementById("downloadLink");
+	
 	var name = document.getElementById("name");
-	var descriptiopn = document.getElementById("description");
+	var description = document.getElementById("description");
 	var versions = document.getElementById("version");
 	
 	var launcher = document.getElementById("launcher");
@@ -74,25 +79,39 @@ Modernizr.addTest('blobbuilder', function() {
 	name.addEventListener("change", Builder.updateManifest);
 	description.addEventListener("change", Builder.updateManifest);
 	version.addEventListener("change", Builder.updateManifest);
+	backgroundPage.addEventListener("change", function(){
+		background.checked = this.value === "" ? false : true;
+		Builder.updateManifest;	
+	});
 	
 	name.addEventListener("blur", Builder.updateManifest);
 	description.addEventListener("blur", Builder.updateManifest);
 	version.addEventListener("blur", Builder.updateManifest);
+	backgroundPage.addEventListener("blur", Builder.updateManifest);
+	
+	offlineEnabledTrue.addEventListener("click", Builder.updateManifest);
+	offlineEnabledFalse.addEventListener("click", Builder.updateManifest);
 	
 	unlimitedStorage.addEventListener("click", Builder.togglePermission);
 	geolocation.addEventListener("click", Builder.togglePermission);
 	notifications.addEventListener("click", Builder.togglePermission);
-//	background.addEventListener("click", Builder.togglePermission);
+	background.addEventListener("click", Builder.togglePermission);
+	background.addEventListener("change", function(){
+		if (this.checked) {
+			backgroundPageContainer.classList.add("visible");
+		} else {
+			backgroundPage.value = "";
+			backgroundPageContainer.classList.remove("visible");
+		}
+		return true;
+	});
 	
 	launcher.addEventListener("change", Builder.toggleLaunch);
 	
 	file128.addEventListener("change", Builder.readImage);
-//	file128.addEventListener("click", Builder.readImage);
-//	icon128.addEventListener("click", Builder.readImage);
 	
 	function clickFile128Input(e) {
 		file128.click();
-//		e.stopPropagation();
 	}
 	document.getElementById("c128").addEventListener("click", clickFile128Input);
 
@@ -101,11 +120,8 @@ Modernizr.addTest('blobbuilder', function() {
 	
 	output.addEventListener("dragstart", EventProxy(Builder.dragZip, Builder));
 	if(Modernizr.typedarray) {
-	  var dblclicksave = document.getElementById("doubleclicksave");
-	  dblclicksave.style.display = "inline";
-	  
-	  output.addEventListener("dblclick", function() {
-		var savaeas = document.getElementById("saveas");
+	  	  
+	  downloadLink.addEventListener("click", function() {
 		var bb = new WebKitBlobBuilder();
 	  
 		var output = Builder.output({"binary":true});
@@ -118,17 +134,20 @@ Modernizr.addTest('blobbuilder', function() {
 		bb.append(ui8a.buffer);
 	  
 		var blob = bb.getBlob("application/octet-stream");
-		var saveas = document.createElement("iframe");
-		saveas.style.display = "none";
+//		var saveas = document.createElement("iframe");
+//		saveas.style.display = "none";
 		
 		if(!!window.createObjectURL == false) {
-		  saveas.src = window.webkitURL.createObjectURL(blob); 
+// 		  saveas.src = window.webkitURL.createObjectURL(blob);
+		  downloadLink.href = window.webkitURL.createObjectURL(blob); 
 		}
 		else {
-		  saveas.src = window.createObjectURL(blob); 
+// 		  saveas.src = window.createObjectURL(blob); 
+		  downloadLink.href = window.createObjectURL(blob);
 		}
-		
-		document.body.appendChild(saveas);
+		downloadLink.download = name.value + ".zip";		
+		downloadLink.name = name.value;		
+//		document.body.appendChild(saveas);
 	  });
 	}
 	
