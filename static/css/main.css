@@ -1,19 +1,16 @@
-input[type="file"] {
-color: white;
-margin: 0px;
-}
-
-::-webkit-file-upload-button {
--webkit-appearance: square-button;
+a {
+text-decoration: none;
+color: #1C5AC4;
 }
 
 body {
-background-color: #ccc;
-font-family: 'Open Sans', helvetica, arial, sans-serif;
+background-color: white;
+color: #262626;
+font-family: 'Open Sans', Arial, sans-serif;
 }
 
 #all {
-background-color: #bdbdbd;
+background-color: #e5e5e5;
 border-radius: 2px;
 box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 margin: 24px auto;
@@ -21,10 +18,6 @@ padding: 20px 20px 20px 20px;
 width: 800px;
 -webkit-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 -moz-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
-}
-
-fieldset {
-padding: 0px;
 }
 
 #header {
@@ -36,21 +29,31 @@ margin: 0 0 30px 0;
 margin-top: 1%;
 }
 
+#header h1 {
+font-size: 1.5em;
+margin: 0 0 1em 0;
+border-bottom: 1px solid #C6C6C6;
+padding: 0 0 1em 0;
+box-shadow: 0px 1px 0px 0px #fefefe;
+color: #666;
+}
+
 #header #whereIs {
 font-weight: bold;
-margin: 0 0 30px 0;
+margin: 0 0 .8em 0;
 font-size: 2em;
 }
 
 input[type=url] {
 border-radius: 2px;
-color: black;
+color: #262626;
 font-size: 1.5em;
 margin: 0 0 10px 0;
 padding: 10px 10px 10px 10px;
 width: 780px;
 -webkit-transform: background-color 0.2s ease-in-out;
 transform: background-color 0.2s ease-in-out;
+font-weight: bold;
 }
 
 input[type=url]:invalid {
@@ -93,14 +96,13 @@ width: 780px;
 background: white;
 border-radius: 2px;
 display: none;
-margin-bottom: 40px;
+margin: 0 0 40px 0;
 padding: 10px 10px 10px 10px;
 text-align: center;
 }
 
 #download.visible {
 display: block;
-border: 2px inset #eee;
 }
 
 #download div {
@@ -118,13 +120,20 @@ height: 100px;
 margin:  0 0 20px 0;
 }
 
+.pulse {
+-webkit-animation: pulse 1s ease-in-out;
+-webkit-animation-iteration-count: 2;
+}
+
+@-webkit-keyframes pulse {
+0% { -webkit-transform: scale(1, 1);}
+50% { -webkit-transform: scale(1.2, 1.2);opacity: 0.5}
+100% { -webkit-transform: scale(1, 1);}
+}
+
 #editInformation {
 font-weight: bold;
 margin: 1em 0 0 0;
-}
-
-#doubleclicksave {
-display: none;
 }
 
 #app {
@@ -137,26 +146,32 @@ display: block;
 
 #info {
 width: 780px;
-line-height: 3em;
 }
 
 #info label {
 display: block;
 float: left;
-width: 126px;
+width: 152px;
 font-weight: bold;
 }
 
 #info div.label {
 float: left;
 font-weight: bold;
-width: 126px;
+width: 152px;
+}
+
+#info .infoItem {
+clear: both;
+margin: 0 0 1em 0;
 }
 
 #info input[type=text] {
 font-size: 1em;
 padding: 3px 3px 3px 5px;
 border-radius: 2px;
+position: relative;
+top: -0.4em;
 }
 
 input#name {
@@ -171,9 +186,14 @@ input#version {
 width: 120px;
 }
 
-div#permissionsLabel {
-float: left;
-font-weight: bold;
+#offlineEnabledContainer input {
+}
+
+div#offlineEnabledContainer label {
+display: inline;
+float: none;
+font-weight: normal;
+margin: 0 10px 0 0;
 }
 
 #permissionsContainer input {
@@ -189,7 +209,25 @@ font-weight: normal;
 margin: 0 10px 0 0;
 }
 
+
+#backgroundPageContainer {
+    overflow:hidden;
+    max-height:0;
+opacity: 0;
+    -webkit-transition: max-height 0.5s, opacity 1.5s ease-in-out;
+}
+
+#backgroundPageContainer.visible {
+    max-height:25px;
+opacity: 1;
+    overflow:visible;
+}
+
 input#launch {
+width: 510px
+}
+
+input#backgroundPage {
 width: 510px
 }
 
@@ -212,36 +250,70 @@ width: 130px;
 }
 
 #iconContainer {
-height: 188px;
+height: 210px;
 }
 
 div#icon128 {
-padding: 15px 0 0 0;
+padding: 6px 0 0 0;
+margin: 0 0 5px 0;
+height: 130px;
 }
 
 div#icon128 canvas {
 background:	#eee;
+cursor: pointer;
 border: 1px dashed #666;
+margin: 0 20px 0 0;
+float: left;
+}
+
+div#iconWarning {
+float: left;
+padding: 12px 10px 12px 11px;
+}
+
+#iconWarning p {
+line-height: 0.5em;
+}
+
+.warningPulse {
+border-radius: 10px;
+border: 5px solid rgba(0, 0, 0, 0);
+color: rgba(255, 0, 0, 0.5);
+}
+
+.warningPulse {
+-webkit-animation: warningPulse 1s ease-out;
+-webkit-animation-iteration-count: 2;
+}
+
+@-webkit-keyframes warningPulse {
+0% {-webkit-transform: scale(1, 1);}
+50% {-webkit-transform: scale(1.0.5, 1.05); border-color: red; border-radius: 15px;color: rgba(255, 0, 0, 1)}
+100% {-webkit-transform: scale(1, 1);}
 }
 
 input#file128 {
 font-size: 1em;
-display: block;
-margin: 0 0 0 125px;
-clear: left;
-cursor: pointer;
-padding : 0 0 0 25px;
+margin: 0 0 0 152px;
 }
 
-div#manifestContainer {
-display: none;
+::-webkit-file-upload-button {
+-webkit-appearance: square-button;
+padding: 8px 18px;
+}
+
+input#c128 {
+cursor: pointer;
 }
 
 #manifest {
-height: 300px;
-width: 100%;
-margin: 0;
-padding: 0;
-min-width: 200px;
+height: 370px;
+padding: 10px 10px 0 10px;
+font-size: 1em;
+font-family: monospace;
+position: relative;
+top: 3px;
+width: 510px;
 }
 

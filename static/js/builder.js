@@ -50,7 +50,12 @@ var Builder = new (function () {
     }
   };
   
-  this.togglePermission = function(e) {
+  this.toggleOfflineEnabled = function(e) {
+    manifest.offline_enabled = offlineEnabledTrue.checked === true;   
+    updateUI();
+  };
+  
+   this.togglePermission = function(e) {
     if(e.target.checked) {
       manifest.permissions.push(e.target.id);
     }
@@ -60,6 +65,10 @@ var Builder = new (function () {
        if(i != e.target.id) return true;
        else return false; 
       });
+    }
+    
+    if (e.target.id === "background" && e.target.checked === false) {
+    	delete manifest.background_page;
     }
     
     updateUI();
@@ -105,6 +114,17 @@ var Builder = new (function () {
     return JSON.stringify(locales[locale]);
   }
   
+  var iconWarning = function(message) {
+	var el = document.getElementById("iconWarning");
+	el.innerHTML = message;
+  	if (message === "") {
+  		el.classList.remove("warningPulse");      
+  	} else {
+		el.classList.remove("warningPulse"); // so animation occurs every time      
+		setTimeout(function(){el.classList.add("warningPulse");}, 1);      
+	}
+  }
+  
 //// change variable name icon to iconSize?
   var imageToBase64 = function(icon) {
     var canvas = document.getElementById("c" + icon);
@@ -115,14 +135,20 @@ var Builder = new (function () {
   
   // Loads an image into a canvas
 /// change icon to iconSize?
-  var loadImage = function(icon,  url) {
-    var canvas = document.getElementById("c" + icon);
+  var loadImage = function(iconSize,  url) {
+    var canvas = document.getElementById("c" + iconSize);
     var context = canvas.getContext("2d");
     var image = new Image();
     image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
         
     image.addEventListener("load", function() {
-      context.drawImage(image, 0, 0, icon, icon); // rescale the image
+    	document.getElementById("file128").value = ""; // so it doesn't say 'No file chosen'
+    	if (this.width != iconSize || this.width !== iconSize) {
+    		iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
+				"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>You may want to select a different image.<p>");
+			//// warning message
+    	}
+      context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
     });
   };
   
@@ -140,15 +166,26 @@ var Builder = new (function () {
     for(var i = 0, file; file=e.target.files[i]; i++) {
       var reader = new FileReader();
       reader.onload = function(evt) {
-        var img = new Image();
-        
-        img.addEventListener("load", function() {
-		if (this.width !== size || this.height !== size) {
-			alert("\nThe icon image must be " + size + "x" + size + 
-				"px. \n\nThe image you selected is " + this.width + "x" + this.height + "px.\n\nPlease try again.");
+		var fileType = evt.target.result.substring(5,14);
+		if (fileType !== "image/png" && fileType !== "image/jpg" && fileType !== "image/jpe") {
+			e.target.value = null;	
+			iconWarning("<p>The icon image must be a PNG or JPEG file.</p><p>Please try again.</p>");
+			canvas.style.borderStyle = "dashed"; //
 			return;
 		}
+        var img = new Image();        
+        img.addEventListener("load", function() {
+		context.clearRect(0, 0, size, size);
+		if (this.width !== size || this.height !== size) {
+			e.target.value = null;	
+			iconWarning("<p>The icon image must be " + size + "x" + size + 
+				"px. </p><p>The image you selected is " + this.width + "x" + this.height + "px.</p><p>Please try again.</p>");
+			canvas.style.borderStyle = "dashed"; //
+			return;
+		}
+		  iconWarning("");
           context.drawImage(img, 0, 0, size, size); // rescale the image
+          canvas.style.borderStyle = "solid"; //
         });
         
         img.src = evt.target.result;
@@ -162,8 +199,10 @@ var Builder = new (function () {
 //// info instead of inf?
   var parseInfo = function(inf) {
     manifest.app = {};
-    manifest.app.launch = {};
+    manifest.offline_enabled = false;
     manifest.permissions = [];
+//    manifest.app.background_page = "";
+    manifest.app.launch = {};
     manifest.icons = {
       "128": "128.png"
     };
@@ -171,7 +210,7 @@ var Builder = new (function () {
     if(inf.name) {
 if (inf.name.length > 45) {
 	manifest.name = inf.name.substring(0,45);
-	alert("\nYour app name must be no more than 45 characters in length. \n\nThe name has been trimmed to fit.");
+	//// warning message
 } else {
 	manifest.name = inf.name;
 }
@@ -183,15 +222,10 @@ if (inf.name.length > 45) {
     
     manifest.version = "1.0.0.0"
     
-////??iconSize in inf.iconSizes
-//// don't load icons (16x16px) from callback
-/* 
-    for(var icon in inf.icons) {
+    for(var iconSize in inf.icons) {
       // Don't perform any validation just yet.
-      loadImage(icon, inf.icons[icon]);
+      loadImage(iconSize, inf.icons[iconSize]);
     }
-
- */
     
     manifest.app.launch.urls = inf.urls;
     manifest.app.launch.web_url = inf.web_url
@@ -218,10 +252,13 @@ if (inf.name.length > 45) {
     var name = document.getElementById("name");
     var description = document.getElementById("description");
     var version = document.getElementById("version");
+    var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
+    var backgroundPage = document.getElementById("backgroundPage");
+    
     
 //// do in one loop?
 /*
- var props = ["description", "name", "version"]
+ var props = ["description", "name", "version", "background_page"]
  for prop in props {
  	var value = document.getElementById(prop).value;
  	if (value == "") {
@@ -246,13 +283,28 @@ if (inf.name.length > 45) {
       delete manifest.version
     else
       manifest.version = version.value;
+ 
+	if (backgroundPage.value == "") {
+		delete manifest.background_page;	
+		manifest.permissions.splice(manifest.permissions.indexOf('background'), 1);
+    } else {
+		manifest.background_page = backgroundPage.value;
+		if (manifest.permissions.indexOf("background") == -1) {
+			manifest.permissions.push("background");
+		}
+	}
+	
+	
+      
+	manifest.offline_enabled = offlineEnabledTrue.checked;
     
     renderManifest();
     
     //Save the manifest 
     var output = document.getElementById("output");
-    output.href = "data:image/png;base64," + 
-          Builder.output({"binary": false});
+    output.href = "data:image/png;base64," + Builder.output({"binary": false});
+	output.classList.remove("pulse");
+	setTimeout(function(){output.classList.add("pulse")}, 1);
   }
   
   // Update the UI based on the manifest.
@@ -266,8 +318,9 @@ if (inf.name.length > 45) {
     var version = document.getElementById("version");
     var launch = document.getElementById("launch");
     
-    // Launcher options
-    var options = {};
+    // Offline Enabled options
+    var offlineEnabledFalse = document.getElementById("offlineEnabledFalse");
+    var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
     
     // Permissions
     var permissions = {};
@@ -275,6 +328,8 @@ if (inf.name.length > 45) {
     permissions["notifications"] = document.getElementById("notifications");
     permissions["unlimitedStorage"] = document.getElementById("unlimitedStorage");
     permissions["background"] = document.getElementById("background");
+
+    var backgroundPage = document.getElementById("backgroundPage");
     
     // Container type: tab, window or panel
     var launcher = document.getElementById("launcher");
@@ -317,6 +372,25 @@ if (inf.name.length > 45) {
     for (var p in permissions) {
         permissions[p].checked = false;
     }
+    
+	if (backgroundPage.value === "") {
+		background.checked = false;
+	} else {
+		background.checked = true;		
+	};
+
+    if (manifest.permissions.indexOf("background") == -1) {
+		backgroundPage.value = "";
+    }
+    
+    // Select the correct launch type
+    if (manifest.offline_enabled === true) {
+    	offlineEnabledTrue.checked = true;
+    	offlineEnabledFalse.checked = false;
+    } else {
+    	offlineEnabledTrue.checked = false;
+    	offlineEnabledFalse.checked = true;
+    };
     
     for(var permission in manifest.permissions) {
       var permName =  manifest.permissions[permission];
