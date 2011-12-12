@@ -210,7 +210,6 @@ var Builder = new (function () {
     if(inf.name) {
 if (inf.name.length > 45) {
 	manifest.name = inf.name.substring(0,45);
-	//// warning message
 } else {
 	manifest.name = inf.name;
 }
@@ -222,7 +221,7 @@ if (inf.name.length > 45) {
     
     manifest.version = "1.0.0.0"
     
-    for(var iconSize in inf.icons) {
+    for(var icon in inf.icons) {
       // Don't perform any validation just yet.
       loadImage(iconSize, inf.icons[iconSize]);
     }
