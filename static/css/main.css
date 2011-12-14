@@ -9,6 +9,10 @@ color: #262626;
 font-family: 'Open Sans', Arial, sans-serif;
 }
 
+input, option {
+font-family: 'Open Sans', Arial, sans-serif;
+}
+
 #all {
 background-color: #e5e5e5;
 border-radius: 2px;
