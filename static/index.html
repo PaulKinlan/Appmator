@@ -37,13 +37,17 @@ goog.require("goog.format.JsonPrettyPrinter");
 <div id="all">
 
 <div id="header">
-	<h1>Package your app for the <a href="https://chrome.google.com/webstore" title="Google Chrome Web Store">Chrome Web Store</a></h1>
-	<div id="whereIs">Where is your app?</div>
-	<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus autocomplete>
-	<div id="messages">
-		<div id="enterUrl">Enter a URL beginning "http://" or "https://"</div>
-		<div id="okUrl">Looks like a URL... press Enter when done.</div>
+	<div id="headingContainer">
+		<img id="cwsLogo" src="images/cwsLogo128x128.png" alt="">
+		<h1>Appmator</h1>
+		<div id="subhead">Package your app for the <a href="https://chrome.google.com/webstore" title="Google Chrome Web Store">Chrome Web Store</a></div>
 	</div>
+	
+	<div class="infoItem" id="whereIsContainer">
+		<label for="url">Where is your app?</label>
+		<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus autocomplete>
+		<div id="urlButton" role="button" class="goog-inline-block webstore-button-blue webstore-button-180-by-30 webstore-button" style="-webkit-user-select: none; " tabindex="0"><div class="webstore-button-content"><div class="webstore-button-icon webstore-button-white_plus-icon"></div><div class="webstore-button-label">Package It!</div></div></div>
+	</div>	
 </div>
 
 <div id="warning" ><strong>Sorry!</strong> Your browser doesn't support some of the features needed by this app.</div>
