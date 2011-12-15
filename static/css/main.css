@@ -208,11 +208,11 @@ margin:  0 0 20px 0;
 
 .pulse {
 -webkit-animation: pulse 1s ease-in-out;
--webkit-animation-iteration-count: 2;
+-webkit-animation-iteration-count: 1;
 }
 
 @-webkit-keyframes pulse {
-0% { -webkit-transform: scale(1, 1);}
+0% { -webkit-transform: scale(0, 0);opacity: 0.5}
 50% { -webkit-transform: scale(1.2, 1.2);opacity: 0.5}
 100% { -webkit-transform: scale(1, 1);}
 }
