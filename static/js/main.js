@@ -42,6 +42,7 @@ Modernizr.addTest('blobbuilder', function() {
 	var output = document.getElementById("output");
 	var packaged = document.getElementById("packaged");
 	var url = document.getElementById("url");
+	var urlButton = document.getElementById("urlButton");
 	var header = document.getElementById("header");
 	
 	var downloadLink = document.getElementById("downloadLink");
@@ -53,9 +54,9 @@ Modernizr.addTest('blobbuilder', function() {
 	var launcher = document.getElementById("launcher");
 	
 	var file128 = document.getElementById("file128");
-	
-	url.addEventListener("keypress", function(e) {
-	  if(e.keyCode == 13) {
+
+
+	function makePackage() {
 		Builder.start(function(object) {
 		  // Make the UI visible
 		  if(object) {
@@ -70,12 +71,18 @@ Modernizr.addTest('blobbuilder', function() {
 			trackEvent("Parse Error");
 		  }
 		});
+	}
+	
+	url.addEventListener("keypress", function(e){
+	  if(e.keyCode == 13) {
+	  	makePackage();
 	  }
 	  else {
 		url.classList.remove("error");
 		url.classList.remove("success");
 	  }
 	});
+	urlButton.addEventListener("click", makePackage);
 	  
 	name.addEventListener("change", Builder.updateManifest);
 	description.addEventListener("change", Builder.updateManifest);
