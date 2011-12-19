@@ -58,6 +58,10 @@ Modernizr.addTest('blobbuilder', function() {
 	function showMessage(elementId, message){
 		document.getElementById(elementId).innerHTML = message;
 	}
+	
+	function clearMessage(elementId){
+		document.getElementById(elementId).innerHTML = "";
+	}
 
 
 	// attempt to validate URL on the client
@@ -78,22 +82,30 @@ Modernizr.addTest('blobbuilder', function() {
 		// a bit of a hack, but better than nothing :-/
 		if (!/^https?/i.test(url)) {
 			url = "http://" + url;
-			console.log(url);
 		};		
-
-		Builder.start(url, function(object) {
+		
+		function successCallback(object){
 		  // Make the UI visible
 		  if(object) {
+		  	clearMessage("urlMessage");
 			urlInput.classList.add("success");
 			header.classList.add("started");
 			app.classList.add("visible");
 			trackEvent("Parse Success");
 		  }
 		  else {
+			failureCallback();
 			urlInput.classList.add("error");
 			trackEvent("Parse Error");
 		  }
-		});
+		}
+		
+		function failureCallback(){
+			showMessage("urlMessage", "There was an error getting data for this URL. Are you sure it's correct?");
+			urlInput.focus();
+		}
+
+		Builder.start(url, successCallback, failureCallback);
 	}
 	
 	urlInput.addEventListener("keypress", function(e){

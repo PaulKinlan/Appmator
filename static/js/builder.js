@@ -26,11 +26,9 @@ var Builder = new (function () {
   // A collection of languages and local information.
   var locales = {};
   
-  this.start = function(url, callback) {
-    callback = callback || function() {};
-        
+  this.start = function(url, successCallback, errorCallback) {        
     // Fetch site information
-    fetch(url, callback);
+    fetch(url, successCallback, errorCallback);
   };
   
   this.parseManifest = function(e) {
@@ -415,7 +413,7 @@ if (inf.name.length > 45) {
     manifestContainer.value = formatter.format(manifest);
   };
   
-  var fetch = function(url, callback) {
+  var fetch = function(url, successCallback, failureCallback) {
     var request = new XMLHttpRequest();
     request.open("GET", "/api/fetch?url=" + url, true);
     request.onreadystatechange = function (e) {
@@ -423,10 +421,10 @@ if (inf.name.length > 45) {
         var object = JSON.parse(request.responseText);
         parseInfo(object);
         updateUI();
-        callback(object);
+        successCallback(object);
       }
       else if(request.status != 200) {
-        callback(null);
+        failureCallback();
       }
     };
     request.send();

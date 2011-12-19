@@ -15,6 +15,7 @@ font-family: 'Open Sans', Arial, sans-serif;
 
 div.message {
 color: #666;
+height: 1.5em;
 }
 
 #all {
@@ -35,7 +36,6 @@ margin: 0 0 7px 0;
 
 #header.started {
 -webkit-transition: margin 0.2s ease-in-out;
-margin: 0 0 30px 0;
 }
 
 #header img#cwsLogo {
