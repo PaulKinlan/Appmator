@@ -26,14 +26,11 @@ var Builder = new (function () {
   // A collection of languages and local information.
   var locales = {};
   
-  this.start = function(fn) {
-    var callback = fn || function() {};
-    
-    //// pass to function instead?
-    var url = document.getElementById("url");
-    
+  this.start = function(url, callback) {
+    callback = callback || function() {};
+        
     // Fetch site information
-    fetch(url.value, callback);
+    fetch(url, callback);
   };
   
   this.parseManifest = function(e) {

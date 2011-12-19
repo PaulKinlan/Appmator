@@ -41,7 +41,7 @@ Modernizr.addTest('blobbuilder', function() {
 	var manifest = document.getElementById("manifest");
 	var output = document.getElementById("output");
 	var packaged = document.getElementById("packaged");
-	var url = document.getElementById("url");
+	var urlInput = document.getElementById("url");
 	var urlButton = document.getElementById("urlButton");
 	var header = document.getElementById("header");
 	
@@ -54,31 +54,55 @@ Modernizr.addTest('blobbuilder', function() {
 	var launcher = document.getElementById("launcher");
 	
 	var file128 = document.getElementById("file128");
+	
+	function showMessage(elementId, message){
+		document.getElementById(elementId).innerHTML = message;
+	}
 
+
+	// attempt to validate URL on the client
+	// using code from jQuery validation plugin -- with optional scheme
+	// not perfect, but better than nothing :-`
+	function isUrl(string){
+		return /^(https?:\/\/)?(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(string);
+	}
 
 	function makePackage() {
-		Builder.start(function(object) {
+		var url = urlInput.value;
+		if (!isUrl(url)) {
+			showMessage("urlMessage", "This does not appear to be a valid URL. Please try again.");
+			urlInput.focus();
+			return;
+		}
+		// add scheme to URL if not present
+		// a bit of a hack, but better than nothing :-/
+		if (!/^https?/i.test(url)) {
+			url = "http://" + url;
+			console.log(url);
+		};		
+
+		Builder.start(url, function(object) {
 		  // Make the UI visible
 		  if(object) {
-			url.classList.add("success");
+			urlInput.classList.add("success");
 			header.classList.add("started");
 			app.classList.add("visible");
 			trackEvent("Parse Success");
 		  }
 		  else {
-			url.classList.add("error");
+			urlInput.classList.add("error");
 			trackEvent("Parse Error");
 		  }
 		});
 	}
 	
-	url.addEventListener("keypress", function(e){
+	urlInput.addEventListener("keypress", function(e){
 	  if(e.keyCode == 13) {
 	  	makePackage();
 	  }
 	  else {
-		url.classList.remove("error");
-		url.classList.remove("success");
+		urlInput.classList.remove("error");
+		urlInput.classList.remove("success");
 	  }
 	});
 	urlButton.addEventListener("click", makePackage);
@@ -164,19 +188,19 @@ Modernizr.addTest('blobbuilder', function() {
 	// If there is a hash load URL from that
 	if(window.location.hash && window.location.hash !="") {
 	  var newUrl = window.location.hash.substr(1);
-	  url.value = newUrl;
+	  urlInput.value = newUrl;
 	  trackEvent("Load with hash");
 	  Builder.start(function(object) {
 		// Make the UI visible
 		if(object) {
 		  trackEvent("Parse success");
-		  url.classList.add("success");
+		  urlInput.classList.add("success");
 		  header.classList.add("started");
 		  app.classList.add("visible");
 		}
 		else {
 		  trackEvent("Parse error");
-		  url.classList.add("error");
+		  urlInput.classList.add("error");
 		}
 	  });
 	}

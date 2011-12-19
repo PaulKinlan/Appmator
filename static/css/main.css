@@ -13,6 +13,9 @@ input, option {
 font-family: 'Open Sans', Arial, sans-serif;
 }
 
+div.message {
+color: #666;
+}
 
 #all {
 background-color: #e5e5e5;
@@ -73,6 +76,12 @@ div#urlButton {
 position: relative;
 top: -7px;
 }
+
+div#urlMessage {
+margin: 0 0 0 160px;
+}
+
+/* from CWS */
 
 .webstore-button.webstore-button-blue {
 border-color: #2D53AF;
