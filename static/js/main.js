@@ -28,6 +28,7 @@ Modernizr.addTest('blobbuilder', function() {
 	}
 	
 	var app = document.getElementById("app");
+	var download = document.getElementById("download");
 	var language = document.getElementById("language");
 	var start = document.getElementById("start");
 	var icon128 = document.getElementById("icon128");
@@ -84,6 +85,12 @@ Modernizr.addTest('blobbuilder', function() {
 			url = "http://" + url;
 		};		
 		
+		function failureCallback(){
+			download.classList.remove("visible");
+			app.classList.remove("visible");
+			showMessage("urlMessage", "There was an error getting data for this URL. Are you sure it's correct?");
+			urlInput.focus();
+		}
 		function successCallback(object){
 		  // Make the UI visible
 		  if(object) {
@@ -92,6 +99,9 @@ Modernizr.addTest('blobbuilder', function() {
 			header.classList.add("started");
 			app.classList.add("visible");
 			trackEvent("Parse Success");
+			output.classList.remove("updated");
+			output.classList.remove("created");
+			setTimeout(function(){output.classList.add("created")}, 1);
 		  }
 		  else {
 			failureCallback();
@@ -100,11 +110,6 @@ Modernizr.addTest('blobbuilder', function() {
 		  }
 		}
 		
-		function failureCallback(){
-			showMessage("urlMessage", "There was an error getting data for this URL. Are you sure it's correct?");
-			urlInput.focus();
-		}
-
 		Builder.start(url, successCallback, failureCallback);
 	}
 	

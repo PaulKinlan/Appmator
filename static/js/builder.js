@@ -67,6 +67,8 @@ var Builder = new (function () {
     }
     
     updateUI();
+    output.classList.remove("updated");
+    setTimeout(function(){output.classList.add("updated")}, 1);
   };
   
   this.toggleLaunch = function(e) {
@@ -111,13 +113,18 @@ var Builder = new (function () {
   
   var iconWarning = function(message) {
 	var el = document.getElementById("iconWarning");
-	el.innerHTML = message;
   	if (message === "") {
-  		el.classList.remove("warningPulse");      
+  		el.style.opacity = 0; // just in case   
   	} else {
+   		el.style.opacity = 1;   
+		el.innerHTML = message;
 		el.classList.remove("warningPulse"); // so animation occurs every time      
 		setTimeout(function(){el.classList.add("warningPulse");}, 1);      
 	}
+  }
+  
+  var clearIconWarning = function() {
+	document.getElementById("iconWarning").style.opacity = 0;      
   }
   
 //// change variable name icon to iconSize?
@@ -134,17 +141,28 @@ var Builder = new (function () {
     var canvas = document.getElementById("c" + iconSize);
     var context = canvas.getContext("2d");
     var image = new Image();
-    image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
-        
-    image.addEventListener("load", function() {
-    	document.getElementById("file128").value = ""; // so it doesn't say 'No file chosen'
-    	if (this.width != iconSize || this.width !== iconSize) {
-    		iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
-				"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>You may want to select a different image.<p>");
-			//// warning message
-    	}
-      context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
-    });
+
+	if (typeof url === "undefined") {
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		clearIconWarning();
+		canvas.style.borderStyle = "dashed"; //
+	} else {
+		image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
+			
+		image.addEventListener("load", function() {
+			if (this.width != iconSize || this.width != iconSize) {
+				canvas.style.borderStyle = "dashed";
+				iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
+					"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>You may want to select a different image.<p>");
+				//// warning message
+			} else {
+				clearIconWarning();
+				canvas.style.borderStyle = "solid";
+			}
+			context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
+		});
+	}
+    
   };
   
   // Reads an image from the file system
@@ -177,10 +195,11 @@ var Builder = new (function () {
 				"px. </p><p>The image you selected is " + this.width + "x" + this.height + "px.</p><p>Please try again.</p>");
 			canvas.style.borderStyle = "dashed"; //
 			return;
+		} else {
+			iconWarning("");
+			canvas.style.borderStyle = "solid"; //
 		}
-		  iconWarning("");
           context.drawImage(img, 0, 0, size, size); // rescale the image
-          canvas.style.borderStyle = "solid"; //
         });
         
         img.src = evt.target.result;
@@ -211,20 +230,20 @@ if (inf.name.length > 45) {
 }
     }
     
+/* 
     if(inf.description) {
       manifest.description = inf.description;
     }
-    
+ */
+ 
+	manifest.description = inf.description || "";    
     manifest.version = "1.0.0.0"
-    
-    for(var iconSize in inf.icons) {
-      // Don't perform any validation just yet.
-      loadImage(iconSize, inf.icons[iconSize]);
-    }
-    
     manifest.app.launch.urls = inf.urls;
     manifest.app.launch.web_url = inf.web_url
     manifest.app.launch.container = "tab"; // explicitly set to default
+    
+    // bit of a hack, but works for the moment...
+	loadImage(128, inf.icons[128]);
   };
   
   // Validates the manifest.  Making sure all the correct fields are present.
@@ -249,7 +268,10 @@ if (inf.name.length > 45) {
     var version = document.getElementById("version");
     var offlineEnabledTrue = document.getElementById("offlineEnabledTrue");
     var backgroundPage = document.getElementById("backgroundPage");
-    
+    var output = document.getElementById("output");  
+   
+   	output.classList.remove("updated");
+	setTimeout(function(){output.classList.add("updated")}, 1);
     
 //// do in one loop?
 /*
@@ -287,9 +309,7 @@ if (inf.name.length > 45) {
 		if (manifest.permissions.indexOf("background") == -1) {
 			manifest.permissions.push("background");
 		}
-	}
-	
-	
+	}	
       
 	manifest.offline_enabled = offlineEnabledTrue.checked;
     
@@ -298,8 +318,6 @@ if (inf.name.length > 45) {
     //Save the manifest 
     var output = document.getElementById("output");
     output.href = "data:image/png;base64," + Builder.output({"binary": false});
-	output.classList.remove("pulse");
-	setTimeout(function(){output.classList.add("pulse")}, 1);
   }
   
   // Update the UI based on the manifest.
@@ -403,6 +421,7 @@ if (inf.name.length > 45) {
       download.classList.toggle("visible");
       
     renderManifest();
+
   };
   
   // Renders the manifest from the information provided.
