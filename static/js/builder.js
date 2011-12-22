@@ -28,7 +28,7 @@ var Builder = new (function () {
   
   this.start = function(url, successCallback, errorCallback) {        
     // Fetch site information
-    iconMessage("<p>&nbsp;</p>");
+    clearIconMessage();
     fetch(url, successCallback, errorCallback);
   };
   
@@ -113,6 +113,9 @@ var Builder = new (function () {
   }
   
   var iconMessage = function(message) {
+  	if (message === "") {
+  		message = "<p>&nbsp;</p>"; // !!!hack: to cover file input message
+  	}; 
 	var el = document.getElementById("iconMessage");
 	el.classList.remove("warningPulse"); // so animation occurs every time      
 	el.innerHTML = message;
@@ -126,7 +129,7 @@ var Builder = new (function () {
   }
   
   var clearIconMessage = function() {
-	document.getElementById("iconMessage").innerHTML = " ";      
+	iconMessage("");      
   }
   
 //// change variable name icon to iconSize?
@@ -155,9 +158,9 @@ var Builder = new (function () {
 			if (this.width != iconSize || this.width != iconSize) {
 				canvas.style.borderStyle = "dashed";
 				iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
-					"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>Please select a different image.<p>");
+					"px.</p><p>The retrieved " + this.width + "x" + this.height + "px image has been scaled.</p><p>Please select a different image.<p>");
 			} else {
-				iconMessage("<p>Icon looks good &ndash; but choose another if you want.</p>");
+				iconMessage("<p>Icon looks good! Choose another if you want.</p>");
 				canvas.style.borderStyle = "solid";
 				document.getElementById("details").style.display = "block";
 			}
@@ -198,7 +201,7 @@ var Builder = new (function () {
 			canvas.style.borderStyle = "dashed"; //
 			return;
 		} else {
-			iconMessage("");
+			clearIconMessage();
 			canvas.style.borderStyle = "solid"; //
 			document.getElementById("details").style.display = "block";
 		}

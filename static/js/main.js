@@ -94,7 +94,7 @@ Modernizr.addTest('blobbuilder', function() {
 			download.classList.remove("visible");
 			iconContainer.classList.remove("visible");
 			details.classList.remove("visible");
-			showMessage("urlMessage", "There was an error getting data for this URL. Are you sure it's correct?");
+			showMessage("urlMessage", "Error getting data for this URL. Are you sure it's correct?");
 			urlInput.focus();
 		}
 		

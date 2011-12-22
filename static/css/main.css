@@ -29,7 +29,7 @@ border-radius: 2px;
 box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 margin: 24px auto;
 padding: 20px 20px 20px 20px;
-width: 800px;
+width: 657px;
 -webkit-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 -moz-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 }
@@ -46,13 +46,14 @@ padding: 3px 3px 3px 5px;
 border-radius: 2px;
 position: relative;
 top: -0.4em;
+text-overflow: ellipsis;
 }
 
 .infoItem label {
 display: block;
 float: left;
 font-weight: bold;
-width: 170px;
+width: 129px;
 font-weight: bold;
 }
 
@@ -101,7 +102,7 @@ width: 780px;
 
 #whereIsContainer input#url {
 margin: 0 10px 0 0;
-width: 465px;
+width: 357px;
 }
 
 #whereIsContainer div#urlButton {
@@ -111,7 +112,7 @@ top: -7px;
 
 #whereIsContainer div#urlMessage {
 color: #666;
-margin: 0 0 0 170px;
+margin: 0 0 0 129px;
 }
 
 
@@ -149,7 +150,7 @@ div#iconMessage {
 background: #e5e5e5;
 bottom: -11px;
 color: #666;
-left:  305px;
+left: 262px;
 min-width: 200px;
 padding: 0 0 0 15px;
 position: absolute;
@@ -179,7 +180,7 @@ div#iconMessage.warningPulse {
 
 input#file128 {
 font-size: 1em;
-margin: 0 0 0 170px;
+margin: 0 0 0 129px;
 }
 
 ::-webkit-file-upload-button {
@@ -201,6 +202,7 @@ padding: 10px 10px 10px 10px;
 text-align: center;
 border-style: inset;
 border-width: 2px;
+width: 627px;
 }
 
 #download div {
@@ -255,7 +257,7 @@ width: 510px;
 }
 
 input#version {
-width: 120px;
+width: 90px;
 }
 
 div#offlineEnabledContainer label:not(:first-child) {
@@ -316,16 +318,19 @@ font-weight: bold;
 
 #launcher {
 font-size: 1em;
-width: 130px;
+width: 105px;
 }
 
-#manifest {
+textarea#manifest {
 height: 370px;
 padding: 10px 10px 0 10px;
 font-size: 1em;
 font-family: monospace;
 position: relative;
 top: 3px;
-width: 510px;
+width: 497px;
+border: 2px inset;
+border-radius: 2px;
+cursor: text;
 }
 
