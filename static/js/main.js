@@ -27,7 +27,6 @@ Modernizr.addTest('blobbuilder', function() {
 	  warning.style.display = "block";
 	}
 	
-	var app = document.getElementById("app");
 	var download = document.getElementById("download");
 	var language = document.getElementById("language");
 	var start = document.getElementById("start");
@@ -45,6 +44,7 @@ Modernizr.addTest('blobbuilder', function() {
 	var urlInput = document.getElementById("url");
 	var urlButton = document.getElementById("urlButton");
 	var header = document.getElementById("header");
+	var iconContainer = document.getElementById("iconContainer");
 	
 	var downloadLink = document.getElementById("downloadLink");
 	
@@ -64,7 +64,6 @@ Modernizr.addTest('blobbuilder', function() {
 		document.getElementById(elementId).innerHTML = "";
 	}
 
-
 	// attempt to validate URL on the client
 	// using code from jQuery validation plugin -- with optional scheme
 	// not perfect, but better than nothing :-`
@@ -73,43 +72,53 @@ Modernizr.addTest('blobbuilder', function() {
 	}
 
 	function makePackage() {
+		var canvas = document.getElementById("c128");
+		var context = canvas.getContext("2d");
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		document.getElementById("details").style.display = "none";
 		var url = urlInput.value;
 		if (!isUrl(url)) {
 			showMessage("urlMessage", "This does not appear to be a valid URL. Please try again.");
 			urlInput.focus();
 			return;
 		}
-		// add scheme to URL if not present
+		
+		// add protocol to URL if not present
 		// a bit of a hack, but better than nothing :-/
 		if (!/^https?/i.test(url)) {
 			url = "http://" + url;
 		};		
 		
 		function failureCallback(){
+			document.body.style.cursor = "";
 			download.classList.remove("visible");
-			app.classList.remove("visible");
+			iconContainer.classList.remove("visible");
+			details.classList.remove("visible");
 			showMessage("urlMessage", "There was an error getting data for this URL. Are you sure it's correct?");
 			urlInput.focus();
 		}
+		
 		function successCallback(object){
-		  // Make the UI visible
-		  if(object) {
-		  	clearMessage("urlMessage");
-			urlInput.classList.add("success");
-			header.classList.add("started");
-			app.classList.add("visible");
-			trackEvent("Parse Success");
-			output.classList.remove("updated");
-			output.classList.remove("created");
-			setTimeout(function(){output.classList.add("created")}, 1);
-		  }
-		  else {
-			failureCallback();
-			urlInput.classList.add("error");
-			trackEvent("Parse Error");
-		  }
+			document.body.style.cursor = "";
+			if(object) {
+				clearMessage("urlMessage");
+				//			urlInput.classList.add("success");
+				//			header.classList.add("started");
+				// if first time, display iconContainer
+				iconContainer.classList.add("visible");
+				// if output already displayed, animate ZIP file creation
+				output.classList.remove("updated");
+				output.classList.remove("created");
+				setTimeout(function(){output.classList.add("created")}, 1);
+				trackEvent("Parse Success");
+		  	} else {
+				failureCallback();
+				urlInput.classList.add("error");
+				trackEvent("Parse Error");
+			}
 		}
 		
+		document.body.style.cursor = "wait";
 		Builder.start(url, successCallback, failureCallback);
 	}
 	
@@ -159,12 +168,13 @@ Modernizr.addTest('blobbuilder', function() {
 	
 	launcher.addEventListener("change", Builder.toggleLaunch);
 	
-	file128.addEventListener("change", Builder.readImage);
+	file128.addEventListener("change", Builder.readImage);	
 	
-	function clickFile128Input(e) {
-		file128.click();
-	}
-	document.getElementById("c128").addEventListener("click", clickFile128Input);
+	document.getElementById("c128").addEventListener("click", 
+		function(e){
+			file128.click();
+		}
+	);
 
 	
 	manifest.addEventListener("blur", Builder.parseManifest);
@@ -213,7 +223,7 @@ Modernizr.addTest('blobbuilder', function() {
 		  trackEvent("Parse success");
 		  urlInput.classList.add("success");
 		  header.classList.add("started");
-		  app.classList.add("visible");
+		  iconContainer.classList.add("visible");
 		}
 		else {
 		  trackEvent("Parse error");

@@ -28,6 +28,7 @@ var Builder = new (function () {
   
   this.start = function(url, successCallback, errorCallback) {        
     // Fetch site information
+    iconMessage("<p>&nbsp;</p>");
     fetch(url, successCallback, errorCallback);
   };
   
@@ -111,20 +112,21 @@ var Builder = new (function () {
     return JSON.stringify(locales[locale]);
   }
   
-  var iconWarning = function(message) {
-	var el = document.getElementById("iconWarning");
-  	if (message === "") {
-  		el.style.opacity = 0; // just in case   
-  	} else {
-   		el.style.opacity = 1;   
-		el.innerHTML = message;
-		el.classList.remove("warningPulse"); // so animation occurs every time      
-		setTimeout(function(){el.classList.add("warningPulse");}, 1);      
-	}
+  var iconMessage = function(message) {
+	var el = document.getElementById("iconMessage");
+	el.classList.remove("warningPulse"); // so animation occurs every time      
+	el.innerHTML = message;
   }
   
-  var clearIconWarning = function() {
-	document.getElementById("iconWarning").style.opacity = 0;      
+  var iconWarning = function(message) {
+	iconMessage(message);
+	var el = document.getElementById("iconMessage");
+	el.classList.remove("warningPulse"); // so animation occurs every time      
+	setTimeout(function(){el.classList.add("warningPulse");}, 1);      
+  }
+  
+  var clearIconMessage = function() {
+	document.getElementById("iconMessage").innerHTML = " ";      
   }
   
 //// change variable name icon to iconSize?
@@ -144,7 +146,7 @@ var Builder = new (function () {
 
 	if (typeof url === "undefined") {
 		context.clearRect(0, 0, canvas.width, canvas.height);
-		clearIconWarning();
+		clearIconMessage();
 		canvas.style.borderStyle = "dashed"; //
 	} else {
 		image.src = "/api/image?url=" + url; // Use the proxy so not tainted.
@@ -153,11 +155,11 @@ var Builder = new (function () {
 			if (this.width != iconSize || this.width != iconSize) {
 				canvas.style.borderStyle = "dashed";
 				iconWarning("<p>The app icon size should be " + iconSize + "x" + iconSize + 
-					"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>You may want to select a different image.<p>");
-				//// warning message
+					"px.</p><p>The image retrieved is " + this.width + "x" + this.height + "px and has been scaled.</p><p>Please select a different image.<p>");
 			} else {
-				clearIconWarning();
+				iconMessage("<p>Icon looks good &ndash; but choose another if you want.</p>");
 				canvas.style.borderStyle = "solid";
+				document.getElementById("details").style.display = "block";
 			}
 			context.drawImage(image, 0, 0, iconSize, iconSize); // rescale the image
 		});
@@ -196,8 +198,9 @@ var Builder = new (function () {
 			canvas.style.borderStyle = "dashed"; //
 			return;
 		} else {
-			iconWarning("");
+			iconMessage("");
 			canvas.style.borderStyle = "solid"; //
+			document.getElementById("details").style.display = "block";
 		}
           context.drawImage(img, 0, 0, size, size); // rescale the image
         });
@@ -413,12 +416,14 @@ if (inf.name.length > 45) {
     // Select the correct launch type
     launcher.value = manifest.app.launch.container;
     
-    // Show the class list
+/* 
     if(app.classList.contains("visible") == false)
       app.classList.toggle("visible");
       
     if(download.classList.contains("visible") == false)
       download.classList.toggle("visible");
+
+ */
       
     renderManifest();
 
