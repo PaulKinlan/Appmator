@@ -18,6 +18,7 @@
 
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 <link href='/css/main.css' rel='stylesheet' type='text/css' />
+<link href='/css/cwsButton.css' rel='stylesheet' type='text/css' />
 
 <script src="js/builder.js"></script>
 <script src="js/thirdparty/modernizr-1.6.min.js"></script>
@@ -36,102 +37,106 @@ goog.require("goog.format.JsonPrettyPrinter");
 
 <div id="all">
 
-<div id="header">
-	<h1>Package your app for the <a href="https://chrome.google.com/webstore" title="Google Chrome Web Store">Chrome Web Store</a></h1>
-	<div id="whereIs">Where is your app?</div>
-	<input type="url" id="url" value="" required placeholder="http://www.example.com" autofocus autocomplete>
-	<div id="messages">
-		<div id="enterUrl">Enter a URL beginning "http://" or "https://"</div>
-		<div id="okUrl">Looks like a URL... press Enter when done.</div>
-	</div>
-</div>
+<header>
+	<img id="cwsLogo" src="images/cwsLogo128x128.png" alt="">
+	<h1>Appmator</h1>
+	<div id="subhead">Package your app for the <a href="https://chrome.google.com/webstore" title="Google Chrome Web Store">Chrome Web Store</a></div>
+</header>
+
 
 <div id="warning" ><strong>Sorry!</strong> Your browser doesn't support some of the features needed by this app.</div>
 
-<section>
+
+<div class="infoItem" id="whereIsContainer">
+	<label for="url">Where is your app?</label>
+	<input type="url" id="url" value="" required placeholder="www.example.com" autofocus autocomplete="on">
+	<!-- code is from CWS -->
+	<div id="urlButton" role="button" class="goog-inline-block webstore-button-blue webstore-button-180-by-30 webstore-button" style="-webkit-user-select: none; " tabindex="0"><div class="webstore-button-content"><div class="webstore-button-icon webstore-button-white_plus-icon"></div><div class="webstore-button-label">Start Packaging!</div></div></div>
+	<div id="urlMessage" class="message"></div>
+</div>	
+
+
+<div id="iconContainer" class="infoItem">
+	<label>App icon:</label>
+	<div id="icon128">
+		<canvas id="c128" width="128" height="128"></canvas>
+		<div id="iconMessage">
+			<p>Select a 128x128px <a href="http://code.google.com/chrome/webstore/docs/images.html" title="Chrome Web Store documentation: Supplying images" target="_blank">app icon</a>.</p>
+		</div>
+		
+	</div>
+	<input type="file" id="file128">
+</div>
+
+
+<div id="details">
 
 <div id="download">
 	<div id="yourApp">Your app is ready!</div>
 	<div id="package">
-		<a id="downloadLink" download="" href=""><img src="/images/zip.png" alt="Package" draggable="true" class="pulse" id="output" style="cursor:pointer" /></a>
+		<a id="downloadLink" download="" href=""><img src="/images/zip.png" alt="Package" draggable="true" class="created" id="output" /></a>
 		<div>1. Drag the ZIP file to your desktop, or click to download it.</div>
 		<div>2. Upload the ZIP file to the <a href="http://chrome.google.com/webstore/developer/dashboard" target="_blank">Chrome Web Store</a>.</div>
-		<div id="editInformation">Edit details below. The ZIP file will be updated automatically.</div>
+		<div id="editInformation">You can edit details below. The ZIP file will be updated automatically.</div>
 	</div>
 </div>
 
-<div id="app">
+<div class="infoItem" id="nameContainer">
+	<label for="name">App name:</label><input id="name" type="text" placeholder="What is your app called?" maxlength="45">
+</div>
 
-	<div id="info">
-	
-		<div class="infoItem" id="nameContainer">
-			<label for="name">App name:</label><input id="name" type="text" placeholder="What is your app called?" maxlength="45">
-		</div>
+<div class="infoItem" id="descriptionContainer">
+	<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132">
+</div>
 
-		<div class="infoItem" id="descriptionContainer">
-			<label for="description">Description:</label><input id="description" type="text" placeholder="What does your app do?" maxlength="132">
-		</div>
+<div class="infoItem" id="versionContainer">
+<label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?">
+</div>
 
-		<div class="infoItem" id="versionContainer">
-		<label for="version">Version:</label><input id="version" type="text" placeholder="What is your application version number?">
-		</div>
-		
-		<div class="infoItem" id="offlineEnabledContainer">
-			<div class="label">Works offline:</div>
-			<input value="true" name="offlineEnabled" type="radio" id="offlineEnabledTrue">
-			<label>Yes</label>
-			<input value="false" name="offlineEnabled" type="radio" id="offlineEnabledFalse" checked>
-			<label>No</label>
-		</div>
-		
-		<div class="infoItem" id="permissionsContainer">
-			<div class="label">Permissions:</div>
-			<input value="notifications" name="permissions" type="checkbox" id="notifications"><label for="notifications">Notifications</label>
-			<input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage"><label for="unlimitedStorage">Unlimited Storage</label>
-			<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geolocation</label>
-			<input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label>
-		</div>
-		
-		<div class="infoItem" id="backgroundPageContainer">
-			<label for="backgroundPage">Background page:</label><input id="backgroundPage" type="text" placeholder="Enter https:// URL for your background page">
-		</div>
-		
-		<div class="infoItem" id="launchContainer">
-			<label for="launch">Launch URL:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
-		</div>
-		
-		<div class="infoItem" id="urlsContainer">
-			<label for="urls" id="urlsLabel">Urls:</label><select id="urls"></select>
-		</div>
-				
-		<div class="infoItem" id="launcherContainer">
-			<div class="label">Launch app in:</div>
-			<select name="launcher" id="launcher">
-				<option value="newtab">new tab</option>
-				<option value="window">new window</option>
-				<option value="panel">new panel</option>
-			</select>
-		</div>
-	
-		<div id="iconContainer">
-			<div class="label"><div>App icon:</div></div>
-			<div id="icon128">
-				<canvas id="c128" width="128" height="128"></canvas>
-				<div id="iconWarning"></div>
-			</div>
-			<input type="file" id="file128">
-		</div>
-		
-		<div id="manifestContainer">
-			<div class="label">Manifest:</div>
-			<textarea id="manifest"></textarea>
-		</div>
-	
-	</div> <!-- info -->
+<div class="infoItem" id="offlineEnabledContainer">
+	<label for="offlineEnabled">Works offline:</label>
+	<input value="true" name="offlineEnabled" type="radio" id="offlineEnabledTrue">
+	<label for="offlineEnabledTrue">Yes</label>
+	<input value="false" name="offlineEnabled" type="radio" id="offlineEnabledFalse" checked>
+	<label for="offlineEnabledFalse">No</label>
+</div>
 
-</div> <!-- app -->
+<div class="infoItem" id="permissionsContainer">
+	<label for="permissions">Permissions:</label>
+	<input value="notifications" name="permissions" type="checkbox" id="notifications"><label for="notifications">Notifications</label>
+	<input value="unlimitedStorage" name="permissions" type="checkbox" id="unlimitedStorage"><label for="unlimitedStorage">Unlimited Storage</label>
+	<input value="geolocation" name="permissions" type="checkbox" id="geolocation"><label for="geolocation">Geolocation</label>
+	<input value="background" name="permissions" type="checkbox" id="background"><label for="background">Background</label>
+</div>
 
-</section>
+<div class="infoItem" id="backgroundPageContainer">
+	<label for="backgroundPage">Background page:</label><input id="backgroundPage" type="text" placeholder="Enter https:// URL for your background page">
+</div>
+
+<div class="infoItem" id="launchContainer">
+	<label for="launch">Launch URL:</label><input id="launch" type="text" placeholder="What is your application launch URL?">
+</div>
+
+<div class="infoItem" id="urlsContainer">
+	<label for="urls" id="urlsLabel">URLs:</label><select id="urls"></select>
+</div>
+		
+<div class="infoItem" id="launcherContainer">
+	<label for="launcher">Launch app in:</label>
+	<select name="launcher" id="launcher">
+		<option value="newtab">new tab</option>
+		<option value="window">new window</option>
+		<option value="panel">new panel</option>
+	</select>
+</div>
+
+<div class="infoItem" id="manifestContainer">
+	<label for="manifest">Manifest:</label>
+	<textarea id="manifest"></textarea>
+</div>
+		
+</div> <!-- details -->
+
 
 </div> <!-- all -->
 

@@ -1,6 +1,15 @@
+/* to avoid centred content moving horizontally when scrollbars are displayed */
+html {
+overflow-y: scroll;
+}
+    
 a {
 text-decoration: none;
 color: #1C5AC4;
+}
+
+a:hover {
+color: #D14836;
 }
 
 body {
@@ -8,6 +17,11 @@ background-color: white;
 color: #262626;
 font-family: 'Open Sans', Arial, sans-serif;
 }
+
+input, option {
+font-family: 'Open Sans', Arial, sans-serif;
+}
+
 
 #all {
 background-color: #e5e5e5;
@@ -20,68 +34,60 @@ width: 800px;
 -moz-box-shadow: 0 3px 15px rgba(0,0,0,0.25);
 }
 
-#header {
--webkit-transition: margin 0.2s ease-in-out;
-margin: 0 0 30px 0;
-}
 
-#header.started {
-margin-top: 1%;
-}
-
-#header h1 {
-font-size: 1.5em;
+.infoItem {
+clear: both;
 margin: 0 0 1em 0;
-border-bottom: 1px solid #C6C6C6;
-padding: 0 0 1em 0;
-box-shadow: 0px 1px 0px 0px #fefefe;
-color: #666;
 }
 
-#header #whereIs {
-font-weight: bold;
-margin: 0 0 .8em 0;
-font-size: 2em;
-}
-
-input[type=url] {
+.infoItem input[type="text"], .infoItem input[type="url"] {
+font-size: 1em;
+padding: 3px 3px 3px 5px;
 border-radius: 2px;
-color: #262626;
-font-size: 1.5em;
-margin: 0 0 10px 0;
-padding: 10px 10px 10px 10px;
-width: 780px;
--webkit-transform: background-color 0.2s ease-in-out;
-transform: background-color 0.2s ease-in-out;
+position: relative;
+top: -0.4em;
+}
+
+.infoItem label {
+display: block;
+float: left;
+font-weight: bold;
+width: 170px;
 font-weight: bold;
 }
 
-input[type=url]:invalid {
-background-color: white;
-color: #999;
+/*
+div.label {
+float: left;
+font-weight: bold;
+width: 152px;
 }
+*/
 
-input[type=url].error {
-background-color: rgba(255,0,0, 0.1);
-color: black;
-}
 
-input[type=url].success {
-color: black;
-}
-
-#header #messages div {
-display:none;
-}
-
-input[type=url]:valid + #messages > #okUrl {
-display: block;
-}
-
-input[type=url]:invalid + #messages > #enterUrl {
+header {
 color: #666;
-display: block;
+font-size: 1em;
+margin: 0 0 40px 0;
+border-bottom: 1px solid #C6C6C6;
+box-shadow: 0px 1px 0px 0px #fefefe;
+padding: 0 0 1.8em 0;
 }
+
+header img#cwsLogo {
+float: left;
+height: 60px;
+margin: 0 1.5em 0 0;
+padding: 0.2em 0 0 0;
+}
+
+header h1 {
+font-size: 28px;
+margin: 0 0 0.1em 0;
+padding: 0 0 0 0;
+color: #262626;
+}
+
 
 #warning {
 display: none;
@@ -92,17 +98,108 @@ border-radius: 2px;
 width: 780px;
 }
 
+
+#whereIsContainer input#url {
+margin: 0 10px 0 0;
+width: 465px;
+}
+
+#whereIsContainer div#urlButton {
+position: relative;
+top: -7px;
+}
+
+#whereIsContainer div#urlMessage {
+color: #666;
+margin: 0 0 0 170px;
+}
+
+
+#iconContainer {
+display: none;
+height: 170px;
+position: relative;
+margin: 0 0 35px 0;
+}
+
+#iconContainer.visible {
+display: block;
+}
+
+#iconContainer label {
+position: relative;
+top: 148px;
+}
+
+div#icon128 {
+padding: 6px 0 0 0;
+margin: 0 0 5px 0;
+height: 130px;
+}
+
+div#icon128 canvas {
+background:	#eee;
+cursor: pointer;
+border: 1px dashed #666;
+margin: 0 20px 0 0;
+float: left;
+}
+
+div#iconMessage {
+background: #e5e5e5;
+bottom: -11px;
+color: #666;
+left:  305px;
+min-width: 200px;
+padding: 0 0 0 15px;
+position: absolute;
+text-align: bottom;
+}
+
+div#iconMessage p {
+line-height: 0.5em;
+margin: 3px 0 1.2em 0;
+}
+
+div#iconMessage.warningPulse {
+color: rgba(255, 0, 0, 0.5);
+}
+
+div#iconMessage.warningPulse {
+-webkit-animation: warningPulse 0.5s ease-in;
+-webkit-animation-iteration-count: 2;
+}
+
+@-webkit-keyframes warningPulse {
+0% {-webkit-transform: scale(1, 1);}
+50% {-webkit-transform: scale(1.03, 1.03);}
+100% {-webkit-transform: scale(1, 1);}
+}
+
+input#file128 {
+font-size: 1em;
+margin: 0 0 0 170px;
+}
+
+::-webkit-file-upload-button {
+-webkit-appearance: square-button;
+padding: 8px 18px;
+}
+
+
+div#details {
+display: none;
+}
+
+
 #download {
 background: white;
 border-radius: 2px;
-display: none;
 margin: 0 0 40px 0;
 padding: 10px 10px 10px 10px;
 text-align: center;
-}
-
-#download.visible {
-display: block;
+border-style: inset;
+border-width: 2px;
 }
 
 #download div {
@@ -120,15 +217,26 @@ height: 100px;
 margin:  0 0 20px 0;
 }
 
-.pulse {
--webkit-animation: pulse 1s ease-in-out;
--webkit-animation-iteration-count: 2;
+#output.created {
+-webkit-animation: created 1s ease-in-out;
+-webkit-animation-iteration-count: 1;
 }
 
-@-webkit-keyframes pulse {
+@-webkit-keyframes created {
+0% { -webkit-transform: scale(0, 0); opacity: 0;}
+50% { -webkit-transform: scale(1.2, 1.2);}
+100% { -webkit-transform: scale(1, 1); opacity: 1}
+}
+
+#output.updated {
+-webkit-animation: updated 1s ease-in-out;
+-webkit-animation-iteration-count: 1;
+}
+
+@-webkit-keyframes updated {
 0% { -webkit-transform: scale(1, 1);}
-50% { -webkit-transform: scale(1.2, 1.2);opacity: 0.5}
-100% { -webkit-transform: scale(1, 1);}
+50% { -webkit-transform: scale(1.2, 1.2); opacity: 0.5}
+100% { -webkit-transform: scale(1, 1)}
 }
 
 #editInformation {
@@ -136,43 +244,6 @@ font-weight: bold;
 margin: 1em 0 0 0;
 }
 
-#app {
-display: none;
-}
-
-#app.visible {
-display: block;
-}
-
-#info {
-width: 780px;
-}
-
-#info label {
-display: block;
-float: left;
-width: 152px;
-font-weight: bold;
-}
-
-#info div.label {
-float: left;
-font-weight: bold;
-width: 152px;
-}
-
-#info .infoItem {
-clear: both;
-margin: 0 0 1em 0;
-}
-
-#info input[type=text] {
-font-size: 1em;
-padding: 3px 3px 3px 5px;
-border-radius: 2px;
-position: relative;
-top: -0.4em;
-}
 
 input#name {
 width: 510px;
@@ -186,15 +257,13 @@ input#version {
 width: 120px;
 }
 
-#offlineEnabledContainer input {
-}
-
-div#offlineEnabledContainer label {
+div#offlineEnabledContainer label:not(:first-child) {
 display: inline;
 float: none;
 font-weight: normal;
 margin: 0 10px 0 0;
 }
+
 
 #permissionsContainer input {
 margin: 0 3px 0 0;
@@ -202,7 +271,7 @@ position: relative;
 top: -1px;
 }
 
-div#permissionsContainer label {
+div#permissionsContainer label:not(:first-child) {
 display: inline;
 float: none;
 font-weight: normal;
@@ -211,16 +280,16 @@ margin: 0 10px 0 0;
 
 
 #backgroundPageContainer {
-    overflow:hidden;
-    max-height:0;
+overflow:hidden;
+max-height:0;
 opacity: 0;
-    -webkit-transition: max-height 0.5s, opacity 1.5s ease-in-out;
+-webkit-transition: max-height 0.5s, opacity 1.5s ease-in-out;
 }
 
 #backgroundPageContainer.visible {
-    max-height:25px;
+max-height:25px;
 opacity: 1;
-    overflow:visible;
+overflow:visible;
 }
 
 input#launch {
@@ -247,64 +316,6 @@ font-weight: bold;
 #launcher {
 font-size: 1em;
 width: 130px;
-}
-
-#iconContainer {
-height: 210px;
-}
-
-div#icon128 {
-padding: 6px 0 0 0;
-margin: 0 0 5px 0;
-height: 130px;
-}
-
-div#icon128 canvas {
-background:	#eee;
-cursor: pointer;
-border: 1px dashed #666;
-margin: 0 20px 0 0;
-float: left;
-}
-
-div#iconWarning {
-float: left;
-padding: 12px 10px 12px 11px;
-}
-
-#iconWarning p {
-line-height: 0.5em;
-}
-
-.warningPulse {
-border-radius: 10px;
-border: 5px solid rgba(0, 0, 0, 0);
-color: rgba(255, 0, 0, 0.5);
-}
-
-.warningPulse {
--webkit-animation: warningPulse 1s ease-out;
--webkit-animation-iteration-count: 2;
-}
-
-@-webkit-keyframes warningPulse {
-0% {-webkit-transform: scale(1, 1);}
-50% {-webkit-transform: scale(1.0.5, 1.05); border-color: red; border-radius: 15px;color: rgba(255, 0, 0, 1)}
-100% {-webkit-transform: scale(1, 1);}
-}
-
-input#file128 {
-font-size: 1em;
-margin: 0 0 0 152px;
-}
-
-::-webkit-file-upload-button {
--webkit-appearance: square-button;
-padding: 8px 18px;
-}
-
-input#c128 {
-cursor: pointer;
 }
 
 #manifest {
